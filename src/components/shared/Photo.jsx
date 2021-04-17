@@ -8,6 +8,8 @@ const size = css`
   `}
 `;
 
+// NOTE: 필요하다면 함수형 컴포넌트로 구조 변경해야 할 수도
+// TODO: 스타일 작업
 const Photo = styled.img`
   ${size}
 `;

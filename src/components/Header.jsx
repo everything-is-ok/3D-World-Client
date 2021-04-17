@@ -16,12 +16,17 @@ const Container = styled.header`
 function Header() {
   return (
     <Container>
+      {/* TODO: 월드, 홈 버튼은 토글방식으로 컴포넌트 분리 */}
       <StyledButton>월드</StyledButton>
       <StyledButton>홈</StyledButton>
+
+      {/* TODO: photo url만 전달할지, alt 등 추가 정보 결정 */}
       <MiniProfile
         photo="photo"
         name="name"
       />
+
+      {/* TODO: 로그아웃 기능 추가 */}
       <StyledButton>로그아웃</StyledButton>
     </Container>
   );
