@@ -1,9 +1,11 @@
-import React from "react";
 import styled from "styled-components";
 
 const StyledButton = styled.button`
-  border: 2px solid rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
+  border: 2px solid black;
+
+  & + & {
+    margin-left: 10px;
+  }
 `;
 
 export default StyledButton;
