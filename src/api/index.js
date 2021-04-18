@@ -17,7 +17,7 @@ API.onSocialLogin = async () => {
       body: JSON.stringify({
         email: googleUserData.user.email,
         name: googleUserData.user.displayName,
-        photo: googleUserData.user.photoURL,
+        photoURL: googleUserData.user.photoURL,
       }),
     });
 
