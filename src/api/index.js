@@ -26,9 +26,11 @@ API.onSocialLogin = async () => {
     if (response.ok) {
       return response.data;
     }
-    return response.error;
+
+    // NOTE: 에러핸들링, 어찌할지 멘토님께 질문
+    throw new Error(response.error.message);
   } catch (err) {
-    console.log(err.message);
+    throw new Error(err);
   }
 };
 
