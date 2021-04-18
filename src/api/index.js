@@ -9,7 +9,7 @@ API.onSocialLogin = async () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     const googleUserData = await firebase.auth().signInWithPopup(provider);
 
-    const response = await fetch(`${SERVER_PORT}/user`, {
+    let response = await fetch(`${SERVER_PORT}/user`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -21,9 +21,10 @@ API.onSocialLogin = async () => {
       }),
     });
 
-    // 객체로 잘 분해되는지 확인 (thunk내에서)
+    response = await response.json();
+    // TODO: 객체로 잘 분해되는지 확인 (thunk내에서)
     if (response.ok) {
-      return response.data.json();
+      return response.data;
     }
     return response.error;
   } catch (err) {
