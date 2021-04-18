@@ -6,7 +6,7 @@ export const userLogin = createAsyncThunk(
   "user/login",
   async () => {
     const response = await API.onSocialLogin();
-    return response.data;
+    return response;
   },
 );
 
