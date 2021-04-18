@@ -3,8 +3,8 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 const Container = styled.div`
-  width: 200px;
-  height: 500px;
+  width: 20%;
+  height: 100%;
 
   // NOTE: 사이즈 확인용 border
   border: 2px solid black;
