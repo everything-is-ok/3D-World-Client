@@ -22,7 +22,10 @@ API.onSocialLogin = async () => {
     });
 
     // 객체로 잘 분해되는지 확인 (thunk내에서)
-    return response.json();
+    if (response.ok) {
+      return response.data.json();
+    }
+    return response.error;
   } catch (err) {
     console.log(err.message);
   }
