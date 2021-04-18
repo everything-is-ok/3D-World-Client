@@ -1,13 +1,24 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 import Header from "./components/Header";
+import Welcome from "./components/Welcome";
 import Main from "./components/Main";
+import { userSelector } from "./reducers/userSlice";
 
 function App() {
+  const user = useSelector(userSelector);
+
   return (
     <>
-      <Header />
-      <Main />
+      {user ? (
+        <>
+          <Header />
+          <Main />
+        </>
+      ) : (
+        <Welcome />
+      )}
     </>
   );
 }
