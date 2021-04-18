@@ -37,7 +37,7 @@ const userSlice = createSlice({
     [userLogin.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
-        state.error = action.payload;
+        state.error = action.payload || null;
       }
     },
   },
