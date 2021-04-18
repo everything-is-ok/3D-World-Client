@@ -1,8 +1,10 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
 import MiniProfile from "./MiniProfile";
 import StyledButton from "./shared/StyledButton";
+import { logout } from "../reducers/userSlice";
 
 const Container = styled.header`
   display: flex;
@@ -14,6 +16,8 @@ const Container = styled.header`
 `;
 
 function Header() {
+  const dispatch = useDispatch();
+
   return (
     <Container>
       {/* TODO: 월드, 홈 버튼은 토글방식으로 컴포넌트 분리 */}
@@ -27,7 +31,7 @@ function Header() {
       />
 
       {/* TODO: 로그아웃 기능 추가 */}
-      <StyledButton>로그아웃</StyledButton>
+      <StyledButton onClick={() => dispatch(logout())}>로그아웃</StyledButton>
     </Container>
   );
 }

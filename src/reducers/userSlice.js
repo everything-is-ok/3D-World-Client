@@ -2,12 +2,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import API from "../api";
 
-export const foo = createAsyncThunk(
-  "user/foo",
-  async (baz) => {
-    const response = await API.fetchFunction(baz);
-
-    return response;
+export const userLogin = createAsyncThunk(
+  "user/login",
+  async () => {
+    const response = await API.onSocialLogin();
+    return response.data;
   },
 );
 
@@ -21,31 +20,31 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    bar(state, action) {
-
-    },
+    logout: () => initialState,
   },
   extraReducers: {
-    [foo.pending]: (state, action) => {
+    [userLogin.pending]: (state) => {
       if (state.status === "idle") {
         state.status = "pending";
       }
     },
-    [foo.fulfilled]: (state, action) => {
+    [userLogin.fulfilled]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
+        state.data = action.payload;
       }
     },
-    [foo.rejected]: (state, action) => {
+    [userLogin.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
+        state.error = action.payload;
       }
     },
   },
 });
 
-export const { bar } = userSlice.actions;
+export const { logout } = userSlice.actions;
 
 export default userSlice.reducer;
 
-export const someSelector = (state) => state.data.someNestedValue;
+export const userSelector = (state) => state.user.data;
