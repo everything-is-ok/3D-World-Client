@@ -2,8 +2,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { userSelector } from "../reducers/userSlice";
 
+import { userSelector } from "../reducers/userSlice";
 import MyProfile from "./MyProfile";
 import OtherUserProfile from "./OtherUserProfile";
 import Room from "./Room";
