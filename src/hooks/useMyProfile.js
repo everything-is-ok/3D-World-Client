@@ -1,12 +1,12 @@
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { updateUserData, userSelector } from "../reducers/userSlice";
 
 export default function useMyProfile() {
   const dispatch = useDispatch();
   const user = useSelector(userSelector);
-
   const [isEditing, setIsEditing] = useState(false);
 
   const [userData, setUserData] = useState({

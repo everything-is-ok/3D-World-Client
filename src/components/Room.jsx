@@ -1,14 +1,15 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React, { Suspense } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
-import { Canvas } from "@react-three/fiber";
+import PropTypes from "prop-types";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
 
-import MailList from "./MailList";
-import MailForm from "./shared/MailForm";
-import { roomUserSelector } from "../reducers/roomSlice";
-import StyledButton from "./shared/StyledButton";
-import useMailbox from "../hooks/useMailbox";
+import Floor from "./models/Floor";
+import Grugru from "./models/Grugru";
+import Mailbox from "./models/Mailbox";
+import MailboxModal from "./Mailbox";
+import useRoom from "../hooks/useRoom";
+import useModal from "../hooks/useModal";
 
 const Container = styled.div`
   width: 80%;
@@ -18,40 +19,60 @@ const Container = styled.div`
   border: 2px solid black;
 `;
 
-// NOTE: id가 유저의 id인가 room의 id인가?
+// NOTE: room의 id라는 전제로 작성
 // TODO: 아주 힘들 예정, 방 정보로 아이템을 배치해야한다.
-function Room({ id }) {
-  const [modalOpen, setModalOpen] = useState(false);
-  const isMyRoom = useSelector(roomUserSelector);
+function Room({ id, isEditable }) {
+  const { room } = useRoom(id);
+  const { modalOpen, setModalOpen } = useModal();
 
-  const { handleFormSubmit, handleInputChange, handleDeleteMailList } = useMailbox();
+  function ControlCam() {
+    useFrame(({ camera }) => camera.lookAt(160, 0, 160));
 
-  function toggle() {
-    setModalOpen((prev) => !prev);
+    return null;
   }
 
   return (
-    <Container>
-      <StyledButton onClick={toggle}>
-        Mail
-      </StyledButton>
-      {modalOpen && isMyRoom ? (
-        <MailList handleDeleteMailList={handleDeleteMailList}>
-          Mail
-        </MailList>
-      ) : (
-        <MailForm
-          handleFormSubmit={handleFormSubmit}
-          handleInputChange={handleInputChange}
-        />
-      )}
-      {/* <Canvas /> */}
-    </Container>
+    room ? (
+      <Container>
+        {JSON.stringify(room)}
+        <Canvas camera={{ position: [160, 100, 400], fov: 80 }}>
+          <ambientLight intensity={2} />
+          <pointLight position={[40, 40, 40]} />
+          <Floor width={8} height={8} />
+          <Suspense>
+            <Grugru position={[4 * 40, 7 * 40]} />
+            <Mailbox
+              position={[7 * 40, 7 * 40]}
+              onClick={() => setModalOpen((prev) => !prev)}
+            />
+          </Suspense>
+          <OrbitControls />
+          <ControlCam />
+        </Canvas>
+        {isEditable && (
+          <button type="button">
+            리모델링
+          </button>
+        )}
+        {modalOpen && (
+          <MailboxModal
+            isMyMailbox={isEditable}
+            handleClose={setModalOpen}
+          />
+        )}
+      </Container>
+    ) : (
+      // FIXME store 사용 & 로딩컴포넌트
+      <h1>
+        Loading...
+      </h1>
+    )
   );
 }
 
 Room.propTypes = {
   id: PropTypes.string.isRequired,
+  isEditable: PropTypes.bool.isRequired,
 };
 
 export default Room;
