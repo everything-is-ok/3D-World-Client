@@ -10,7 +10,12 @@ function useMailbox() {
 
   // 남의방
   const [content, setContent] = useState("");
-  const handleFormSubmit = dispatch(postMail(content));
+
+  function handleFormSubmit(e) {
+    e.preventDefault();
+    dispatch(postMail(content));
+  }
+
   function handleInputChange(e) {
     setContent(e.target.value);
   }
