@@ -20,7 +20,6 @@ const Container = styled.header`
 function Header() {
   const dispatch = useDispatch();
   const { name, photoURL, friends } = useSelector((state) => state.user.data);
-
   // TODO: 방식을 찾거나 지우거나
   // function handleProfileClick(id) {
   //   console.log(id);

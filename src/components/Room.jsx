@@ -1,4 +1,5 @@
 import React, { Suspense } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Canvas, useFrame } from "@react-three/fiber";
@@ -9,6 +10,7 @@ import Grugru from "./models/Grugru";
 import Mailbox from "./models/Mailbox";
 
 import useRoom from "../hooks/useRoom";
+import { updateUserData } from "../reducers/userSlice";
 
 const Container = styled.div`
   width: 80%;
@@ -23,11 +25,16 @@ const Container = styled.div`
 // TODO: isEditable -> isMyRoom 같은 것으로 바꿔야할듯, 내방니방 많이쓰임.
 function Room({ id, isMyRoom }) {
   const { room } = useRoom(id);
+  const dispatch = useDispatch();
 
   function ControlCam() {
     useFrame(({ camera }) => camera.lookAt(160, 0, 160));
 
     return null;
+  }
+
+  async function handleAddFriendClick() {
+    dispatch(updateUserData({ friend: id }));
   }
 
   return (
@@ -49,11 +56,17 @@ function Room({ id, isMyRoom }) {
           <ControlCam />
         </Canvas>
         {isMyRoom ? (
-          <button type="button">
+          <button
+            type="button"
+            onClick={console.log("click")}
+          >
             리모델링
           </button>
         ) : (
-          <button type="button">
+          <button
+            type="button"
+            onClick={handleAddFriendClick}
+          >
             친구추가
           </button>
         )}
