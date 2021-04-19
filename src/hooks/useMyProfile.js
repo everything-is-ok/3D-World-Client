@@ -6,7 +6,6 @@ import { updateUserData, userSelector } from "../reducers/userSlice";
 export default function useMyProfile() {
   const dispatch = useDispatch();
   const user = useSelector(userSelector);
-
   const [isEditing, setIsEditing] = useState(false);
 
   const [userData, setUserData] = useState({
