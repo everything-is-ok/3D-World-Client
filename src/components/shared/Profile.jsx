@@ -4,7 +4,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Photo from "./Photo";
 
-export default function Profile({
+function Profile({
   name,
   description,
   photoURL,
@@ -31,3 +31,5 @@ Profile.propTypes = {
   description: PropTypes.string.isRequired,
   musicURL: PropTypes.string.isRequired,
 };
+
+export default Profile;

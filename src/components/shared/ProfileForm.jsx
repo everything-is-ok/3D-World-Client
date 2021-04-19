@@ -58,7 +58,7 @@ const Textarea = styled.textarea`
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 `;
 
-export default function ProfileForm({
+function ProfileForm({
   name,
   photoURL,
   description,
@@ -130,3 +130,5 @@ ProfileForm.propTypes = {
   handleInputChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
 };
+
+export default ProfileForm;
