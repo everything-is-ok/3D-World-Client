@@ -1,13 +1,14 @@
 const SERVER_PORT = process.env.REACT_APP_SERVER_URL;
 
-async function fetchData({ method, url, data }) {
+async function fetchData(method, url, data) {
   try {
+    console.log(`${SERVER_PORT}${url}`);
     let response = await fetch(`${SERVER_PORT}${url}`, {
       method,
       headers: {
         "Content-Type": "application/json",
       },
-      // TODO credential 관련 설정 넣기
+      credentials: "include",
       body: JSON.stringify(data),
     });
 

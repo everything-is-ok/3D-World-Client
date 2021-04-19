@@ -17,18 +17,19 @@ export const postMail = createAsyncThunk(
   },
 );
 
-export const deleteMailItem = createAsyncThunk(
-  "mail/deleteMailItemStatus",
-  async (mailId) => {
-    const response = await fetchData("DELETE", `/mailbox/mail/${mailId}`);
-    return response;
-  },
-);
-
 export const deleteMailList = createAsyncThunk(
   "mail/deleteMailListStatus",
   async () => {
     const response = await fetchData("DELETE", "/mailbox");
+    return response;
+  },
+);
+
+// NOTE 2순위 서버작업
+export const deleteMailItem = createAsyncThunk(
+  "mail/deleteMailItemStatus",
+  async (mailId) => {
+    const response = await fetchData("DELETE", `/mailbox/mail/${mailId}`);
     return response;
   },
 );
@@ -78,23 +79,6 @@ const mailSlice = createSlice({
         state.error = action.payload || null;
       }
     },
-    [deleteMailItem.pending]: (state) => {
-      if (state.status === "idle") {
-        state.status = "pending";
-      }
-    },
-    [deleteMailItem.fulfilled]: (state, action) => {
-      if (state.status === "pending") {
-        state.status = "idle";
-        state.list = action.payload;
-      }
-    },
-    [deleteMailItem.rejected]: (state, action) => {
-      if (state.status === "pending") {
-        state.status = "idle";
-        state.error = action.payload || null;
-      }
-    },
     [deleteMailList.pending]: (state) => {
       if (state.status === "idle") {
         state.status = "pending";
@@ -107,6 +91,23 @@ const mailSlice = createSlice({
       }
     },
     [deleteMailList.rejected]: (state, action) => {
+      if (state.status === "pending") {
+        state.status = "idle";
+        state.error = action.payload || null;
+      }
+    },
+    [deleteMailItem.pending]: (state) => {
+      if (state.status === "idle") {
+        state.status = "pending";
+      }
+    },
+    [deleteMailItem.fulfilled]: (state, action) => {
+      if (state.status === "pending") {
+        state.status = "idle";
+        state.list = action.payload;
+      }
+    },
+    [deleteMailItem.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
         state.error = action.payload || null;

@@ -21,21 +21,21 @@ const Container = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  z-index: -1;
 `;
 
-const StyledList = styled.div`
+const StyledList = styled.ul`
+  all: unset;
   width: 30vw;
   height: 50vh;
-  padding: 3vw;
+  font-size: 10pt;
+  z-index: 10;
 
   // NOTE: 사이즈 확인용 border
-  border: 2px solid black;
+  border: 1px solid black;
 `;
 
+// TODO 맨 아래쪽에 고정되어야할 것 같음
 const DeleteAllButton = styled(StyledButton)`
-  position: relative;
-  top: 60%;
   color: tomato;
   border-color: tomato;
 `;
@@ -43,12 +43,14 @@ const DeleteAllButton = styled(StyledButton)`
 function MailList() {
   const dispatch = useDispatch();
   const mailList = useSelector(mailSelector);
-  console.log(mailList);
 
-  if (!mailList) {
-    dispatch(getMailList());
-  }
+  useEffect(() => {
+    if (!mailList) {
+      dispatch(getMailList());
+    }
+  }, []);
 
+  // NOTE 아직 서버쪽에서 구현안된 기능이라 눌러봤자 안됨..
   function handleDeleteButtonClick(mailId) {
     dispatch(deleteMailItem(mailId));
   }
@@ -60,7 +62,7 @@ function MailList() {
           <MailItem
             key={mail._id}
             mail={mail}
-            handleDelete={() => handleDeleteButtonClick(mail._id)}
+            handleDelete={handleDeleteButtonClick}
           />
         ))}
         <DeleteAllButton onClick={() => dispatch(deleteMailList())}>
