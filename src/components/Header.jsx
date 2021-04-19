@@ -32,7 +32,6 @@ function Header() {
         <StyledButton>월드</StyledButton>
         <StyledButton>홈</StyledButton>
 
-        {/* TODO: 로그아웃 기능 추가 */}
         <StyledButton onClick={() => dispatch(logout())}>로그아웃</StyledButton>
       </div>
     </Container>
