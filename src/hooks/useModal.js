@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function useModal(initialMode = false) {
+function useModal(initialMode = false) {
   const [modalOpen, setModalOpen] = useState(initialMode);
 
   function toggle() {
@@ -13,3 +13,5 @@ export default function useModal(initialMode = false) {
     setModalOpen,
   };
 }
+
+export default useModal;
