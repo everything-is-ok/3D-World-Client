@@ -8,9 +8,10 @@ import { OrbitControls } from "@react-three/drei";
 import Floor from "./models/Floor";
 import Grugru from "./models/Grugru";
 import Mailbox from "./models/Mailbox";
-
+import MailboxModal from "./Mailbox";
 import useRoom from "../hooks/useRoom";
 import { updateUserData } from "../reducers/userSlice";
+import useModal from "../hooks/useModal";
 
 const Container = styled.div`
   width: 80%;
@@ -26,6 +27,7 @@ const Container = styled.div`
 function Room({ id, isMyRoom }) {
   const { room } = useRoom(id);
   const dispatch = useDispatch();
+  const { modalOpen, setModalOpen } = useModal();
 
   function ControlCam() {
     useFrame(({ camera }) => camera.lookAt(160, 0, 160));
@@ -49,7 +51,7 @@ function Room({ id, isMyRoom }) {
             <Grugru position={[4 * 40, 7 * 40]} />
             <Mailbox
               position={[7 * 40, 7 * 40]}
-              onClick={() => console.log("Mailbox is clicked!")}
+              onClick={() => setModalOpen((prev) => !prev)}
             />
           </Suspense>
           <OrbitControls />
@@ -69,6 +71,12 @@ function Room({ id, isMyRoom }) {
           >
             친구추가
           </button>
+        )}
+        {modalOpen && (
+          <MailboxModal
+            isMyMailbox={isMyRoom}
+            handleClose={setModalOpen}
+          />
         )}
       </Container>
     ) : (

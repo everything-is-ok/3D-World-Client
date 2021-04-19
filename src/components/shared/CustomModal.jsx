@@ -59,14 +59,14 @@ const ModalClose = styled.button`
   opacity: 0.5;
 `;
 
-function CustomModal({ children, title, handleClose }) {
+// NOTE list, form 출력
+function CustomModal({ children, handleClose }) {
   return ReactDOM.createPortal(
     <>
       <ModalBackground onClick={handleClose} />
       <Modal>
         <ModalClose onClick={handleClose} />
         <ModalContent>
-          <Title>{title}</Title>
           {children}
         </ModalContent>
       </Modal>
@@ -77,7 +77,6 @@ function CustomModal({ children, title, handleClose }) {
 
 CustomModal.propTypes = {
   children: PropTypes.element.isRequired,
-  title: PropTypes.string.isRequired,
   handleClose: PropTypes.func.isRequired,
 };
 

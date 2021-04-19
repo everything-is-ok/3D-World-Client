@@ -2,6 +2,23 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import API from "../api";
 
+export const getUserByToken = createAsyncThunk(
+  "user/getUserByToken",
+  async () => {
+    let response = await fetch("http://localhost:5000/user", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+
+    response = await response.json();
+
+    return response.data;
+  },
+);
+
 export const userLogin = createAsyncThunk(
   "user/login",
   async () => {
@@ -71,6 +88,23 @@ const userSlice = createSlice({
       }
     },
     [updateUserData.rejected]: (state, action) => {
+      if (state.status === "pending") {
+        state.status = "idle";
+        state.error = action.payload;
+      }
+    },
+    [getUserByToken.pending]: (state) => {
+      if (state.status === "idle") {
+        state.status = "pending";
+      }
+    },
+    [getUserByToken.fulfilled]: (state, action) => {
+      if (state.status === "pending") {
+        state.status = "idle";
+        state.data = action.payload;
+      }
+    },
+    [getUserByToken.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
         state.error = action.payload;

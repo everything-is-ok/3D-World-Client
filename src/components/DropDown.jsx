@@ -40,7 +40,6 @@ const List = styled.div`
   ${display}
 `;
 
-// TODO: 현재 server에서 friends를 populate하지 않음.
 function DropDown({ name, children }) {
   const [dropDownOpen, setDropDownOpen] = useState(false);
 
