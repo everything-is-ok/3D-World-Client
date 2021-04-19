@@ -1,20 +1,20 @@
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { updateUserData } from "../reducers/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUserData, userSelector } from "../reducers/userSlice";
 
 export default function useMyProfile() {
   const dispatch = useDispatch();
+  const user = useSelector(userSelector);
+
   const [isEditing, setIsEditing] = useState(false);
 
   const [userData, setUserData] = useState({
-    name: "",
-    description: "",
-    photoURL: "",
-    musicURL: "",
+    name: user.name,
+    description: user.description,
+    photoURL: user.photoURL,
+    musicURL: user.musicURL,
   });
-
-  // NOTE: fetch/ 다른사람의 방에 갈 때 받는 유저정보
 
   function handleInputChange(e) {
     const { value, name } = e.target;
