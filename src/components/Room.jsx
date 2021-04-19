@@ -69,7 +69,7 @@ function Room({ id, isMyRoom }) {
 
 Room.propTypes = {
   id: PropTypes.string.isRequired,
-  isEditable: PropTypes.bool.isRequired,
+  isMyRoom: PropTypes.bool.isRequired,
 };
 
 export default Room;
