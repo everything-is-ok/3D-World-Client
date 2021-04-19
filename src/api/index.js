@@ -14,6 +14,7 @@ API.onSocialLogin = async () => {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify({
         email: googleUserData.user.email,
         name: googleUserData.user.displayName,
