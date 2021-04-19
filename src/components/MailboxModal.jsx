@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
 
 import CustomModal from "./shared/CustomModal";
 import MailForm from "./shared/MailForm";
@@ -20,30 +19,45 @@ const Container = styled.div`
   align-items: center;
 `;
 
-function Mailbox({ isMyMailbox, handleClose }) {
-  const { handleFormSubmit, handleInputChange } = useMailbox();
+function MailboxModal({ mailboxId, isMyMailbox, handleClose }) {
+  const {
+    content,
+    handleFormSubmit,
+    handleInputChange,
+    handleDeleteMailItem,
+    handleDeleteMailList,
+  } = useMailbox();
 
-  function handleFn() {
-    handleClose((prev) => !prev);
+  function handleSubmit(e) {
+    e.preventDefault();
+    handleFormSubmit(mailboxId);
+    handleClose();
   }
+
   return (
     <Container>
-      <CustomModal handleClose={handleFn}>
+      <CustomModal handleClose={handleClose}>
         {isMyMailbox ? (
           <MailForm
-            handleFormSubmit={handleFormSubmit}
+            content={content}
+            handleInputChange={handleInputChange}
+            handleFormSubmit={handleSubmit}
           />
         ) : (
-          <MailList />
+          <MailList
+            handleDeleteMailItem={handleDeleteMailItem}
+            handleDeleteMailList={handleDeleteMailList}
+          />
         )}
       </CustomModal>
     </Container>
   );
 }
 
-Mailbox.propTypes = {
+MailboxModal.propTypes = {
+  mailboxId: PropTypes.string.isRequired,
   isMyMailbox: PropTypes.element.isRequired,
   handleClose: PropTypes.func.isRequired,
 };
 
-export default Mailbox;
+export default MailboxModal;

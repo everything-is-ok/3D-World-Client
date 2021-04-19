@@ -1,7 +1,9 @@
 import React from "react";
-import styled from "styled-components";
 import PropTypes from "prop-types";
+import styled from "styled-components";
+import { useSelector } from "react-redux";
 
+// TODO atomic 하게 나누기
 const Form = styled.form`
 `;
 
@@ -35,7 +37,7 @@ const Input = styled.input`
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 `;
 
-function MailForm({ handleFormSubmit }) {
+function MailForm({ content, handleFormSubmit, handleInputChange }) {
   return (
     <Form
       onSubmit={handleFormSubmit}
@@ -48,6 +50,8 @@ function MailForm({ handleFormSubmit }) {
           id="content"
           name="content"
           type="text"
+          value={content}
+          onChange={handleInputChange}
         />
       </FormGroup>
       <button type="submit">Submit</button>
@@ -56,7 +60,9 @@ function MailForm({ handleFormSubmit }) {
 }
 
 MailForm.propTypes = {
+  content: PropTypes.string.isRequired,
   handleFormSubmit: PropTypes.func.isRequired,
+  handleInputChange: PropTypes.func.isRequired,
 };
 
 export default MailForm;

@@ -1,10 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
 import fetchData from "../utils/fetchData";
 
 export const getMailList = createAsyncThunk(
   "mail/getMailListStatus",
   async () => {
     const response = await fetchData("GET", "/mailbox");
+
     return response;
   },
 );
@@ -13,6 +15,7 @@ export const postMail = createAsyncThunk(
   "mail/postMailStatus",
   async (mailboxId, content) => {
     const response = await fetchData("POST", `/mailbox/mail/${mailboxId}`, content);
+
     return response;
   },
 );
@@ -21,6 +24,7 @@ export const deleteMailList = createAsyncThunk(
   "mail/deleteMailListStatus",
   async () => {
     const response = await fetchData("DELETE", "/mailbox");
+
     return response;
   },
 );
@@ -30,6 +34,7 @@ export const deleteMailItem = createAsyncThunk(
   "mail/deleteMailItemStatus",
   async (mailId) => {
     const response = await fetchData("DELETE", `/mailbox/mail/${mailId}`);
+
     return response;
   },
 );

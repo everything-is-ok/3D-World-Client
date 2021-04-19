@@ -7,7 +7,7 @@ import { OrbitControls } from "@react-three/drei";
 import Floor from "./models/Floor";
 import Grugru from "./models/Grugru";
 import Mailbox from "./models/Mailbox";
-import MailboxModal from "./Mailbox";
+import MailboxModal from "./MailboxModal";
 import useRoom from "../hooks/useRoom";
 import useModal from "../hooks/useModal";
 
@@ -23,7 +23,7 @@ const Container = styled.div`
 // TODO: 아주 힘들 예정, 방 정보로 아이템을 배치해야한다.
 function Room({ id, isEditable }) {
   const { room } = useRoom(id);
-  const { modalOpen, setModalOpen } = useModal();
+  const { modalOpen, toggle } = useModal();
 
   function ControlCam() {
     useFrame(({ camera }) => camera.lookAt(160, 0, 160));
@@ -43,7 +43,7 @@ function Room({ id, isEditable }) {
             <Grugru position={[4 * 40, 7 * 40]} />
             <Mailbox
               position={[7 * 40, 7 * 40]}
-              onClick={() => setModalOpen((prev) => !prev)}
+              onClick={toggle}
             />
           </Suspense>
           <OrbitControls />
@@ -54,18 +54,21 @@ function Room({ id, isEditable }) {
             리모델링
           </button>
         )}
-        {modalOpen && (
+        {/* {modalOpen && (
           <MailboxModal
+            mailboxId={room.mailboxId}
             isMyMailbox={isEditable}
-            handleClose={setModalOpen}
+            handleClose={toggle}
           />
-        )}
+        )} */}
       </Container>
     ) : (
-      // FIXME store 사용 & 로딩컴포넌트
-      <h1>
-        Loading...
-      </h1>
+      <>
+        <h1>
+          {/* FIXME store 사용 & 로딩컴포넌트 */}
+          Loading...
+        </h1>
+      </>
     )
   );
 }
