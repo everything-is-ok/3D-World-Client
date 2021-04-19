@@ -20,7 +20,8 @@ const Container = styled.div`
 
 // NOTE: room의 id라는 전제로 작성
 // TODO: 아주 힘들 예정, 방 정보로 아이템을 배치해야한다.
-function Room({ id, isEditable }) {
+// TODO: isEditable -> isMyRoom 같은 것으로 바꿔야할듯, 내방니방 많이쓰임.
+function Room({ id, isMyRoom }) {
   const { room } = useRoom(id);
 
   function ControlCam() {
@@ -47,9 +48,13 @@ function Room({ id, isEditable }) {
           <OrbitControls />
           <ControlCam />
         </Canvas>
-        {isEditable && (
+        {isMyRoom ? (
           <button type="button">
             리모델링
+          </button>
+        ) : (
+          <button type="button">
+            친구추가
           </button>
         )}
       </Container>
