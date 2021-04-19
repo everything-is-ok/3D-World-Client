@@ -23,10 +23,10 @@ const Container = styled.div`
 // TODO : URL(ex: localhost:3000/:id)에서 id값을 하위 Comp로 prop으로 전달.
 function Main() {
   const { otherUserId } = useParams();
-  console.log(otherUserId);
+
   return (
     <Container>
-      {(otherUserId === undefined) ? (
+      {otherUserId === undefined ? (
         <MyProfile />
       ) : (
         <OtherUserProfile id={otherUserId} />
