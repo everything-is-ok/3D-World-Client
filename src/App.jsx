@@ -12,7 +12,6 @@ import Main from "./components/Main";
 import { userSelector } from "./reducers/userSlice";
 
 function App() {
-  // TODO: DELETE THIS !
   const user = useSelector(userSelector);
 
   return (
