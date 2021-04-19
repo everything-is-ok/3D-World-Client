@@ -26,8 +26,7 @@ function App() {
               <Route exact path="/">
                 <Main />
               </Route>
-              {/* TODO: room/userid???? */}
-              <Route exact path="/room/:otherUserId">
+              <Route exact path="/room/:userId">
                 <Main />
               </Route>
             </Switch>
