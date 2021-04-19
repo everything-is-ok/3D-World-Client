@@ -9,8 +9,8 @@ import Grugru from "./models/Grugru";
 import Mailbox from "./models/Mailbox";
 
 const Container = styled.div`
-  width: 700px;
-  height: 500px;
+  width: 80%;
+  height: 100%;
 
   // NOTE: 사이즈 확인용 border
   border: 2px solid black;
