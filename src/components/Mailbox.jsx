@@ -21,15 +21,20 @@ const Container = styled.div`
 `;
 
 function Mailbox({ isMyMailbox, handleClose }) {
-  // const { handleFormSubmit, handleInputChange } = useMailbox();
+  const { handleFormSubmit, handleInputChange } = useMailbox();
+
   function handleFn() {
     handleClose((prev) => !prev);
   }
   return (
     <Container>
       <CustomModal handleClose={handleFn}>
-        {isMyMailbox ? <MailList /> : (
-          <MailForm />
+        {isMyMailbox ? (
+          <MailForm
+            handleFormSubmit={handleFormSubmit}
+          />
+        ) : (
+          <MailList />
         )}
       </CustomModal>
     </Container>
