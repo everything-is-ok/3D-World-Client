@@ -7,8 +7,9 @@ import { OrbitControls } from "@react-three/drei";
 import Floor from "./models/Floor";
 import Grugru from "./models/Grugru";
 import Mailbox from "./models/Mailbox";
-
+import MailboxModal from "./Mailbox";
 import useRoom from "../hooks/useRoom";
+import useModal from "../hooks/useModal";
 
 const Container = styled.div`
   width: 80%;
@@ -22,6 +23,7 @@ const Container = styled.div`
 // TODO: 아주 힘들 예정, 방 정보로 아이템을 배치해야한다.
 function Room({ id, isEditable }) {
   const { room } = useRoom(id);
+  const { modalOpen, setModalOpen } = useModal();
 
   function ControlCam() {
     useFrame(({ camera }) => camera.lookAt(160, 0, 160));
@@ -41,7 +43,7 @@ function Room({ id, isEditable }) {
             <Grugru position={[4 * 40, 7 * 40]} />
             <Mailbox
               position={[7 * 40, 7 * 40]}
-              onClick={() => console.log("Mailbox is clicked!")}
+              onClick={() => setModalOpen((prev) => !prev)}
             />
           </Suspense>
           <OrbitControls />
@@ -51,6 +53,12 @@ function Room({ id, isEditable }) {
           <button type="button">
             리모델링
           </button>
+        )}
+        {modalOpen && (
+          <MailboxModal
+            isMyMailbox={isEditable}
+            handleClose={setModalOpen}
+          />
         )}
       </Container>
     ) : (
