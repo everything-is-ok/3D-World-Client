@@ -1,14 +1,16 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { Redirect } from "react-router-dom";
 
 import MiniProfile from "./MiniProfile";
 import StyledButton from "./shared/StyledButton";
 import { logout } from "../reducers/userSlice";
+import DropDown from "./DropDown";
 
 const Container = styled.header`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   height: 10vh;
   padding: 1%;
@@ -17,21 +19,34 @@ const Container = styled.header`
 
 function Header() {
   const dispatch = useDispatch();
+  const { name, photoURL, friends } = useSelector((state) => state.user.data);
+
+  function handleProfileClick(id) {
+    return <Redirect to={`/room/${id}`} />;
+  }
 
   return (
     <Container>
-      {/* TODO: 월드, 홈 버튼은 토글방식으로 컴포넌트 분리 */}
-      <StyledButton>월드</StyledButton>
-      <StyledButton>홈</StyledButton>
-
-      {/* TODO: photo url만 전달할지, alt 등 추가 정보 결정 */}
       <MiniProfile
-        photo="photo"
-        name="name"
+        photoURL={photoURL}
+        name={name}
       />
-
-      {/* TODO: 로그아웃 기능 추가 */}
-      <StyledButton onClick={() => dispatch(logout())}>로그아웃</StyledButton>
+      <DropDown name="친구 목록">
+        {friends.map((friend) => (
+          <MiniProfile
+            key={friend._id}
+            photoURL={friend.photoURL}
+            name={friend.name}
+            onClick={() => handleProfileClick(friend._id)}
+          />
+        ))}
+      </DropDown>
+      <div>
+        {/* TODO: 월드, 홈 버튼은 토글방식으로 컴포넌트 분리 */}
+        <StyledButton>월드</StyledButton>
+        <StyledButton>홈</StyledButton>
+        <StyledButton onClick={() => dispatch(logout())}>로그아웃</StyledButton>
+      </div>
     </Container>
   );
 }

@@ -9,23 +9,36 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: fit-content;
 
+  &:hover {
+    cursor: pointer;
+  }
   // NOTE: 전체 사이즈 확인을 위한 border
   border: 2px solid black;
 `;
 
-function MiniProfile({ photo, name }) {
+function MiniProfile({ photoURL, name, onClick }) {
   return (
-    <Container>
-      <Photo src={photo} />
+    <Container onClick={onClick}>
+      <Photo
+        src={photoURL}
+        alt="profile"
+        borderRadius="100%"
+      />
       <Name name={name} />
     </Container>
   );
 }
 
 MiniProfile.propTypes = {
-  photo: PropTypes.string.isRequired,
+  photoURL: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
+};
+
+MiniProfile.defaultProps = {
+  onClick: () => {},
 };
 
 export default MiniProfile;
