@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Canvas } from "@react-three/fiber";
+import { useDispatch, useSelector } from "react-redux";
+import { getRoomById, roomSelector } from "../reducers/roomSlice";
 
 const Container = styled.div`
   width: 80%;
@@ -13,16 +15,37 @@ const Container = styled.div`
 
 // NOTE: id가 유저의 id인가 room의 id인가?
 // TODO: 아주 힘들 예정, 방 정보로 아이템을 배치해야한다.
-function Room({ id }) {
+function Room({ id, isEditable }) {
+  const dispatch = useDispatch();
+  const room = useSelector(roomSelector);
+
+  useEffect(() => {
+    dispatch(getRoomById(id));
+  }, [id]);
+
   return (
-    <Container>
-      <Canvas />
-    </Container>
+    room ? (
+      <Container>
+        {JSON.stringify(room)}
+        <Canvas />
+        {isEditable && (
+          <button type="button">
+            리모델링
+          </button>
+        )}
+      </Container>
+    ) : (
+      // FIXME store 사용 & 로딩컴포넌트
+      <h1>
+        Loading...
+      </h1>
+    )
   );
 }
 
 Room.propTypes = {
   id: PropTypes.string.isRequired,
+  isEditable: PropTypes.bool.isRequired,
 };
 
 export default Room;

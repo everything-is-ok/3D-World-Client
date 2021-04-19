@@ -1,6 +1,8 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { userSelector } from "../reducers/userSlice";
 
 import MyProfile from "./MyProfile";
 import OtherUserProfile from "./OtherUserProfile";
@@ -19,20 +21,26 @@ const Container = styled.div`
   border: 2px solid black;
 `;
 
-// NOTE: 유저정보, 방정보는 State를 내려주지 않고, 각각의 하위 Comp가 redux에서 가져와서 사용한다.
-// TODO : URL(ex: localhost:3000/:id)에서 id값을 하위 Comp로 prop으로 전달.
+// NOTE: 내 방을 가던 남의 방을 가던 /room/:id 로 온다.
 function Main() {
-  const { otherUserId } = useParams();
+  const { userId } = useParams();
+  // NOTE: 확인 필요합니다. 여기서 유저를 바라보기때문에 유저 바뀔 때마다 밑의 룸이 리랜더링하는 경우가 있는지
+  const user = useSelector(userSelector);
+  // TODO: 필요 없어지면 삭제
+  const isLoggedInUser = userId === undefined || user._id === userId;
 
   return (
     <Container>
-      {otherUserId === undefined ? (
+      {isLoggedInUser ? (
         <MyProfile />
       ) : (
-        <OtherUserProfile id={otherUserId} />
+        <OtherUserProfile id={userId} />
       )}
       {/* TODO: World와 Room Comp를 토글방식으로 적용. */}
-      <Room />
+      <Room
+        id={userId ?? user._id}
+        isEditable={isLoggedInUser}
+      />
     </Container>
   );
 }
