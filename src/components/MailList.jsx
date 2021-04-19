@@ -11,7 +11,7 @@ import {
   deleteMailList,
 } from "../reducers/mailSlice";
 
-// TODO: 배치 수정
+// TODO: 일단 중앙에 띄워서 확인하기 위한 컨테이너
 const Container = styled.div`
   position: fixed;
   top: 0;
@@ -21,6 +21,7 @@ const Container = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  z-index: -1;
 `;
 
 const StyledList = styled.div`
@@ -32,15 +33,21 @@ const StyledList = styled.div`
   border: 2px solid black;
 `;
 
-function MailList() {
-  const mailList = useSelector(mailSelector);
-  const dispatch = useDispatch();
+const DeleteAllButton = styled(StyledButton)`
+  position: relative;
+  top: 60%;
+  color: tomato;
+  border-color: tomato;
+`;
 
-  useEffect(() => {
-    if (!mailList) {
-      dispatch(getMailList());
-    }
-  }, []);
+function MailList() {
+  const dispatch = useDispatch();
+  const mailList = useSelector(mailSelector);
+  console.log(mailList);
+
+  if (!mailList) {
+    dispatch(getMailList());
+  }
 
   function handleDeleteButtonClick(mailId) {
     dispatch(deleteMailItem(mailId));
@@ -49,17 +56,17 @@ function MailList() {
   return (
     <Container>
       <StyledList>
-        {mailList.map((mail) => (
+        {mailList && mailList.map((mail) => (
           <MailItem
             key={mail._id}
             mail={mail}
-            handleDelete={handleDeleteButtonClick}
+            handleDelete={() => handleDeleteButtonClick(mail._id)}
           />
         ))}
+        <DeleteAllButton onClick={() => dispatch(deleteMailList())}>
+          Delete All
+        </DeleteAllButton>
       </StyledList>
-      <StyledButton onClick={() => dispatch(deleteMailList())}>
-        Delete All
-      </StyledButton>
     </Container>
   );
 }

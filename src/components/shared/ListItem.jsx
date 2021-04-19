@@ -5,7 +5,7 @@ import StyledButton from "./StyledButton";
 
 const MailItem = styled.div`
   width: 100%;
-  height: 20%;
+  height: 5vh;
   display: flex;
   overflow: hidden;
   border: 1px solid black;

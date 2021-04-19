@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import MailList from "./MailList";
 import MainProfile from "./MainProfile";
 import Room from "./Room";
 
@@ -25,7 +24,6 @@ function Main() {
       <MainProfile />
 
       {/* TODO: World와 Room Comp를 토글방식으로 적용. */}
-      <MailList />
       <Room />
     </Container>
   );

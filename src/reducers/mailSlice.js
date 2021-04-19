@@ -2,9 +2,17 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import fetchData from "../utils/fetchData";
 
 export const getMailList = createAsyncThunk(
-  "mail/getListStatus",
+  "mail/getMailListStatus",
   async () => {
     const response = await fetchData("GET", "/mailbox");
+    return response;
+  },
+);
+
+export const postMail = createAsyncThunk(
+  "mail/postMailStatus",
+  async (mailboxId, content) => {
+    const response = await fetchData("POST", `/mailbox/mail/${mailboxId}`, content);
     return response;
   },
 );
@@ -26,23 +34,7 @@ export const deleteMailList = createAsyncThunk(
 );
 
 const initialState = {
-  list: [
-    {
-      sender: "oaisdjfekfj",
-      content: "hi",
-      status: "NEW",
-    },
-    {
-      sender: "oaisdjfekfj",
-      content: "hi2",
-      status: "NEW",
-    },
-    {
-      sender: "oaisdjfekfj",
-      content: "hi3",
-      status: "NEW",
-    },
-  ],
+  list: null,
   error: null,
   status: "idle",
 };
@@ -64,6 +56,23 @@ const mailSlice = createSlice({
       }
     },
     [getMailList.rejected]: (state, action) => {
+      if (state.status === "pending") {
+        state.status = "idle";
+        state.error = action.payload || null;
+      }
+    },
+    [postMail.pending]: (state) => {
+      if (state.status === "idle") {
+        state.status = "pending";
+      }
+    },
+    [postMail.fulfilled]: (state, action) => {
+      if (state.status === "pending") {
+        state.status = "idle";
+        state.list = action.payload;
+      }
+    },
+    [postMail.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
         state.error = action.payload || null;
