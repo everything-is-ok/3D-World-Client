@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import Photo from "./shared/Photo";
 import Name from "./shared/Name";
+import Photo from "./shared/Photo";
 
 const Container = styled.div`
   display: flex;

@@ -5,14 +5,14 @@ import PropTypes from "prop-types";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 
+import Chat from "./Chat";
 import Floor from "./models/Floor";
 import Grugru from "./models/Grugru";
 import Mailbox from "./models/Mailbox";
 import MailboxModal from "./MailboxModal";
 import useRoom from "../hooks/useRoom";
-import { updateUserData } from "../reducers/userSlice";
 import useModal from "../hooks/useModal";
-import Chat from "./Chat";
+import { updateUserData } from "../reducers/userSlice";
 
 const Container = styled.div`
   width: 80%;
@@ -58,7 +58,7 @@ function Room({ id, isMyRoom }) {
           <OrbitControls />
           <ControlCam />
         </Canvas>
-        {/* {isMyRoom ? (
+        {isMyRoom ? (
           <button
             type="button"
             onClick={console.log("click")}
@@ -72,7 +72,7 @@ function Room({ id, isMyRoom }) {
           >
             친구추가
           </button>
-        )} */}
+        )}
         {modalOpen && (
           // <MailboxModal
           //   mailboxId={room.mailboxId}
