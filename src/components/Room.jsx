@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import PropTypes from "prop-types";
@@ -12,6 +12,7 @@ import MailboxModal from "./MailboxModal";
 import useRoom from "../hooks/useRoom";
 import { updateUserData } from "../reducers/userSlice";
 import useModal from "../hooks/useModal";
+import usePosition from "../hooks/usePosition";
 
 const Container = styled.div`
   width: 80%;
@@ -47,8 +48,10 @@ function Room({ id, isMyRoom }) {
           <ambientLight intensity={2} />
           <pointLight position={[40, 40, 40]} />
           <Floor width={8} height={8} />
+          <Suspense fallback={null}>
+            <Grugru position={[4 * 40, 14, 7 * 40]} />
+          </Suspense>
           <Suspense>
-            <Grugru position={[4 * 40, 7 * 40]} />
             <Mailbox
               position={[7 * 40, 7 * 40]}
               onClick={toggle}
@@ -60,7 +63,7 @@ function Room({ id, isMyRoom }) {
         {isMyRoom ? (
           <button
             type="button"
-            onClick={console.log("click")}
+            onClick={console.log("click reomeling")}
           >
             리모델링
           </button>

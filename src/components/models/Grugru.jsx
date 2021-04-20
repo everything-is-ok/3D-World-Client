@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { useGLTF, useAnimations } from "@react-three/drei";
+import usePosition from "../../hooks/usePosition";
 
 function Grugru({ position }) {
   const group = useRef();
@@ -11,11 +12,24 @@ function Grugru({ position }) {
     actions["Take 001"].play();
   }, []);
 
+  const {
+    position: dynamicPosition,
+    direction,
+    handlePositionChange,
+  } = usePosition(position);
+
+  useEffect(() => {
+    window.addEventListener("keydown", handlePositionChange);
+
+    return () => window.removeEventListener("keydown", handlePositionChange);
+  }, [dynamicPosition, direction]);
+
   return (
     <group
       ref={group}
       dispose={null}
-      position={[position[0], 14, position[1]]}
+      position={[...dynamicPosition]}
+      rotation={[0, direction, 0]}
     >
       <primitive object={nodes._rootJoint} />
       <skinnedMesh
