@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
 
 // TODO atomic 하게 나누기
 const Form = styled.form`
