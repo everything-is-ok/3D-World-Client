@@ -1,10 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import DropDown from "./DropDown";
-import { logout } from "../reducers/userSlice";
+import { userLogout } from "../reducers/userSlice";
 import MiniProfile from "./MiniProfile";
 import StyledButton from "./shared/StyledButton";
 
@@ -19,6 +19,7 @@ const Container = styled.header`
 
 function Header() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { name, photoURL, friends } = useSelector((state) => state.user.data);
   // TODO: 방식을 찾거나 지우거나
   // function handleProfileClick(id) {
@@ -46,8 +47,8 @@ function Header() {
       <div>
         {/* TODO: 월드, 홈 버튼은 토글방식으로 컴포넌트 분리 */}
         <StyledButton>월드</StyledButton>
-        <StyledButton>홈</StyledButton>
-        <StyledButton onClick={() => dispatch(logout())}>로그아웃</StyledButton>
+        <StyledButton onClick={() => history.push("/")}>홈</StyledButton>
+        <StyledButton onClick={() => dispatch(userLogout())}>로그아웃</StyledButton>
       </div>
     </Container>
   );

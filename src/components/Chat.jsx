@@ -49,7 +49,7 @@ function Chat({ socket }) {
   }
 
   function addChatElement(data) {
-    setChatList((prev) => [...prev, data]);
+    setChatList(chatList.concat(data));
   }
 
   function handleInputChange(e) {

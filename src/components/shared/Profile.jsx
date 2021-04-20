@@ -1,8 +1,10 @@
-import ReactAudioPlayer from "react-audio-player";
-
 import React from "react";
+import ReactPlayer from "react-player";
 import PropTypes from "prop-types";
+
 import Photo from "./Photo";
+import StyledButton from "./StyledButton";
+import useAudio from "../../hooks/useAudio";
 
 function Profile({
   name,
@@ -10,17 +12,23 @@ function Profile({
   photoURL,
   musicURL,
 }) {
+  const { isPlaying, playAudio } = useAudio();
+
   return (
     <>
       <h3>{name}</h3>
       <div>{description}</div>
       <Photo size={200} src={photoURL} alt="profilePhoto" />
-      <ReactAudioPlayer
-        src={musicURL}
-        crossOrigin="anonymous"
-        autoPlay
+      <ReactPlayer
+        url={musicURL}
+        playing={isPlaying}
+        width="0"
+        height="0"
         controls
       />
+      <StyledButton type="button" onClick={playAudio}>
+        play
+      </StyledButton>
     </>
   );
 }
