@@ -39,6 +39,7 @@ const ModalContent = styled.div`
   padding: 2rem;
 `;
 
+// NOTE 메일에 제목이 없어서 안씀
 const Title = styled.div`
   display: flex;
   flex-direction: row;
@@ -59,7 +60,6 @@ const ModalClose = styled.button`
   opacity: 0.5;
 `;
 
-// NOTE list, form 출력
 function CustomModal({ children, handleClose }) {
   return ReactDOM.createPortal(
     <>

@@ -1,21 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import API from "../api";
+import fetchData from "../utils/fetchData";
 
 export const getUserByToken = createAsyncThunk(
   "user/getUserByToken",
   async () => {
-    let response = await fetch("http://localhost:5000/user", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    });
+    const response = await fetchData("GET", "/user");
 
-    response = await response.json();
-
-    return response.data;
+    return response;
   },
 );
 
@@ -23,6 +16,7 @@ export const userLogin = createAsyncThunk(
   "user/login",
   async () => {
     const response = await API.onSocialLogin();
+
     return response;
   },
 );
@@ -30,19 +24,9 @@ export const userLogin = createAsyncThunk(
 export const updateUserData = createAsyncThunk(
   "user/update",
   async (data) => {
-    let response = await fetch("http://localhost:5000/user", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        ...data,
-      }),
-    });
+    const response = await fetchData("PATCH", "/user", data);
 
-    response = await response.json();
-    return response.data;
+    return response;
   },
 );
 

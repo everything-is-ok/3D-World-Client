@@ -8,7 +8,7 @@ import { OrbitControls } from "@react-three/drei";
 import Floor from "./models/Floor";
 import Grugru from "./models/Grugru";
 import Mailbox from "./models/Mailbox";
-import MailboxModal from "./Mailbox";
+import MailboxModal from "./MailboxModal";
 import useRoom from "../hooks/useRoom";
 import { updateUserData } from "../reducers/userSlice";
 import useModal from "../hooks/useModal";
@@ -26,8 +26,8 @@ const Container = styled.div`
 // TODO: isEditable -> isMyRoom 같은 것으로 바꿔야할듯, 내방니방 많이쓰임.
 function Room({ id, isMyRoom }) {
   const { room } = useRoom(id);
+  const { modalOpen, toggle } = useModal();
   const dispatch = useDispatch();
-  const { modalOpen, setModalOpen } = useModal();
 
   function ControlCam() {
     useFrame(({ camera }) => camera.lookAt(160, 0, 160));
@@ -51,7 +51,7 @@ function Room({ id, isMyRoom }) {
             <Grugru position={[4 * 40, 7 * 40]} />
             <Mailbox
               position={[7 * 40, 7 * 40]}
-              onClick={() => setModalOpen((prev) => !prev)}
+              onClick={toggle}
             />
           </Suspense>
           <OrbitControls />
@@ -74,16 +74,19 @@ function Room({ id, isMyRoom }) {
         )}
         {modalOpen && (
           <MailboxModal
+            mailboxId={room.mailboxId}
             isMyMailbox={isMyRoom}
-            handleClose={setModalOpen}
+            handleClose={toggle}
           />
         )}
       </Container>
     ) : (
-      // FIXME store 사용 & 로딩컴포넌트
-      <h1>
-        Loading...
-      </h1>
+      <>
+        <h1>
+          {/* FIXME store 사용 & 로딩컴포넌트 */}
+          Loading...
+        </h1>
+      </>
     )
   );
 }

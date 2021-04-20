@@ -1,26 +1,14 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import MailItem from "./shared/ListItem";
+import MailItem from "./shared/MailItem";
 import StyledButton from "./shared/StyledButton";
-import {
-  mailSelector,
-  getMailList,
-  deleteMailItem,
-  deleteMailList,
-} from "../reducers/mailSlice";
+import { mailSelector, getMailList } from "../reducers/mailSlice";
 
 // TODO: 일단 중앙에 띄워서 확인하기 위한 컨테이너
 const Container = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
 `;
 
 const StyledList = styled.ul`
@@ -40,7 +28,7 @@ const DeleteAllButton = styled(StyledButton)`
   border-color: tomato;
 `;
 
-function MailList() {
+function MailList({ handleDeleteMailItem, handleDeleteMailList }) {
   const dispatch = useDispatch();
   const mailList = useSelector(mailSelector);
 
@@ -50,27 +38,28 @@ function MailList() {
     }
   }, []);
 
-  // NOTE 아직 서버쪽에서 구현안된 기능이라 눌러봤자 안됨..
-  function handleDeleteButtonClick(mailId) {
-    dispatch(deleteMailItem(mailId));
-  }
-
   return (
     <Container>
       <StyledList>
+        {/* TODO 메일아이템 클릭 시 디테일 뷰 띄우기 */}
         {mailList && mailList.map((mail) => (
           <MailItem
             key={mail._id}
             mail={mail}
-            handleDelete={handleDeleteButtonClick}
+            handleDelete={handleDeleteMailItem}
           />
         ))}
-        <DeleteAllButton onClick={() => dispatch(deleteMailList())}>
+        <DeleteAllButton onClick={handleDeleteMailList}>
           Delete All
         </DeleteAllButton>
       </StyledList>
     </Container>
   );
 }
+
+MailList.propTypes = {
+  handleDeleteMailItem: PropTypes.func.isRequired,
+  handleDeleteMailList: PropTypes.func.isRequired,
+};
 
 export default MailList;

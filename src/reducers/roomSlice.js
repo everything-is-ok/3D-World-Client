@@ -1,18 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import fetchData from "../utils/fetchData";
 
 export const getRoomById = createAsyncThunk(
   "room/getData",
   async (id) => {
-    let response = await fetch(`http://localhost:5000/room/${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetchData("GET", `/room/${id}`);
 
-    response = await response.json();
-
-    return response.data;
+    return response;
   },
 );
 
