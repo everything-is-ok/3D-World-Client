@@ -3,10 +3,10 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
-import { userSelector } from "../reducers/userSlice";
 import MyProfile from "./MyProfile";
 import OtherUserProfile from "./OtherUserProfile";
 import Room from "./Room";
+import { userSelector } from "../reducers/userSlice";
 
 // TODO: 배치 수정
 const Container = styled.div`

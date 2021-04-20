@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
+import DropDown from "./DropDown";
+import { logout } from "../reducers/userSlice";
 import MiniProfile from "./MiniProfile";
 import StyledButton from "./shared/StyledButton";
-import { logout } from "../reducers/userSlice";
-import DropDown from "./DropDown";
 
 const Container = styled.header`
   display: flex;
