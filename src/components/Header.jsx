@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 
 import DropDown from "./DropDown";
-import { logout } from "../reducers/userSlice";
+import { userLogout } from "../reducers/userSlice";
 import MiniProfile from "./MiniProfile";
 import StyledButton from "./shared/StyledButton";
 
@@ -48,7 +48,7 @@ function Header() {
         {/* TODO: 월드, 홈 버튼은 토글방식으로 컴포넌트 분리 */}
         <StyledButton>월드</StyledButton>
         <StyledButton onClick={() => history.push("/")}>홈</StyledButton>
-        <StyledButton onClick={() => dispatch(logout())}>로그아웃</StyledButton>
+        <StyledButton onClick={() => dispatch(userLogout())}>로그아웃</StyledButton>
       </div>
     </Container>
   );

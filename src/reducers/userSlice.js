@@ -30,6 +30,15 @@ export const updateUserData = createAsyncThunk(
   },
 );
 
+export const userLogout = createAsyncThunk(
+  "user/logout",
+  async () => {
+    const response = await fetchData("GET", "/user/logout");
+
+    return response;
+  },
+);
+
 const initialState = {
   data: null,
   error: null,
@@ -89,6 +98,23 @@ const userSlice = createSlice({
       }
     },
     [getUserByToken.rejected]: (state, action) => {
+      if (state.status === "pending") {
+        state.status = "idle";
+        state.error = action.payload;
+      }
+    },
+    [userLogout.pending]: (state) => {
+      if (state.status === "idle") {
+        state.status = "pending";
+      }
+    },
+    [userLogout.fulfilled]: (state) => {
+      if (state.status === "pending") {
+        state.status = "idle";
+        state.data = null;
+      }
+    },
+    [userLogout.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
         state.error = action.payload;
