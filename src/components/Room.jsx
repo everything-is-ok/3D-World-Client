@@ -12,12 +12,8 @@ import Mailbox from "./models/Mailbox";
 import MailboxModal from "./MailboxModal";
 import useRoom from "../hooks/useRoom";
 import useModal from "../hooks/useModal";
-<<<<<<< HEAD
 import useSocket from "../hooks/useSocket";
-import Chat from "./Chat";
-=======
 import { updateUserData } from "../reducers/userSlice";
->>>>>>> b635e34359544ec679b121d81ce0f58a3161fa27
 
 const Container = styled.div`
   position: relative;
