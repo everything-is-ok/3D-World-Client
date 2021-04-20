@@ -15,12 +15,13 @@ function useMailbox() {
     setContent(e.target.value);
   }
 
-  // TODO ADD deleteItem
   function handleDeleteMailList() {
     dispatch(deleteMailList());
   }
 
-  const handleDeleteMailItem = dispatch(deleteMailItem);
+  function handleDeleteMailItem() {
+    dispatch(deleteMailItem());
+  }
 
   return {
     content,

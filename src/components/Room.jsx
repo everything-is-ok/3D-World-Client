@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from "react";
+import React, { memo, Suspense } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import PropTypes from "prop-types";
@@ -114,4 +114,4 @@ Room.propTypes = {
   isMyRoom: PropTypes.bool.isRequired,
 };
 
-export default Room;
+export default memo(Room);
