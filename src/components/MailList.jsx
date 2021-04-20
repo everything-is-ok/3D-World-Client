@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import MailItem from "./shared/ListItem";
+import MailItem from "./shared/MailItem";
 import StyledButton from "./shared/StyledButton";
 import { mailSelector, getMailList } from "../reducers/mailSlice";
 
@@ -49,6 +49,7 @@ function MailList({ handleDeleteMailItem, handleDeleteMailList }) {
   return (
     <Container>
       <StyledList>
+        {/* TODO 메일아이템 클릭 시 디테일 뷰 띄우기 */}
         {mailList && mailList.map((mail) => (
           <MailItem
             key={mail._id}

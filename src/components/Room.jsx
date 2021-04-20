@@ -54,13 +54,13 @@ function Room({ id, isEditable }) {
             리모델링
           </button>
         )}
-        {/* {modalOpen && (
+        {modalOpen && (
           <MailboxModal
             mailboxId={room.mailboxId}
             isMyMailbox={isEditable}
             handleClose={toggle}
           />
-        )} */}
+        )}
       </Container>
     ) : (
       <>

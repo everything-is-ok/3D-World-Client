@@ -10,9 +10,7 @@ function useMailbox() {
   const [content, setContent] = useState("");
 
   // NOTE mailboxId, content
-  function handleFormSubmit(e, mailboxId) {
-    e.preventDefault();
-
+  function handleFormSubmit(mailboxId) {
     dispatch(postMail(mailboxId, content));
   }
 
