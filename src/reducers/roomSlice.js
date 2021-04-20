@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
 import fetchData from "../utils/fetchData";
 
 export const getRoomById = createAsyncThunk(
