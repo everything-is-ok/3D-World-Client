@@ -12,6 +12,7 @@ import MailboxModal from "./MailboxModal";
 import useRoom from "../hooks/useRoom";
 import { updateUserData } from "../reducers/userSlice";
 import useModal from "../hooks/useModal";
+import useSocket from "../hooks/useSocket";
 
 const Container = styled.div`
   width: 80%;
@@ -28,6 +29,7 @@ function Room({ id, isMyRoom }) {
   const { room } = useRoom(id);
   const { modalOpen, toggle } = useModal();
   const dispatch = useDispatch();
+  const socket = useSocket("607d59f769658249181d3878", id);
 
   function ControlCam() {
     useFrame(({ camera }) => camera.lookAt(160, 0, 160));
