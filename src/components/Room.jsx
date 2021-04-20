@@ -16,11 +16,20 @@ import useSocket from "../hooks/useSocket";
 import Chat from "./Chat";
 
 const Container = styled.div`
+  position: relative;
   width: 80%;
   height: 100%;
 
   // NOTE: 사이즈 확인용 border
   border: 2px solid black;
+`;
+
+const AbsoluteContainer = styled.div`
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  width: 40%;
+  height: 20%;
 `;
 
 // NOTE: room의 id라는 전제로 작성
@@ -29,8 +38,8 @@ const Container = styled.div`
 function Room({ id, isMyRoom }) {
   const { room } = useRoom(id);
   const { modalOpen, toggle } = useModal();
+  const socket = useSocket(room?._id);
   const dispatch = useDispatch();
-  const socket = useSocket("607d59f769658249181d3878", id);
 
   function ControlCam() {
     useFrame(({ camera }) => camera.lookAt(160, 0, 160));
@@ -45,7 +54,7 @@ function Room({ id, isMyRoom }) {
   return (
     room ? (
       <Container>
-        {JSON.stringify(room)}
+        {/* {JSON.stringify(room)} */}
         <Canvas camera={{ position: [160, 100, 400], fov: 80 }}>
           <ambientLight intensity={2} />
           <pointLight position={[40, 40, 40]} />
@@ -60,6 +69,9 @@ function Room({ id, isMyRoom }) {
           <OrbitControls />
           <ControlCam />
         </Canvas>
+        <AbsoluteContainer>
+          <Chat socket={socket} />
+        </AbsoluteContainer>
         {/* {isMyRoom ? (
           <button
             type="button"
@@ -76,12 +88,11 @@ function Room({ id, isMyRoom }) {
           </button>
         )} */}
         {modalOpen && (
-          // <MailboxModal
-          //   mailboxId={room.mailboxId}
-          //   isMyMailbox={isMyRoom}
-          //   handleClose={toggle}
-          // />
-          <Chat />
+          <MailboxModal
+            mailboxId={room.mailboxId}
+            isMyMailbox={isMyRoom}
+            handleClose={toggle}
+          />
         )}
       </Container>
     ) : (

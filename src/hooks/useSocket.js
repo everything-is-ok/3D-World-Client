@@ -1,24 +1,31 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import io from "socket.io-client";
+
+import { userSelector } from "../reducers/userSlice";
 
 const URL = process.env.REACT_APP_SERVER_URL;
 
-// NOTE: 로그인한 user id와 접속하고자 하는 방의 id
-function useSocket(userId, roomId) {
+// NOTE: component mount에 한번 연결, unmount에 disconnect
+function useSocket(roomId) {
   const [socket, setSocket] = useState(null);
+  const user = useSelector(userSelector);
 
   useEffect(() => {
-    if (!userId || !roomId) {
+    const connection = io(URL);
+
+    setSocket(connection);
+    return () => connection.disconnect();
+  }, [setSocket]);
+
+  useEffect(() => {
+    if (!socket || !user || !roomId) {
       return;
     }
 
-    const connection = io(URL);
-
-    connection.emit("visit", { user: userId, room: roomId });
-
-    setSocket(connection);
-    return () => connection.disconnect({ user: userId, room: roomId });
-  }, [userId, roomId, setSocket]);
+    socket.on("room", ({ name }) => console.log(`${name} is join!`));
+    socket.emit("room", { user, roomId });
+  }, [socket, user, roomId]);
 
   return socket;
 }
