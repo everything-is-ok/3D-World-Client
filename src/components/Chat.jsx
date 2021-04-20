@@ -45,11 +45,11 @@ function Chat({ socket }) {
   useSocketChat(socket, handleChat);
 
   function handleChat({ message: data }) {
-    setChatList((prev) => [...prev, data]);
+    setChatList((prev) => prev.concat(data));
   }
 
   function addChatElement(data) {
-    setChatList(chatList.concat(data));
+    setChatList((prev) => prev.concat(data));
   }
 
   function handleInputChange(e) {
@@ -84,7 +84,6 @@ function Chat({ socket }) {
 }
 
 Chat.propTypes = {
-  // handleSubmit: PropTypes.func.isRequired,
   socket: PropTypes.any,
 };
 
