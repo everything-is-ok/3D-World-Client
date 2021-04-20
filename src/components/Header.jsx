@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import MiniProfile from "./MiniProfile";
 import StyledButton from "./shared/StyledButton";
@@ -20,10 +20,11 @@ const Container = styled.header`
 function Header() {
   const dispatch = useDispatch();
   const { name, photoURL, friends } = useSelector((state) => state.user.data);
-
-  function handleProfileClick(id) {
-    return <Redirect to={`/room/${id}`} />;
-  }
+  // TODO: 방식을 찾거나 지우거나
+  // function handleProfileClick(id) {
+  //   console.log(id);
+  //   return <Redirect push to={`/room/${id}`} />;
+  // }
 
   return (
     <Container>
@@ -33,12 +34,13 @@ function Header() {
       />
       <DropDown name="친구 목록">
         {friends.map((friend) => (
-          <MiniProfile
-            key={friend._id}
-            photoURL={friend.photoURL}
-            name={friend.name}
-            onClick={() => handleProfileClick(friend._id)}
-          />
+          <Link to={`/room/${friend._id}`}>
+            <MiniProfile
+              key={friend._id}
+              photoURL={friend.photoURL}
+              name={friend.name}
+            />
+          </Link>
         ))}
       </DropDown>
       <div>

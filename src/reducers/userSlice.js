@@ -42,7 +42,6 @@ export const updateUserData = createAsyncThunk(
     });
 
     response = await response.json();
-
     return response.data;
   },
 );
