@@ -2,64 +2,51 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
+import useSocketChat from "../hooks/useSocketChat";
+import StyledInput from "./shared/StyledInput";
+import StyledButton from "./shared/StyledButton";
+
 const Container = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: gray;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 
   // NOTE: 전체 사이즈 확인을 위한 border
   border: 2px solid black;
 `;
 
-const ChatInput = styled.input`
-  display: block;
-  width: 100%;
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #212529;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid #ced4da;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  border-radius: 0.25rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-`;
-
 const ChatDiv = styled.div`
-  display: block;
-  width: 100%;
   padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
+  font-size: 0.8rem;
   color: #212529;
-  background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #ced4da;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 `;
 
+// TODO: 채팅이 많아지면 스크롤하여 이전의 채팅도 볼 수 있도록 수정
 const ChatList = styled.div`
-  display: block;
-  width: 70vw;
-  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
+  height: 100px;
 `;
 
-const Form = styled.form`
+const FormContainer = styled.form`
 `;
 
-function Chat() {
+// TODO: 내가 보낸 채팅과 받은 채팅을 구분할 수 있도록 수정
+function Chat({ socket }) {
   const [message, setMessage] = useState("");
   const [chatList, setChatList] = useState([]);
+
+  useSocketChat(socket, handleChat);
+
+  function handleChat({ message: data }) {
+    setChatList((prev) => [...prev, data]);
+  }
 
   function addChatElement(data) {
     setChatList((prev) => [...prev, data]);
@@ -72,7 +59,7 @@ function Chat() {
   function handleSubmit(e) {
     e.preventDefault();
 
-    // TODO 웹소켓 emit
+    socket.emit("chat", { message });
     addChatElement(message);
     setMessage("");
   }
@@ -80,23 +67,25 @@ function Chat() {
   return (
     <Container>
       <ChatList>
+        {/* TODO: key 부여해야함. 보낸사람, 내용, 시간 등 조합하여 만들 수 있을 듯 */}
         {chatList.map((chat) => <ChatDiv>{chat}</ChatDiv>)}
       </ChatList>
-      <Form
+      <FormContainer
         onSubmit={handleSubmit}
       >
-        <ChatInput
+        <StyledInput
           value={message}
           onChange={handleInputChange}
         />
-        <button type="submit">Submit</button>
-      </Form>
+        <StyledButton type="submit">Submit</StyledButton>
+      </FormContainer>
     </Container>
   );
 }
 
 Chat.propTypes = {
   // handleSubmit: PropTypes.func.isRequired,
+  socket: PropTypes.any,
 };
 
 export default Chat;

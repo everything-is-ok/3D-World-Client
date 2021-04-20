@@ -85,7 +85,7 @@ const userSlice = createSlice({
     [getUserByToken.fulfilled]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
-        state.data = action.payload;
+        state.data = action.payload ?? null;
       }
     },
     [getUserByToken.rejected]: (state, action) => {
