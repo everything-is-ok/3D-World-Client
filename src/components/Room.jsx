@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import PropTypes from "prop-types";
@@ -62,7 +62,7 @@ function Room({ id, isMyRoom }) {
           <pointLight position={[40, 40, 40]} />
           <Physics>
             <Suspense>
-              <Grugru position={[4 * 40, 7 * 40]} />
+              <Grugru position={[4 * 40, 8, 7 * 40]} />
               <Mailbox
                 position={[7 * 40, 7 * 40]}
                 onClick={toggle}
@@ -79,7 +79,7 @@ function Room({ id, isMyRoom }) {
         {isMyRoom ? (
           <button
             type="button"
-            onClick={console.log("click")}
+            onClick={console.log("click reomeling")}
           >
             리모델링
           </button>

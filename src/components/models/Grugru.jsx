@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { useGLTF, useAnimations } from "@react-three/drei";
 // eslint-disable-next-line import/no-unresolved
 import { useBox } from "@react-three/cannon";
+import usePosition from "../../hooks/usePosition";
 
 function Grugru({ position }) {
   const group = useRef();
@@ -14,11 +15,24 @@ function Grugru({ position }) {
     actions["Take 001"].play();
   }, []);
 
+  const {
+    position: dynamicPosition,
+    direction,
+    handlePositionChange,
+  } = usePosition(position);
+
+  useEffect(() => {
+    window.addEventListener("keydown", handlePositionChange);
+
+    return () => window.removeEventListener("keydown", handlePositionChange);
+  }, [dynamicPosition, direction]);
+
   return (
     <mesh ref={ref}>
       <group
         ref={group}
-        position={[0, 8, 0]}
+        position={[...dynamicPosition]}
+        rotation={[0, direction, 0]}
         dispose={null}
       >
         <primitive object={nodes._rootJoint} />
