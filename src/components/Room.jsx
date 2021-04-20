@@ -4,6 +4,8 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
+// eslint-disable-next-line import/no-unresolved
+import { Physics } from "@react-three/cannon";
 
 import Chat from "./Chat";
 import Floor from "./models/Floor";
@@ -26,7 +28,7 @@ const Container = styled.div`
 
 const AbsoluteContainer = styled.div`
   position: absolute;
-  left: 1rem;
+  right: 1rem;
   top: 1rem;
   width: 40%;
   height: 20%;
@@ -58,14 +60,16 @@ function Room({ id, isMyRoom }) {
         <Canvas camera={{ position: [160, 100, 400], fov: 80 }}>
           <ambientLight intensity={2} />
           <pointLight position={[40, 40, 40]} />
-          <Floor width={8} height={8} />
-          <Suspense>
-            <Grugru position={[4 * 40, 7 * 40]} />
-            <Mailbox
-              position={[7 * 40, 7 * 40]}
-              onClick={toggle}
-            />
-          </Suspense>
+          <Physics>
+            <Suspense>
+              <Grugru position={[4 * 40, 7 * 40]} />
+              <Mailbox
+                position={[7 * 40, 7 * 40]}
+                onClick={toggle}
+              />
+            </Suspense>
+            <Floor width={8} height={8} />
+          </Physics>
           <OrbitControls />
           <ControlCam />
         </Canvas>
