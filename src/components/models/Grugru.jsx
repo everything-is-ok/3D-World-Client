@@ -1,15 +1,15 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import PropTypes from "prop-types";
 import { useGLTF, useAnimations } from "@react-three/drei";
 // eslint-disable-next-line import/no-unresolved
-import { useBox } from "@react-three/cannon";
+import { useBox, useSphere } from "@react-three/cannon";
 import usePosition from "../../hooks/usePosition";
 
 function Grugru({ position }) {
   const group = useRef();
   const { nodes, materials, animations } = useGLTF("models/grugru/scene.gltf");
   const { actions } = useAnimations(animations, group);
-  const [ref] = useBox(() => ({ mass: 1, position: [0, 40, 0] }));
+  const [ref, api] = useBox(() => ({ mass: 1, args: [20, 20, 20], position }));
 
   useEffect(() => {
     actions["Take 001"].play();
@@ -21,6 +21,8 @@ function Grugru({ position }) {
     handlePositionChange,
   } = usePosition(position);
 
+  api.position.set(...dynamicPosition);
+
   useEffect(() => {
     window.addEventListener("keydown", handlePositionChange);
 
@@ -31,7 +33,7 @@ function Grugru({ position }) {
     <mesh ref={ref}>
       <group
         ref={group}
-        position={[...dynamicPosition]}
+        position={[0, 8, 0]}
         rotation={[0, direction, 0]}
         dispose={null}
       >

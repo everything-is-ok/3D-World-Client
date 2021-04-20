@@ -62,7 +62,7 @@ function Room({ id, isMyRoom }) {
           <pointLight position={[40, 40, 40]} />
           <Physics>
             <Suspense>
-              <Grugru position={[4 * 40, 8, 7 * 40]} />
+              <Grugru position={[4 * 40, 40, 7 * 40]} />
               <Mailbox
                 position={[7 * 40, 7 * 40]}
                 onClick={toggle}
