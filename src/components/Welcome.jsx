@@ -24,7 +24,7 @@ function Welcome() {
     const actionResult = await dispatch(userLogin());
 
     try {
-      const user = unwrapResult(actionResult);
+      const user = await unwrapResult(actionResult);
 
       history.push(`/room/${user._id}`);
     } catch (err) {
