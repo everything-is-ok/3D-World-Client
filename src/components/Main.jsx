@@ -3,10 +3,10 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
-import { userSelector } from "../reducers/userSlice";
 import MyProfile from "./MyProfile";
 import OtherUserProfile from "./OtherUserProfile";
 import Room from "./Room";
+import { userSelector } from "../reducers/userSlice";
 
 // TODO: 배치 수정
 const Container = styled.div`
@@ -27,7 +27,7 @@ function Main() {
   // NOTE: 확인 필요합니다. 여기서 유저를 바라보기때문에 유저 바뀔 때마다 밑의 룸이 리랜더링하는 경우가 있는지
   const user = useSelector(userSelector);
   // TODO: 필요 없어지면 삭제
-  const isLoggedInUser = userId === undefined || user._id === userId;
+  const isLoggedInUser = userId && user._id === userId;
 
   return (
     <Container>

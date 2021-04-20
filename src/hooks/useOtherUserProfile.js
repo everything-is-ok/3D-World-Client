@@ -14,7 +14,7 @@ export default function useOtherUserProfile(id) {
   useEffect(() => {
     async function getUserProfile() {
       try {
-        // NOTE 여기에서 이미 response.data 받도록 해놨는데, 수정 필요한지 확인필요
+        // NOTE response.data 받도록 해놨는데, 수정 필요한지 확인필요
         const user = await fetchData("GET", `/${id}`);
 
         setUserData({

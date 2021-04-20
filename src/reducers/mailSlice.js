@@ -11,7 +11,7 @@ export const getMailList = createAsyncThunk(
   },
 );
 
-// TODO 되는지 보려고 구현한거임.
+// NOTE 되는지 보려고 구현한거임. (리덕스에서 관리할 필요 없음. 열때마다 fetch하니까)
 export const postMail = createAsyncThunk(
   "mail/postMailStatus",
   async (mailboxId, content) => {

@@ -1,13 +1,14 @@
 import React, { useRef } from "react";
 import PropTypes from "prop-types";
+// eslint-disable-next-line import/no-unresolved
+import { useBox } from "@react-three/cannon";
 
 function Grass({ position, onClick }) {
-  const mesh = useRef();
+  const [ref] = useBox(() => ({ mass: 0, position, args: [39, 10, 39] }));
 
   return (
     <mesh
-      position={position}
-      ref={mesh}
+      ref={ref}
       scale={1}
       onClick={onClick}
     >

@@ -4,8 +4,8 @@ import { useDispatch } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useHistory } from "react-router-dom";
 
-import { userLogin } from "../reducers/userSlice";
 import StyledButton from "./shared/StyledButton";
+import { userLogin } from "../reducers/userSlice";
 
 const Container = styled.div`
   display: flex;
@@ -24,7 +24,7 @@ function Welcome() {
     const actionResult = await dispatch(userLogin());
 
     try {
-      const user = unwrapResult(actionResult);
+      const user = await unwrapResult(actionResult);
 
       history.push(`/room/${user._id}`);
     } catch (err) {
