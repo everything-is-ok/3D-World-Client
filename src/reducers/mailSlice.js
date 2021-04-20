@@ -11,6 +11,7 @@ export const getMailList = createAsyncThunk(
   },
 );
 
+// TODO 되는지 보려고 구현한거임.
 export const postMail = createAsyncThunk(
   "mail/postMailStatus",
   async (mailboxId, content) => {

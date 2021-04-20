@@ -20,7 +20,10 @@ function useMailbox() {
 
   // 내방
   // TODO ADD deleteItem
-  const handleDeleteMailList = dispatch(deleteMailList);
+  function handleDeleteMailList() {
+    dispatch(deleteMailList());
+  }
+
   const handleDeleteMailItem = dispatch(deleteMailItem);
 
   return {

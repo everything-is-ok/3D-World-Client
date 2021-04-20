@@ -9,14 +9,6 @@ import { mailSelector, getMailList } from "../reducers/mailSlice";
 
 // TODO: 일단 중앙에 띄워서 확인하기 위한 컨테이너
 const Container = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
 `;
 
 const StyledList = styled.ul`
