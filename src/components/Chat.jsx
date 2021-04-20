@@ -62,7 +62,7 @@ function Chat() {
   const [chatList, setChatList] = useState([]);
 
   function addChatElement(data) {
-    setChatList((prev) => [...prev, data]);
+    setChatList(chatList.concat(data));
   }
 
   function handleInputChange(e) {

@@ -20,7 +20,6 @@ const Container = styled.div`
 `;
 
 function MailboxModal({ mailboxId, isMyMailbox, handleClose }) {
-  console.log(isMyMailbox);
   const {
     content,
     handleFormSubmit,
