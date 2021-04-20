@@ -39,6 +39,7 @@ const ModalContent = styled.div`
   padding: 2rem;
 `;
 
+// NOTE 메일에 제목이 없어서 안씀
 const Title = styled.div`
   display: flex;
   flex-direction: row;
@@ -59,14 +60,13 @@ const ModalClose = styled.button`
   opacity: 0.5;
 `;
 
-function CustomModal({ children, title, handleClose }) {
+function CustomModal({ children, handleClose }) {
   return ReactDOM.createPortal(
     <>
       <ModalBackground onClick={handleClose} />
       <Modal>
         <ModalClose onClick={handleClose} />
         <ModalContent>
-          <Title>{title}</Title>
           {children}
         </ModalContent>
       </Modal>
@@ -77,7 +77,6 @@ function CustomModal({ children, title, handleClose }) {
 
 CustomModal.propTypes = {
   children: PropTypes.element.isRequired,
-  title: PropTypes.string.isRequired,
   handleClose: PropTypes.func.isRequired,
 };
 

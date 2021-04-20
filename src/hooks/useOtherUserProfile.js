@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import fetchData from "../utils/fetchData";
+
 export default function useOtherUserProfile(id) {
   const [userData, setUserData] = useState({
     name: "",
@@ -12,25 +14,15 @@ export default function useOtherUserProfile(id) {
   useEffect(() => {
     async function getUserProfile() {
       try {
-        let response = await fetch(`http://localhost:5000/user/${id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
+        // NOTE 여기에서 이미 response.data 받도록 해놨는데, 수정 필요한지 확인필요
+        const user = await fetchData("GET", `/${id}`);
+
+        setUserData({
+          name: user.name,
+          description: user.description,
+          photoURL: user.photoURL,
+          musicURL: user.musicURL,
         });
-
-        response = await response.json();
-
-        if (response.ok) {
-          const { data: user } = response;
-
-          setUserData({
-            name: user.name,
-            description: user.description,
-            photoURL: user.photoURL,
-            musicURL: user.musicURL,
-          });
-        }
       } catch (err) {
         console.log(err);
       }

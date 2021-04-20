@@ -39,7 +39,7 @@ function Main() {
       {/* TODO: World와 Room Comp를 토글방식으로 적용. */}
       <Room
         id={userId ?? user._id}
-        isEditable={isLoggedInUser}
+        isMyRoom={isLoggedInUser}
       />
     </Container>
   );
