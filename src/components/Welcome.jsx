@@ -4,8 +4,8 @@ import { useDispatch } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useHistory } from "react-router-dom";
 
-import { userLogin } from "../reducers/userSlice";
 import StyledButton from "./shared/StyledButton";
+import { userLogin } from "../reducers/userSlice";
 
 const Container = styled.div`
   display: flex;
