@@ -48,9 +48,9 @@ function Room({ id, isMyRoom }) {
           <ambientLight intensity={2} />
           <pointLight position={[40, 40, 40]} />
           <Floor width={8} height={8} />
-          <Suspense fallback={null}>
+          {/* <Suspense fallback={null}>
             <Grugru position={[4 * 40, 14, 7 * 40]} />
-          </Suspense>
+          </Suspense> */}
           <Suspense>
             <Mailbox
               position={[7 * 40, 7 * 40]}
