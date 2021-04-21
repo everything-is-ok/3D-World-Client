@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable max-len */
 /* eslint-disable react/jsx-props-no-spreading */
 /*
@@ -12,18 +14,18 @@ import React from "react";
 import { useGLTF } from "@react-three/drei";
 
 import usePosition from "../../hooks/usePosition";
+import Texts from "./Texts";
 
 export default function Model(props) {
   const { nodes, materials } = useGLTF("models/chicken/scene.gltf");
-  const { position, direction } = usePosition([0, 10, 40]);
+  const { position, direction } = usePosition(props.position);
 
   return (
     <group
-      position={[...position.map((each) => each / 5)]}
-      rotation={[0, direction, 0]}
+      position={[...position]}
     >
-      <group rotation={[0, 0, 0]}>
-        <textBufferGeometry position={[-5.65, 6.67, 0]} />
+      <Texts position={[-7.65, 60, 0]} letters="CHICKEN" />
+      <group scale={[10, 10, 10]} rotation={[0, direction, 0]}>
         <group position={[-5.65, 3.67, 0]} scale={[1.96, 3.02, 1.96]}>
           <mesh geometry={nodes.pCube1_phong5_0.geometry} material={materials.phong5} />
           <mesh geometry={nodes.pCube1_phong2_0.geometry} material={nodes.pCube1_phong2_0.material} />
