@@ -76,9 +76,9 @@ function Room({ id }) {
           <OrbitControls />
           <ControlCam />
         </Canvas>
-        <AbsoluteContainer>
+        {/* <AbsoluteContainer>
           <Chat socket={socket} />
-        </AbsoluteContainer>
+        </AbsoluteContainer> */}
         {isMyRoom ? (
           <button
             type="button"
