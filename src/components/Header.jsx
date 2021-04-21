@@ -7,6 +7,7 @@ import DropDown from "./DropDown";
 import MiniProfile from "./MiniProfile";
 import StyledButton from "./shared/StyledButton";
 import { logout } from "../reducers/userSlice";
+import useModal from "../hooks/useModal";
 
 const Container = styled.header`
   display: flex;
@@ -21,6 +22,7 @@ function Header() {
   const dispatch = useDispatch();
   const history = useHistory();
   const { name, photoURL, friends } = useSelector((state) => state.user.data);
+  const { modalOpen, toggle } = useModal();
   // TODO: 방식을 찾거나 지우거나
   // function handleProfileClick(id) {
   //   console.log(id);
@@ -33,9 +35,13 @@ function Header() {
         photoURL={photoURL}
         name={name}
       />
-      <DropDown name="친구 목록">
+      <DropDown
+        name="친구 목록"
+        isOpen={modalOpen}
+        toggle={toggle}
+      >
         {friends.map((friend) => (
-          <Link to={`/room/${friend._id}`}>
+          <Link to={`/room/${friend._id}`} onClick={toggle}>
             <MiniProfile
               key={friend._id}
               photoURL={friend.photoURL}
