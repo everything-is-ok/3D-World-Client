@@ -26,12 +26,6 @@ function App() {
   }, [user]);
 
   return (
-<<<<<<< HEAD
-    <>
-      <Header />
-      <Main />
-    </>
-=======
     <Router>
       {user ? (
         <>
@@ -48,7 +42,6 @@ function App() {
         </Switch>
       )}
     </Router>
->>>>>>> 4a43d726154bcef751a83d84f4618b34c0886a79
   );
 }
 
