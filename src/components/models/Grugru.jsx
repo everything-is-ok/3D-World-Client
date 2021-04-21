@@ -1,27 +1,21 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { useGLTF, useAnimations } from "@react-three/drei";
-// eslint-disable-next-line import/no-unresolved
-import { useBox, useSphere } from "@react-three/cannon";
 import usePosition from "../../hooks/usePosition";
 
-function Grugru({ position }) {
+function Grugru({ name, position, socket }) {
   const group = useRef();
   const { nodes, materials, animations } = useGLTF("models/grugru/scene.gltf");
   const { actions } = useAnimations(animations, group);
-  const [ref, api] = useBox(() => ({ mass: 1, args: [20, 20, 20], position }));
-
-  useEffect(() => {
-    actions["Take 001"].play();
-  }, []);
-
   const {
     position: dynamicPosition,
     direction,
     handlePositionChange,
   } = usePosition(position);
 
-  api.position.set(...dynamicPosition);
+  useEffect(() => {
+    actions["Take 001"].play();
+  }, []);
 
   useEffect(() => {
     window.addEventListener("keydown", handlePositionChange);
@@ -29,11 +23,16 @@ function Grugru({ position }) {
     return () => window.removeEventListener("keydown", handlePositionChange);
   }, [dynamicPosition, direction]);
 
+  useEffect(() => {
+    socket.emit("move", { position: dynamicPosition, direction });
+  }, [dynamicPosition, direction]);
+
   return (
-    <mesh ref={ref}>
+    <group
+      position={[...dynamicPosition]}
+    >
       <group
         ref={group}
-        position={[0, 8, 0]}
         rotation={[0, direction, 0]}
         dispose={null}
       >
@@ -44,12 +43,18 @@ function Grugru({ position }) {
           skeleton={nodes.Body_lambert3_0.skeleton}
         />
       </group>
-    </mesh>
+    </group>
   );
 }
 
 Grugru.propTypes = {
   position: PropTypes.array.isRequired,
+  socket: PropTypes.any,
+  name: PropTypes.string,
+};
+
+Grugru.defaultProps = {
+  name: "unKnown",
 };
 
 useGLTF.preload("models/grugru/scene.gltf");
