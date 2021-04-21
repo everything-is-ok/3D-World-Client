@@ -1,8 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-// eslint-disable-next-line import/no-unresolved
-import { usePlane } from "@react-three/cannon";
-
 import Grass from "./Grass";
 
 function Floor({ width, height }) {

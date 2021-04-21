@@ -6,7 +6,7 @@ import styled from "styled-components";
 import MyProfile from "./MyProfile";
 import OtherUserProfile from "./OtherUserProfile";
 import Room from "./Room";
-import { userSelector } from "../reducers/userSlice";
+import { userIdSelector, userSelector } from "../reducers/userSlice";
 
 // TODO: 배치 수정
 const Container = styled.div`
@@ -25,9 +25,9 @@ const Container = styled.div`
 function Main() {
   const { userId } = useParams();
   // NOTE: 확인 필요합니다. 여기서 유저를 바라보기때문에 유저 바뀔 때마다 밑의 룸이 리랜더링하는 경우가 있는지
-  const user = useSelector(userSelector);
+  const loggedInUserId = useSelector(userIdSelector);
   // TODO: 필요 없어지면 삭제
-  const isLoggedInUser = userId && user._id === userId;
+  const isLoggedInUser = userId === undefined || loggedInUserId === userId;
 
   return (
     <Container>
@@ -38,7 +38,7 @@ function Main() {
       )}
       {/* TODO: World와 Room Comp를 토글방식으로 적용. */}
       <Room
-        id={userId ?? user._id}
+        id={userId ?? loggedInUserId}
         isMyRoom={isLoggedInUser}
       />
     </Container>

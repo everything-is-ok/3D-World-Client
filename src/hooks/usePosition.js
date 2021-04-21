@@ -43,14 +43,14 @@ export default function usePosition(InitialPosition, initialDirection = 0) {
         return [...prev];
       });
     }
-    if (e.keyCode === 38) {
+    if (e.keyCode === 40) {
       setDirection(key.front);
       setPosition((prev) => {
         prev[POS.Z] -= oneStep;
         return [...prev];
       });
     }
-    if (e.keyCode === 40) {
+    if (e.keyCode === 38) {
       setDirection(key.back);
       setPosition((prev) => {
         prev[POS.Z] += oneStep;
