@@ -4,9 +4,11 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import MyProfile from "./MyProfile";
+import MailboxModal from "./MailboxModal";
 import OtherUserProfile from "./OtherUserProfile";
 import Room from "./Room";
-import { userIdSelector, userSelector } from "../reducers/userSlice";
+import { userIdSelector } from "../reducers/userSlice";
+import useMailbox from "../hooks/useMailbox";
 
 // TODO: 배치 수정
 const Container = styled.div`
@@ -24,6 +26,10 @@ const Container = styled.div`
 // NOTE: 내 방을 가던 남의 방을 가던 /room/:id 로 온다.
 function Main() {
   const { userId } = useParams();
+  const {
+    mailboxId, openMailbox, toggle, handleClickMailbox,
+  } = useMailbox();
+
   // NOTE: 확인 필요합니다. 여기서 유저를 바라보기때문에 유저 바뀔 때마다 밑의 룸이 리랜더링하는 경우가 있는지
   const loggedInUserId = useSelector(userIdSelector);
   // TODO: 필요 없어지면 삭제
@@ -40,7 +46,15 @@ function Main() {
       <Room
         id={userId ?? loggedInUserId}
         isMyRoom={isLoggedInUser}
+        toggle={handleClickMailbox}
       />
+      {openMailbox && (
+        <MailboxModal
+          id={mailboxId}
+          isMyMailbox={isLoggedInUser}
+          handleClose={toggle}
+        />
+      )}
     </Container>
   );
 }

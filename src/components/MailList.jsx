@@ -11,7 +11,7 @@ import { mailSelector, getMailList } from "../reducers/mailSlice";
 const Container = styled.div`
 `;
 
-const StyledList = styled.ul`
+const StyledList = styled.div`
   all: unset;
   width: 30vw;
   height: 50vh;

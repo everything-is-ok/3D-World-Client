@@ -6,15 +6,13 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 
 import Chat from "./Chat";
-import MailboxModal from "./MailboxModal";
 import StyledButton from "./shared/StyledButton";
 import Floor from "./models/Floor";
 import Grugru from "./models/Grugru";
 import Mailbox from "./models/Mailbox";
 import useRoom from "../hooks/useRoom";
-import useModal from "../hooks/useModal";
 import useSocket from "../hooks/useSocket";
-import { updateUserData, userSelector } from "../reducers/userSlice";
+import { updateUserData, userIdSelector } from "../reducers/userSlice";
 
 const Container = styled.div`
   position: relative;
@@ -37,15 +35,14 @@ const AbsoluteContainer = styled.div`
 // NOTE: MainProfle에서 submit하면, re-render가 일어나지만, Main이 re-render되서가 아니라, Room내부에서 user를 조회하기때문.
 // TODO: mailbox click했을때, re-render 최적화
 // TODO: 아주 힘들 예정, 방 정보로 아이템을 배치해야한다.
-function Room({ id }) {
+function Room({ id, toggle }) {
   const { room } = useRoom(id);
-  const { modalOpen, toggle } = useModal();
   const socket = useSocket(room?._id);
   const dispatch = useDispatch();
 
-  const user = useSelector(userSelector);
+  const userId = useSelector(userIdSelector);
   // TODO: 필요 없어지면 삭제
-  const isMyRoom = id === undefined || user._id === id;
+  const isMyRoom = id === undefined || userId === id;
 
   function ControlCam() {
     useFrame(({ camera }) => camera.lookAt(160, 0, 160));
@@ -72,7 +69,7 @@ function Room({ id }) {
             />
             <Mailbox
               position={[7 * 40, 7 * 40]}
-              onClick={toggle}
+              onClick={() => toggle(room._id)}
             />
           </Suspense>
           <Floor width={8} height={8} />
@@ -97,13 +94,6 @@ function Room({ id }) {
             친구추가
           </StyledButton>
         )}
-        {modalOpen && (
-          <MailboxModal
-            mailboxId={room.mailboxId}
-            isMyMailbox={isMyRoom}
-            handleClose={toggle}
-          />
-        )}
       </Container>
     ) : (
       <>
@@ -118,6 +108,8 @@ function Room({ id }) {
 
 Room.propTypes = {
   id: PropTypes.string.isRequired,
+  toggle: PropTypes.string.isRequired,
+  // handleClickMailbox: PropTypes.string.isRequired,
 };
 
 export default Room;
