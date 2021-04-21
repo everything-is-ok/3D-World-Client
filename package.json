@@ -1,7 +1,6 @@
 {
   "name": "client",
-  "version": "0.1.0",
-  "homepage": "https://github.com/owner/project#readme",
+  "version": "1.0.0",
   "author": "name <email> (homepage url), name <email> (homepage url), name <email> (homepage url)",
   "private": true,
   "dependencies": {
@@ -16,14 +15,16 @@
     "http-proxy-middleware": "^1.1.2",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
+    "react-audio-player": "^0.16.1",
     "react-dom": "^17.0.2",
+    "react-player": "^2.9.0",
     "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-spring": "^9.1.1",
     "redux-logger": "^3.0.6",
     "socket.io-client": "^4.0.1",
-    "styled-component": "^2.8.0",
+    "styled-components": "^5.2.3",
     "three": "^0.127.0",
     "web-vitals": "^1.1.1"
   },
