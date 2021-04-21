@@ -1,0 +1,11 @@
+Model Information:
+* title:	Gru Gru
+* source:	https://sketchfab.com/3d-models/gru-gru-649625f4fa7b4928a464d3e0ce737cb2
+* author:	anhto (https://sketchfab.com/anhto)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Gru Gru" (https://sketchfab.com/3d-models/gru-gru-649625f4fa7b4928a464d3e0ce737cb2) by anhto (https://sketchfab.com/anhto) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
