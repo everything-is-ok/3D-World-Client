@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 
@@ -6,7 +6,7 @@ import StyledButton from "./shared/StyledButton";
 
 const Container = styled.div`
   position: relative;
-
+  z-index: 99;
   // NOTE: 전체 사이즈 확인을 위한 border
   border: 2px solid black;
 `;
@@ -40,15 +40,18 @@ const List = styled.div`
   ${display}
 `;
 
-function DropDown({ name, children }) {
-  const [dropDownOpen, setDropDownOpen] = useState(false);
-
+function DropDown({
+  name,
+  children,
+  isOpen,
+  toggle,
+}) {
   return (
     <Container>
-      <StyledButton onClick={() => setDropDownOpen((prev) => !prev)}>
+      <StyledButton onClick={toggle}>
         {name}
       </StyledButton>
-      <List isOpen={dropDownOpen}>
+      <List isOpen={isOpen}>
         {children}
       </List>
     </Container>
@@ -57,6 +60,8 @@ function DropDown({ name, children }) {
 
 DropDown.propTypes = {
   name: PropTypes.string.isRequired,
+  isOpen: PropTypes.bool,
+  toggle: PropTypes.func,
   children: PropTypes.any,
 };
 
