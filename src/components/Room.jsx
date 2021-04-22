@@ -116,6 +116,9 @@ function Room({ id, handleClickMailbox }) {
     dispatch(updateUserData({ friend: id }));
   }
 
+  // 가구 불러오기 TempModel
+  // 위치 줘서 렌더링하기
+
   return (
     room ? (
       <Container>
