@@ -35,7 +35,7 @@ const AbsoluteContainer = styled.div`
 // NOTE: MainProfle에서 submit하면, re-render가 일어나지만, Main이 re-render되서가 아니라, Room내부에서 user를 조회하기때문.
 // TODO: mailbox click했을때, re-render 최적화
 // TODO: 아주 힘들 예정, 방 정보로 아이템을 배치해야한다.
-function Room({ id, toggle }) {
+function Room({ id, handleClickMailbox }) {
   const { room } = useRoom(id);
   const socket = useSocket(room?._id);
   const dispatch = useDispatch();
@@ -69,7 +69,7 @@ function Room({ id, toggle }) {
             />
             <Mailbox
               position={[7 * 40, 7 * 40]}
-              onClick={() => toggle(room._id)}
+              onClick={() => handleClickMailbox(room.mailboxId)}
             />
           </Suspense>
           <Floor width={8} height={8} />
@@ -108,8 +108,7 @@ function Room({ id, toggle }) {
 
 Room.propTypes = {
   id: PropTypes.string.isRequired,
-  toggle: PropTypes.string.isRequired,
-  // handleClickMailbox: PropTypes.string.isRequired,
+  handleClickMailbox: PropTypes.string.isRequired,
 };
 
 export default Room;

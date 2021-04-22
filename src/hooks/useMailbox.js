@@ -1,49 +1,58 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { postMail, deleteMailList, deleteMailItem } from "../reducers/mailSlice";
+import { deleteMailList, deleteMailItem } from "../reducers/mailSlice";
+import fetchData from "../utils/fetchData";
 
 function useMailbox() {
   const dispatch = useDispatch();
   const [content, setContent] = useState("");
   const [mailboxId, setMailboxId] = useState(null);
-  const [openMailbox, setOpenMailbox] = useState(false);
+  const [isToggled, setIsToggled] = useState(false);
 
-  function toggle() {
-    setOpenMailbox((prev) => !prev);
-  }
+  function handleFormSubmit(e) {
+    e.preventDefault();
 
-  function handleClickMailbox(id) {
-    setMailboxId(id);
-    setOpenMailbox((prev) => !prev);
-  }
+    fetchData(
+      "POST",
+      `/mailbox/mail/${mailboxId}`,
+      { content },
+    );
 
-  function handleFormSubmit(id) {
-    dispatch(postMail(id, content));
+    setIsToggled(false);
   }
 
   function handleInputChange(e) {
     setContent(e.target.value);
   }
 
+  function toggle() {
+    setIsToggled((prev) => !prev);
+  }
+
+  function handleClickMailbox(id) {
+    setMailboxId(id);
+    setIsToggled((prev) => !prev);
+  }
+
   function handleDeleteMailList() {
     dispatch(deleteMailList());
   }
 
-  function handleDeleteMailItem() {
-    dispatch(deleteMailItem());
+  function handleDeleteMailItem(mailId) {
+    dispatch(deleteMailItem(mailId));
   }
 
   return {
     content,
     mailboxId,
-    openMailbox,
+    isToggled,
     toggle,
-    handleClickMailbox,
     handleFormSubmit,
     handleInputChange,
-    handleDeleteMailItem,
+    handleClickMailbox,
     handleDeleteMailList,
+    handleDeleteMailItem,
   };
 }
 
