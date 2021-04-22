@@ -42,7 +42,6 @@ function Main() {
   const loggedInUserId = useSelector(userIdSelector);
   // TODO: 필요 없어지면 삭제
   const isLoggedInUser = userId === undefined || loggedInUserId === userId;
-  console.log(userId);
 
   return (
     <Container>

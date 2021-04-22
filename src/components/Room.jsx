@@ -179,7 +179,7 @@ function Room({ id, handleClickMailbox }) {
 
 Room.propTypes = {
   id: PropTypes.string.isRequired,
-  handleClickMailbox: PropTypes.string.isRequired,
+  handleClickMailbox: PropTypes.func.isRequired,
 };
 
 export default React.memo(Room);
