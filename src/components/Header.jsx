@@ -22,13 +22,13 @@ const Container = styled.header`
 function Header() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { name, photoURL, friends } = useSelector((state) => state.user.data);
+  const {
+    _id,
+    name,
+    photoURL,
+    friends,
+  } = useSelector((state) => state.user.data);
   const { modalOpen, toggle } = useModal();
-  // TODO: 방식을 찾거나 지우거나
-  // function handleProfileClick(id) {
-  //   console.log(id);
-  //   return <Redirect push to={`/room/${id}`} />;
-  // }
 
   return (
     <Container>
@@ -54,7 +54,7 @@ function Header() {
       <div>
         {/* TODO: 월드, 홈 버튼은 토글방식으로 컴포넌트 분리 */}
         <StyledButton>월드</StyledButton>
-        <StyledButton onClick={() => history.push("/")}>홈</StyledButton>
+        <StyledButton onClick={() => history.push(`/room/${_id}`)}>홈</StyledButton>
         <StyledButton onClick={() => dispatch(logout())}>로그아웃</StyledButton>
       </div>
     </Container>
