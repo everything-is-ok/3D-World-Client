@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -26,7 +26,7 @@ const Container = styled.div`
 // NOTE: 내 방을 가던 남의 방을 가던 /room/:id 로 온다.
 function Main() {
   const { userId } = useParams();
-  const roomOwnerId = useSelector((state) => state.room.data.ownerId);
+  const [prevUserId, setPrevUserId] = useState(userId);
   const {
     content,
     mailboxId,
@@ -44,7 +44,9 @@ function Main() {
   // TODO: 필요 없어지면 삭제
   const isLoggedInUser = userId === undefined || loggedInUserId === userId;
 
-  console.log(roomOwnerId, userId);
+  useEffect(() => {
+    setPrevUserId(userId);
+  }, [userId]);
 
   return (
     <Container>
@@ -54,10 +56,10 @@ function Main() {
         <OtherUserProfile id={userId} />
       )}
       {/* TODO: World와 Room Comp를 토글방식으로 적용. */}
-      { roomOwnerId === userId ? (
+      { prevUserId === userId ? (
         <>
           <Room
-            id={userId ?? loggedInUserId}
+            id={userId}
             isMyRoom={isLoggedInUser}
             handleClickMailbox={handleClickMailbox}
           />

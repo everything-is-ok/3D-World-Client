@@ -17,8 +17,6 @@ const Container = styled.div`
 function OtherUserProfile({ id }) {
   const { userData } = useOtherUserProfile(id);
 
-  console.log("🍕", userData, id);
-
   return (
     <Container>
       <Profile
