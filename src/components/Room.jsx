@@ -24,6 +24,8 @@ import Mailbox from "./models/Mailbox";
 import Items from "./models/Items";
 import Furniture from "./models/Furniture";
 import Grass from "./models/Grass";
+import useItem from "../hooks/useItem";
+import { getItems, itemSelector } from "../reducers/itemSlice";
 
 const Container = styled.div`
   position: relative;
@@ -51,6 +53,10 @@ function Room({ id, handleClickMailbox }) {
   const userName = useSelector(userNameSelector);
   const dispatch = useDispatch();
   const { room } = useRoom(id);
+  // const itemList = useSelector(itemSelector);
+
+  const { handleChangeItem } = useItem(room.items);
+  // console.log(room._id);
   const socket = useSocket(room?._id, userId, userName);
   const [friends, setFriends] = useState([]);
   const { position: dynamicPosition, direction } = usePosition([4 * 40, 24, 7 * 40]);
