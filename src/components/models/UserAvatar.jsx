@@ -10,19 +10,35 @@ source: https://sketchfab.com/3d-models/crossy-road-b7e2910d0ffe4da5860dedf39a71
 title: Crossy Road
 */
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
 
 import Chicken from "./Chicken";
 import usePosition from "../../hooks/usePosition";
+import useUserSocket from "../../hooks/useUserSocket";
 
 export default function Model({ ...props }) {
-  const { position, direction } = usePosition(props.position);
-  const username = props.name.toUpperCase().replace(/ /g, "");
+  const { position: initialPosition, socket, user } = props;
+  const { position, direction } = usePosition(initialPosition);
+  const { fetchNewPositionToWorld } = useUserSocket(socket, position);
+  const username = props.user.name.toUpperCase().replace(/ /g, "");
+  useEffect(() => {
+    props.socket.on("newUser", () => {
+      props.socket.emit("sendPosition", {
+        user,
+        position,
+        direction,
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    fetchNewPositionToWorld(props.user._id, position, direction);
+  }, [position]);
 
   return (
     <Chicken
-      position={position}
+      position={position || initialPosition}
       direction={direction}
       name={username}
     />

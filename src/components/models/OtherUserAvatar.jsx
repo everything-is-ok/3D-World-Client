@@ -10,18 +10,29 @@ source: https://sketchfab.com/3d-models/crossy-road-b7e2910d0ffe4da5860dedf39a71
 title: Crossy Road
 */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 
 import Chicken from "./Chicken";
-// TODO: prop types needed
-export default function Model({ ...props }) {
-  const username = props.name.toUpperCase().replace(/ /g, "");
+// TODO: prop types needed && get direction
+
+export default function Model({ user, socket }) {
+  const [position, setPosition] = useState(user.position);
+  const [direction, setDirection] = useState(user.direction);
+
+  const username = user?.name.toUpperCase().replace(/ /g, "") || "NONAME";
+
+  useEffect(() => {
+    socket.on(`receive_position_${user.id}`, ({ newPosition, newDirection }) => {
+      setPosition([...newPosition]);
+      setDirection(newDirection);
+    });
+  }, [socket]);
 
   return (
     <Chicken
-      position={props.position}
-      direction={0}
+      position={[...position]}
+      direction={direction}
       name={username}
     />
   );

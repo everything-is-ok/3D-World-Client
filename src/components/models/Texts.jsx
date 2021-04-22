@@ -4,7 +4,7 @@ import * as THREE from "three";
 import { useLoader } from "@react-three/fiber";
 
 /* eslint-disable react/prop-types */
-export default function Text({ ...props }) {
+export default function Texts({ ...props }) {
   const font = useLoader(THREE.FontLoader, "fonts/bold.blob");
   const config = useMemo(
     () => ({

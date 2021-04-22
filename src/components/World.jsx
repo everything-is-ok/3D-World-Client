@@ -3,19 +3,16 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Sky } from "@react-three/drei";
+import { Vector3 } from "three";
 
 // eslint-disable-next-line import/order
-import {
-  Vector3,
-  TextureLoader,
-  RepeatWrapping,
-} from "three";
 
 import Building from "./models/Building";
 import UserAvatar from "./models/UserAvatar";
-import grassImg from "./models/textures/grass.jpeg";
 import Texts from "./models/Texts";
 import OtherUserAvatar from "./models/OtherUserAvatar";
+import useWorldSocket from "../hooks/useWorldSocket";
+import GreenFloor from "./models/GreenFloor";
 
 const Container = styled.div`
   position: relative;
@@ -27,19 +24,7 @@ const Container = styled.div`
 `;
 
 function World({ user }) {
-  function Floor() {
-    const texture = new TextureLoader().load(grassImg);
-    texture.wrapS = RepeatWrapping;
-    texture.wrapT = RepeatWrapping;
-    texture.repeat.set(240, 240);
-
-    return (
-      <mesh receiveShadow position={[10, 2, 10]} rotation={[-Math.PI / 2, 0, 0]}>
-        <boxBufferGeometry attach="geometry" args={[5000, 5000]} />
-        <meshStandardMaterial map={texture} attach="material" color="green" />
-      </mesh>
-    );
-  }
+  const { socket, otherUsers } = useWorldSocket(user, [10, -5, 150], 0);
 
   return (
     <Container>
@@ -48,19 +33,23 @@ function World({ user }) {
         <ambientLight intensity={0.3} />
         <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
         <Suspense fallback={null}>
-          <Texts position={[40, 150, 10]} letters="CHICKENHOUSE" />
+          <Texts position={[-50, 200, 10]} letters="CHICKENHOUSE" />
         </Suspense>
-        <Building position={[-50, -10, 10]} />
-        <Building position={[-20, -10, 10]} />
-        <Building position={[10, -10, 10]} />
-        <Building position={[40, -10, 10]} />
-        <Building position={[140, -10, 140]} />
-        <Building position={[240, -10, 40]} />
+        <Building position={[-300, -10, 10]} />
+        <Building position={[-150, -10, 10]} />
+        <Building position={[0, -10, 10]} />
+        <Building position={[150, -10, 10]} />
+        <Building position={[250, -10, 10]} />
+        <Building position={[350, -10, 10]} />
         <Suspense fallback={null}>
-          <UserAvatar position={[10, -5, 40]} name={user.name} />
-          <OtherUserAvatar position={[10, -5, 100]} name="CHICKEN" />
+          <UserAvatar position={[10, -5, 150]} user={user} socket={socket} />
+          {otherUsers.length > 0 && (
+            otherUsers.map((otherUser) => (
+              <OtherUserAvatar user={otherUser} socket={socket} />
+            ))
+          )}
         </Suspense>
-        <Floor />
+        <GreenFloor />
         <OrbitControls />
       </Canvas>
     </Container>
