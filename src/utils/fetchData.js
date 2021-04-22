@@ -2,7 +2,6 @@ const SERVER_PORT = process.env.REACT_APP_SERVER_URL;
 
 async function fetchData(method, url, data) {
   try {
-    console.log(data);
     let response = await fetch(`${SERVER_PORT}${url}`, {
       method,
       headers: {
