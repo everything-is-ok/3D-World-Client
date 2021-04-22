@@ -12,8 +12,10 @@ import {
 } from "three";
 
 import Building from "./models/Building";
-import Chicken from "./models/Chicken";
+import UserAvatar from "./models/UserAvatar";
 import grassImg from "./models/textures/grass.jpeg";
+import Texts from "./models/Texts";
+import OtherUserAvatar from "./models/OtherUserAvatar";
 
 const Container = styled.div`
   position: relative;
@@ -24,7 +26,7 @@ const Container = styled.div`
   border: 2px solid black;
 `;
 
-function World({ id }) {
+function World({ user }) {
   function Floor() {
     const texture = new TextureLoader().load(grassImg);
     texture.wrapS = RepeatWrapping;
@@ -33,7 +35,7 @@ function World({ id }) {
 
     return (
       <mesh receiveShadow position={[10, 2, 10]} rotation={[-Math.PI / 2, 0, 0]}>
-        <boxBufferGeometry attach="geometry" args={[509, 500]} />
+        <boxBufferGeometry attach="geometry" args={[5000, 5000]} />
         <meshStandardMaterial map={texture} attach="material" color="green" />
       </mesh>
     );
@@ -42,17 +44,21 @@ function World({ id }) {
   return (
     <Container>
       <Canvas camera={{ position: [160, 100, 400], fov: 80 }}>
-        <Sky sunPosition={new Vector3(1000, 100, 1000)} />
+        <Sky distance={450000} sunPosition={new Vector3(1000, 100, 1000)} />
         <ambientLight intensity={0.3} />
         <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
-        <Building position={[-50, 0, 10]} />
-        <Building position={[-20, 0, 10]} />
-        <Building position={[10, 0, 10]} />
-        <Building position={[40, 0, 10]} />
-        <Building position={[140, 0, 140]} />
-        <Building position={[240, 0, 40]} />
         <Suspense fallback={null}>
-          <Chicken position={[10, 1, 40]} />
+          <Texts position={[40, 150, 10]} letters="CHICKENHOUSE" />
+        </Suspense>
+        <Building position={[-50, -10, 10]} />
+        <Building position={[-20, -10, 10]} />
+        <Building position={[10, -10, 10]} />
+        <Building position={[40, -10, 10]} />
+        <Building position={[140, -10, 140]} />
+        <Building position={[240, -10, 40]} />
+        <Suspense fallback={null}>
+          <UserAvatar position={[10, -5, 40]} name={user.name} />
+          <OtherUserAvatar position={[10, -5, 100]} name="CHICKEN" />
         </Suspense>
         <Floor />
         <OrbitControls />
@@ -62,7 +68,7 @@ function World({ id }) {
 }
 
 World.propTypes = {
-  id: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
 export default World;
