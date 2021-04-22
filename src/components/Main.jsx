@@ -26,6 +26,7 @@ const Container = styled.div`
 // NOTE: 내 방을 가던 남의 방을 가던 /room/:id 로 온다.
 function Main() {
   const { userId } = useParams();
+  const roomOwnerId = useSelector((state) => state.room.data.ownerId);
   const {
     content,
     mailboxId,
@@ -42,7 +43,8 @@ function Main() {
   const loggedInUserId = useSelector(userIdSelector);
   // TODO: 필요 없어지면 삭제
   const isLoggedInUser = userId === undefined || loggedInUserId === userId;
-  console.log(userId);
+
+  console.log(roomOwnerId, userId);
 
   return (
     <Container>
@@ -52,22 +54,28 @@ function Main() {
         <OtherUserProfile id={userId} />
       )}
       {/* TODO: World와 Room Comp를 토글방식으로 적용. */}
-      <Room
-        id={userId ?? loggedInUserId}
-        isMyRoom={isLoggedInUser}
-        handleClickMailbox={handleClickMailbox}
-      />
-      {isToggled && (
-        <MailboxModal
-          isMyMailbox={isLoggedInUser}
-          content={content}
-          mailboxId={mailboxId}
-          toggle={toggle}
-          handleFormSubmit={handleFormSubmit}
-          handleInputChange={handleInputChange}
-          handleDeleteMailList={handleDeleteMailList}
-          handleDeleteMailItem={handleDeleteMailItem}
-        />
+      { roomOwnerId === userId ? (
+        <>
+          <Room
+            id={userId ?? loggedInUserId}
+            isMyRoom={isLoggedInUser}
+            handleClickMailbox={handleClickMailbox}
+          />
+          {isToggled && (
+            <MailboxModal
+              isMyMailbox={isLoggedInUser}
+              content={content}
+              mailboxId={mailboxId}
+              toggle={toggle}
+              handleFormSubmit={handleFormSubmit}
+              handleInputChange={handleInputChange}
+              handleDeleteMailList={handleDeleteMailList}
+              handleDeleteMailItem={handleDeleteMailItem}
+            />
+          )}
+        </>
+      ) : (
+        <h1>Loading...</h1>
       )}
     </Container>
   );

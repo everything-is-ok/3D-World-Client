@@ -30,7 +30,9 @@ function App() {
         <>
           <Header />
           <Switch>
-            <Route exact path="/room/:userId" component={Main} />
+            <Route exact path="/room/:userId">
+              <Main />
+            </Route>
             <Route exact path="/world" component={World} />
             <Redirect to={`/room/${user._id}`} />
           </Switch>

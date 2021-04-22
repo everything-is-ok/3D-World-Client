@@ -1,16 +1,16 @@
 import React, {
   Suspense,
-  useEffect,
-  useMemo,
+  useCallback,
   useState,
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Stars } from "@react-three/drei";
+import { OrbitControls } from "@react-three/drei";
 
 import Chat from "./Chat";
+import Mailbox from "./models/Mailbox";
 import StyledButton from "./shared/StyledButton";
 import Floor from "./models/Floor";
 import useRoom from "../hooks/useRoom";
@@ -20,6 +20,8 @@ import TempModel from "./models/TempModel";
 import TempFriendModel from "./models/TempFriendModel";
 import usePosition from "../hooks/usePosition";
 import useSocketMove from "../hooks/useSocketMove";
+import useSocketRoom from "../hooks/useSocketRoom";
+import Universe from "./models/Universe";
 
 const Container = styled.div`
   position: relative;
@@ -45,14 +47,17 @@ const AbsoluteContainer = styled.div`
 function Room({ id, handleClickMailbox }) {
   const userId = useSelector(userIdSelector);
   const userName = useSelector(userNameSelector);
+  const roomStatus = useSelector((state) => state.room.status);
   const dispatch = useDispatch();
-  const { room } = useRoom(id);
-  const socket = useSocket(room?._id, userId, userName);
+
+  const entrancePosition = [1 * 40, 24, 7 * 40];
   const [friends, setFriends] = useState([]);
   const { position: dynamicPosition, direction } = usePosition([4 * 40, 24, 7 * 40]);
-  const memoUpdateFriendsMove = useMemo(() => ({ user: u, position: p, direction: d }) => {
+  const socket = useSocket();
+  const room = useRoom(id);
+
+  const memoUpdateFriendsMove = useCallback(({ user: u, position: p, direction: d }) => {
     setFriends((prev) => prev.map((friend) => {
-      console.log("🍔", u);
       if (friend.user.id !== u.id) {
         return friend;
       }
@@ -60,10 +65,6 @@ function Room({ id, handleClickMailbox }) {
       return { user: u, position: p, direction: d };
     }));
   }, [setFriends]);
-
-  console.log("🍕", friends);
-
-  const defaultFriendPosition = [1 * 40, 24, 7 * 40];
 
   // TODO: 이동 방향을 바꾸면, onListenMove가 2번 실행됨. 최적화 필요
   useSocketMove({
@@ -73,35 +74,28 @@ function Room({ id, handleClickMailbox }) {
     onListenMove: memoUpdateFriendsMove,
   });
 
-  useEffect(() => {
-    if (!socket) {
-      return;
-    }
+  const memoAddExistingFriend = useCallback((posInfo) => {
+    setFriends((prev) => prev.concat(posInfo));
+  }, [setFriends]);
 
-    socket.on("participants", (posInfo) => {
-      console.log(posInfo);
-      setFriends((prev) => prev.concat(posInfo));
-    });
-  }, [socket, setFriends]);
+  const memoAddNewFriend = useCallback(({ id: i, name, socketId }) => {
+    setFriends((prev) => prev.concat({
+      user: { id: i, name },
+      position: entrancePosition,
+      direction: [0, 0, 0],
+    }));
+  }, [setFriends]);
 
-  useEffect(() => {
-    if (!socket) {
-      return;
-    }
-
-    socket.on("room", ({ id: i, name, socketId }) => {
-      setFriends((prev) => prev.concat({
-        user: { id: i, name },
-        position: defaultFriendPosition,
-        direction: [0, 0, 0],
-      }));
-
-      socket.emit("participants", {
-        listener: i,
-        posInfo: { user: { id: userId, name: userName }, position: dynamicPosition, direction },
-      });
-    });
-  }, [socket]);
+  useSocketRoom({
+    socket,
+    onListenParticipants: memoAddExistingFriend,
+    onListenRoom: memoAddNewFriend,
+    userId,
+    userName,
+    roomId: room?.id,
+    position: dynamicPosition,
+    direction,
+  });
 
   // TODO: 필요 없어지면 삭제
   const isMyRoom = id === undefined || userId === id;
@@ -117,14 +111,13 @@ function Room({ id, handleClickMailbox }) {
   }
 
   return (
-    room ? (
+    roomStatus === "idle" ? (
       <Container>
-        {/* {JSON.stringify(room)} */}
         <Canvas camera={{ position: [160, 100, 400], fov: 80 }}>
-          <color attach="background" args={["black"]} />
-          <group position={[4 * 40, 0, 4 * 40]}>
-            <Stars radius={200} />
-          </group>
+          <Universe
+            position={[4 * 40, 0, 4 * 40]}
+            radius={200}
+          />
           <ambientLight intensity={2} />
           <pointLight position={[40, 40, 40]} />
           <TempModel
@@ -138,10 +131,10 @@ function Room({ id, handleClickMailbox }) {
               <TempFriendModel key={u} user={u} position={position} direction={d} />
             ))}
           <Suspense fallback={null}>
-            {/* <Mailbox
+            <Mailbox
               position={[7 * 40, 7 * 40]}
               onClick={() => handleClickMailbox(room.mailboxId)}
-            /> */}
+            />
           </Suspense>
           <Floor width={8} height={8} />
           <OrbitControls />
@@ -153,7 +146,7 @@ function Room({ id, handleClickMailbox }) {
         {isMyRoom ? (
           <StyledButton
             type="button"
-            onClick={console.log("click reomeling")}
+            onClick={() => console.log("click reomeling")}
           >
             리모델링
           </StyledButton>
