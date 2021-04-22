@@ -15,7 +15,7 @@ export default function useOtherUserProfile(id) {
     async function getUserProfile() {
       try {
         // NOTE response.data 받도록 해놨는데, 수정 필요한지 확인필요
-        const user = await fetchData("GET", `/${id}`);
+        const user = await fetchData("GET", `/user/${id}`);
 
         setUserData({
           name: user.name,
