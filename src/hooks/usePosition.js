@@ -26,7 +26,7 @@ export default function usePosition(InitialPosition, initialDirection = 0) {
   //       return [...prev];
   //     });
   //   }, 20);
-
+ 
   //   return () => clearTimeout(ID);
   // }, [position[POS.Y]]);
 
@@ -39,21 +39,21 @@ export default function usePosition(InitialPosition, initialDirection = 0) {
   function handlePositionChange(e) {
     if (e.keyCode === 32) {
       setPosition((prev) => {
-        prev[POS.Y] += 5;
+        prev[POS.Y] += 15;
         return [...prev];
       });
     }
     if (e.keyCode === 40) {
       setDirection(key.front);
       setPosition((prev) => {
-        prev[POS.Z] -= oneStep;
+        prev[POS.Z] += oneStep;
         return [...prev];
       });
     }
     if (e.keyCode === 38) {
       setDirection(key.back);
       setPosition((prev) => {
-        prev[POS.Z] += oneStep;
+        prev[POS.Z] -= oneStep;
         return [...prev];
       });
     }

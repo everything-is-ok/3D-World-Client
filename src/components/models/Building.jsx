@@ -14,8 +14,9 @@ import { useGLTF } from "@react-three/drei";
 export default function Model(props) {
   const group = useRef();
   const { nodes, materials } = useGLTF("models/building/scene.gltf");
+
   return (
-    <group ref={group} {...props} dispose={null} scale={[0.01, 0.01, 0.01]}>
+    <group ref={group} {...props} dispose={null} scale={[0.05, 0.05, 0.05]}>
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <mesh geometry={nodes.mesh_0.geometry} material={materials.material_2} />
         <mesh geometry={nodes.mesh_1.geometry} material={materials.material_8} />

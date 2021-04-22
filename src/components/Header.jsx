@@ -53,7 +53,11 @@ function Header() {
       </DropDown>
       <div>
         {/* TODO: 월드, 홈 버튼은 토글방식으로 컴포넌트 분리 */}
-        <StyledButton>월드</StyledButton>
+        <StyledButton>
+          <Link to="/world">
+            월드
+          </Link>
+        </StyledButton>
         <StyledButton onClick={() => history.push(`/room/${_id}`)}>홈</StyledButton>
         <StyledButton onClick={() => dispatch(logout())}>로그아웃</StyledButton>
       </div>
