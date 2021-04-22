@@ -20,6 +20,10 @@ import TempModel from "./models/TempModel";
 import TempFriendModel from "./models/TempFriendModel";
 import usePosition from "../hooks/usePosition";
 import useSocketMove from "../hooks/useSocketMove";
+import Mailbox from "./models/Mailbox";
+import Items from "./models/Items";
+import Furniture from "./models/Furniture";
+import Grass from "./models/Grass";
 
 const Container = styled.div`
   position: relative;
@@ -141,11 +145,12 @@ function Room({ id, handleClickMailbox }) {
               <TempFriendModel key={u} user={u} position={position} direction={d} />
             ))}
           <Suspense fallback={null}>
-            {/* <Mailbox
-              position={[7 * 40, 7 * 40]}
+            <Grass
+              position={[7 * 40, 30, 7 * 40]}
               onClick={() => handleClickMailbox(room.mailboxId)}
-            /> */}
+            />
           </Suspense>
+          <Furniture />
           <Floor width={8} height={8} />
           <OrbitControls />
           <ControlCam />

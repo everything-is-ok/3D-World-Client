@@ -2,14 +2,16 @@ import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { Html } from "@react-three/drei";
 
+import useFurniture from "../../hooks/useFurniture";
+
 function Furniture({ name = "furniture", position = [5 * 40, 24, 3 * 40] }) {
   const group = useRef();
   const mesh = useRef();
-  // const {
-  //   position: dynamicPosition,
-  //   direction,
-  //   handlePositionChange,
-  // } = usePosition(position);
+  const {
+    position: currentPosition,
+    direction,
+    handlePositionChange,
+  } = useFurniture(position);
 
   // useEffect(() => {
   //   window.addEventListener("keydown", handlePositionChange);
@@ -28,7 +30,7 @@ function Furniture({ name = "furniture", position = [5 * 40, 24, 3 * 40] }) {
   return (
     <group
       ref={group}
-      position={position}
+      position={currentPosition}
     >
       <Html position={[-2, 25, 0]}>
         <h3>{name}</h3>
@@ -45,7 +47,7 @@ function Furniture({ name = "furniture", position = [5 * 40, 24, 3 * 40] }) {
 }
 
 Furniture.propTypes = {
-  position: PropTypes.array.isRequired,
+  position: PropTypes.array,
   name: PropTypes.string,
 };
 
