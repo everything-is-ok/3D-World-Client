@@ -11,16 +11,6 @@ export const getMailList = createAsyncThunk(
   },
 );
 
-// NOTE 되는지 보려고 구현한거임. (리덕스에서 관리할 필요 없음. 열때마다 fetch하니까)
-export const postMail = createAsyncThunk(
-  "mail/postMailStatus",
-  async (mailboxId, content) => {
-    const response = await fetchData("POST", `/mailbox/mail/${mailboxId}`, content);
-
-    return response;
-  },
-);
-
 export const deleteMailList = createAsyncThunk(
   "mail/deleteMailListStatus",
   async () => {
@@ -30,7 +20,6 @@ export const deleteMailList = createAsyncThunk(
   },
 );
 
-// NOTE 2순위 서버작업
 export const deleteMailItem = createAsyncThunk(
   "mail/deleteMailItemStatus",
   async (mailId) => {
@@ -41,7 +30,7 @@ export const deleteMailItem = createAsyncThunk(
 );
 
 const initialState = {
-  list: null,
+  data: null,
   error: null,
   status: "idle",
 };
@@ -59,27 +48,10 @@ const mailSlice = createSlice({
     [getMailList.fulfilled]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
-        state.list = action.payload;
+        state.data = action.payload;
       }
     },
     [getMailList.rejected]: (state, action) => {
-      if (state.status === "pending") {
-        state.status = "idle";
-        state.error = action.payload || null;
-      }
-    },
-    [postMail.pending]: (state) => {
-      if (state.status === "idle") {
-        state.status = "pending";
-      }
-    },
-    [postMail.fulfilled]: (state, action) => {
-      if (state.status === "pending") {
-        state.status = "idle";
-        state.list = action.payload;
-      }
-    },
-    [postMail.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
         state.error = action.payload || null;
@@ -90,10 +62,10 @@ const mailSlice = createSlice({
         state.status = "pending";
       }
     },
-    [deleteMailList.fulfilled]: (state, action) => {
+    [deleteMailList.fulfilled]: (state) => {
       if (state.status === "pending") {
         state.status = "idle";
-        state.list = action.payload;
+        state.data.mails = [];
       }
     },
     [deleteMailList.rejected]: (state, action) => {
@@ -110,7 +82,8 @@ const mailSlice = createSlice({
     [deleteMailItem.fulfilled]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
-        state.list = action.payload;
+        state.data.mails = state.data.mails
+          .filter((mail) => mail._id !== action.payload);
       }
     },
     [deleteMailItem.rejected]: (state, action) => {
@@ -124,4 +97,4 @@ const mailSlice = createSlice({
 
 export default mailSlice.reducer;
 
-export const mailSelector = (state) => state.mail.list;
+export const mailSelector = (state) => state.mail.data;
