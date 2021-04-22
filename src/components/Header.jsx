@@ -18,16 +18,17 @@ const Container = styled.header`
   border-bottom: 2px solid black;
 `;
 
+// TODO 친구목록에 key 추가하기
 function Header() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { name, photoURL, friends } = useSelector((state) => state.user.data);
+  const {
+    _id,
+    name,
+    photoURL,
+    friends,
+  } = useSelector((state) => state.user.data);
   const { modalOpen, toggle } = useModal();
-  // TODO: 방식을 찾거나 지우거나
-  // function handleProfileClick(id) {
-  //   console.log(id);
-  //   return <Redirect push to={`/room/${id}`} />;
-  // }
 
   return (
     <Container>
@@ -57,7 +58,7 @@ function Header() {
             월드
           </Link>
         </StyledButton>
-        <StyledButton onClick={() => history.push("/")}>홈</StyledButton>
+        <StyledButton onClick={() => history.push(`/room/${_id}`)}>홈</StyledButton>
         <StyledButton onClick={() => dispatch(logout())}>로그아웃</StyledButton>
       </div>
     </Container>

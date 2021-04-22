@@ -11,7 +11,5 @@ export default function useRoom(id) {
     dispatch(getRoomById(id));
   }, [id]);
 
-  return {
-    room,
-  };
+  return room;
 }

@@ -4,7 +4,7 @@ import io from "socket.io-client";
 const URL = process.env.REACT_APP_SERVER_URL;
 
 // NOTE: component mount에 한번 연결, unmount에 disconnect
-function useSocket(roomId, userId, userName) {
+function useSocket() {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
@@ -13,14 +13,6 @@ function useSocket(roomId, userId, userName) {
     setSocket(connection);
     return () => connection.disconnect();
   }, [setSocket]);
-
-  useEffect(() => {
-    if (!socket || !userId || !userName || !roomId) {
-      return;
-    }
-
-    socket.emit("room", { user: { id: userId, name: userName }, roomId });
-  }, [socket, userId, userName, roomId]);
 
   return socket;
 }
