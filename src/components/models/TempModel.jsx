@@ -1,34 +1,25 @@
 import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
+import * as THREE from "three";
 import { Html } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 
-function TempModel({ name, position, direction }) {
+function TempModel({ name, position: [x, _, z], direction }) {
   const group = useRef();
   const mesh = useRef();
-  // const {
-  //   position: dynamicPosition,
-  //   direction,
-  //   handlePositionChange,
-  // } = usePosition(position);
+  const vec = new THREE.Vector3(x, _, z);
 
-  // useEffect(() => {
-  //   window.addEventListener("keydown", handlePositionChange);
+  useEffect(() => {
+    group.current.position.set(x, _, z);
+  }, []);
 
-  //   return () => window.removeEventListener("keydown", handlePositionChange);
-  // }, [dynamicPosition, direction]);
-
-  // useEffect(() => {
-  //   if (!socket) {
-  //     return;
-  //   }
-
-  //   socket.emit("move", { position: dynamicPosition, direction });
-  // }, [dynamicPosition, direction, socket]);
+  useFrame(() => {
+    group.current.position.lerp(vec, 0.1);
+  });
 
   return (
     <group
       ref={group}
-      position={position}
     >
       {/* NOTE: <textGeomety>로 하려고했는데, 현재 font load하는 부분인지 진행이 되지않아 html로 이름 표시함 */}
       <Html position={[-2, 25, 0]}>
@@ -36,6 +27,7 @@ function TempModel({ name, position, direction }) {
       </Html>
       <mesh
         ref={mesh}
+        position={[0, 5, 0]}
         rotation={[0, direction, 0]}
       >
         <boxGeometry args={[30, 30, 30]} />

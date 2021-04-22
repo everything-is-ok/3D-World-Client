@@ -133,7 +133,7 @@ function Room({ id, handleClickMailbox }) {
         />
         {friends.length
           && friends.map(({ user: u, position, direction: d }) => (
-            <TempFriendModel key={u} user={u} position={position} direction={d} />
+            <TempFriendModel key={u.id} user={u.name} position={position} direction={d} />
           ))}
         <Suspense fallback={null}>
           {/* <Mailbox
