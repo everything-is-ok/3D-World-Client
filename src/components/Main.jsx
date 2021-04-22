@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import MyProfile from "./MyProfile";
-import OtherUserProfile from "./OtherUserProfile";
 import Room from "./Room";
+import OtherUserProfile from "./OtherUserProfile";
 import { userIdSelector } from "../reducers/userSlice";
 import useMailbox from "../hooks/useMailbox";
 import MailboxModal from "./MailboxModal";
@@ -26,6 +26,7 @@ const Container = styled.div`
 // NOTE: 내 방을 가던 남의 방을 가던 /room/:id 로 온다.
 function Main() {
   const { userId } = useParams();
+  const [prevUserId, setPrevUserId] = useState(userId);
   const {
     content,
     mailboxId,
@@ -43,6 +44,10 @@ function Main() {
   // TODO: 필요 없어지면 삭제
   const isLoggedInUser = userId === undefined || loggedInUserId === userId;
 
+  useEffect(() => {
+    setPrevUserId(userId);
+  }, [userId]);
+
   return (
     <Container>
       {isLoggedInUser ? (
@@ -51,22 +56,28 @@ function Main() {
         <OtherUserProfile id={userId} />
       )}
       {/* TODO: World와 Room Comp를 토글방식으로 적용. */}
-      <Room
-        id={userId ?? loggedInUserId}
-        isMyRoom={isLoggedInUser}
-        handleClickMailbox={handleClickMailbox}
-      />
-      {isToggled && (
-        <MailboxModal
-          isMyMailbox={isLoggedInUser}
-          content={content}
-          mailboxId={mailboxId}
-          toggle={toggle}
-          handleFormSubmit={handleFormSubmit}
-          handleInputChange={handleInputChange}
-          handleDeleteMailList={handleDeleteMailList}
-          handleDeleteMailItem={handleDeleteMailItem}
-        />
+      { prevUserId === userId ? (
+        <>
+          <Room
+            id={userId}
+            isMyRoom={isLoggedInUser}
+            handleClickMailbox={handleClickMailbox}
+          />
+          {isToggled && (
+            <MailboxModal
+              isMyMailbox={isLoggedInUser}
+              content={content}
+              mailboxId={mailboxId}
+              toggle={toggle}
+              handleFormSubmit={handleFormSubmit}
+              handleInputChange={handleInputChange}
+              handleDeleteMailList={handleDeleteMailList}
+              handleDeleteMailItem={handleDeleteMailItem}
+            />
+          )}
+        </>
+      ) : (
+        <h1>Loading...</h1>
       )}
     </Container>
   );
