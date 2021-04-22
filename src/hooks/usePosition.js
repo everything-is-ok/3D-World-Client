@@ -36,6 +36,12 @@ export default function usePosition(InitialPosition, initialDirection = 0) {
   //   return () => clearTimeout(ID);
   // }, [position]);
 
+  useEffect(() => {
+    window.addEventListener("keydown", handlePositionChange);
+
+    return () => window.removeEventListener("keydown", handlePositionChange);
+  }, [position, direction, handlePositionChange]);
+
   function handlePositionChange(e) {
     if (e.keyCode === 32) {
       setPosition((prev) => {

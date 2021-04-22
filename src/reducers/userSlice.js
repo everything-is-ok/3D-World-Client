@@ -106,3 +106,4 @@ export default userSlice.reducer;
 
 export const userSelector = (state) => state.user.data;
 export const userIdSelector = (state) => state.user.data._id;
+export const userNameSelector = (state) => state.user.data.name;

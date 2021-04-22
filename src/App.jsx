@@ -37,8 +37,8 @@ function App() {
         </>
       ) : (
         <Switch>
-          <Route exact path="/" component={Welcome} />
-          <Redirect to="/" />
+          <Route path="/" component={Welcome} />
+          {/* <Redirect to="/" /> */}
         </Switch>
       )}
     </Router>
