@@ -34,7 +34,7 @@ export default function usePosition(InitialPosition, initialDirection = 0) {
     }, 20);
 
     return () => clearTimeout(ID);
-  }, [position]);
+  }, [position[POS.Y]]);
 
   useEffect(() => {
     window.addEventListener("keydown", handlePositionChange);
