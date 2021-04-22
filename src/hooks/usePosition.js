@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const POS = {
   X: 0,
@@ -17,6 +17,12 @@ export default function usePosition(InitialPosition, initialDirection = 0) {
     right: -Math.PI / 2,
   };
   const oneStep = 2;
+
+  useEffect(() => {
+    window.addEventListener("keydown", handlePositionChange);
+
+    return () => window.removeEventListener("keydown", handlePositionChange);
+  }, [position, direction, handlePositionChange]);
 
   function handlePositionChange(e) {
     if (e.keyCode === 32) {

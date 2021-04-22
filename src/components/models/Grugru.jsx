@@ -1,6 +1,7 @@
+/* eslint-disable react/no-children-prop */
 import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
-import { useGLTF, useAnimations } from "@react-three/drei";
+import { useGLTF, useAnimations, Html } from "@react-three/drei";
 import usePosition from "../../hooks/usePosition";
 
 function Grugru({ name, position, socket }) {
@@ -24,17 +25,24 @@ function Grugru({ name, position, socket }) {
   }, [dynamicPosition, direction]);
 
   useEffect(() => {
+    if (!socket) {
+      return;
+    }
+
     socket.emit("move", { position: dynamicPosition, direction });
-  }, [dynamicPosition, direction]);
+  }, [dynamicPosition, direction, socket]);
 
   return (
     <group
       position={[...dynamicPosition]}
     >
+      {/* NOTE: <textGeomety>로 하려고했는데, 현재 font load하는 부분인지 진행이 되지않아 html로 이름 표시함 */}
+      <Html position={[-2, 25, 0]}>
+        <h3>{name}</h3>
+      </Html>
       <group
         ref={group}
         rotation={[0, direction, 0]}
-        dispose={null}
       >
         <primitive object={nodes._rootJoint} />
         <skinnedMesh
