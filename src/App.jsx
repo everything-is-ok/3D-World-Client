@@ -10,6 +10,8 @@ import {
 import Header from "./components/Header";
 import Welcome from "./components/Welcome";
 import Main from "./components/Main";
+import World from "./components/World";
+
 import { getUserByToken, userSelector } from "./reducers/userSlice";
 
 function App() {
@@ -29,6 +31,7 @@ function App() {
           <Header />
           <Switch>
             <Route exact path="/room/:userId" component={Main} />
+            <Route exact path="/world" component={World} />
             <Redirect to={`/room/${user._id}`} />
           </Switch>
         </>
