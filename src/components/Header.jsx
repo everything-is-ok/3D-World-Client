@@ -53,7 +53,7 @@ function Header() {
       <div>
         {/* TODO: 월드, 홈 버튼은 토글방식으로 컴포넌트 분리 */}
         <StyledButton>
-          <Link to="/room/world">
+          <Link to="/world">
             월드
           </Link>
         </StyledButton>

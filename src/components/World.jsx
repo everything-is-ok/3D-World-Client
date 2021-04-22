@@ -12,9 +12,10 @@ import {
 } from "three";
 
 import Building from "./models/Building";
-import Chicken from "./models/Chicken";
+import UserAvatar from "./models/UserAvatar";
 import grassImg from "./models/textures/grass.jpeg";
 import Texts from "./models/Texts";
+import OtherUserAvatar from "./models/OtherUserAvatar";
 
 const Container = styled.div`
   position: relative;
@@ -25,7 +26,7 @@ const Container = styled.div`
   border: 2px solid black;
 `;
 
-function World({ id }) {
+function World({ user }) {
   function Floor() {
     const texture = new TextureLoader().load(grassImg);
     texture.wrapS = RepeatWrapping;
@@ -56,7 +57,8 @@ function World({ id }) {
         <Building position={[140, -10, 140]} />
         <Building position={[240, -10, 40]} />
         <Suspense fallback={null}>
-          <Chicken position={[10, -5, 40]} />
+          <UserAvatar position={[10, -5, 40]} name={user.name} />
+          <OtherUserAvatar position={[10, -5, 100]} name="CHICKEN" />
         </Suspense>
         <Floor />
         <OrbitControls />
@@ -66,7 +68,7 @@ function World({ id }) {
 }
 
 World.propTypes = {
-  id: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
 export default World;

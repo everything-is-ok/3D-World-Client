@@ -13,18 +13,17 @@ title: Crossy Road
 import React from "react";
 import { useGLTF } from "@react-three/drei";
 
-import usePosition from "../../hooks/usePosition";
 import Texts from "./Texts";
 
-export default function Model(props) {
+export default function Model({ ...props }) {
+  const { position, direction, name } = props;
   const { nodes, materials } = useGLTF("models/chicken/scene.gltf");
-  const { position, direction } = usePosition(props.position);
 
   return (
     <group
       position={[...position]}
     >
-      <Texts position={[-7.65, 60, 0]} letters="CHICKEN" />
+      <Texts position={[-7.65, 60, 0]} letters={name} />
       <group scale={[10, 10, 10]} rotation={[0, direction, 0]}>
         <group position={[-5.65, 3.67, 0]} scale={[1.96, 3.02, 1.96]}>
           <mesh geometry={nodes.pCube1_phong5_0.geometry} material={materials.phong5} />
