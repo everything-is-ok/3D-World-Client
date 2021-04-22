@@ -18,6 +18,7 @@ const Container = styled.header`
   border-bottom: 2px solid black;
 `;
 
+// TODO 친구목록에 key 추가하기
 function Header() {
   const dispatch = useDispatch();
   const history = useHistory();
