@@ -16,7 +16,7 @@ export default function usePosition(InitialPosition, initialDirection = 0) {
     left: Math.PI / 2,
     right: -Math.PI / 2,
   };
-  const oneStep = 2;
+  const oneStep = 40;
   const initialY = InitialPosition[POS.Y];
 
   // useEffect(() => {
@@ -26,7 +26,6 @@ export default function usePosition(InitialPosition, initialDirection = 0) {
   //       return [...prev];
   //     });
   //   }, 20);
- 
   //   return () => clearTimeout(ID);
   // }, [position[POS.Y]]);
 

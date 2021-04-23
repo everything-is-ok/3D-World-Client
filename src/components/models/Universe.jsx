@@ -9,12 +9,11 @@ function Universe({ position, radius }) {
       <group position={position}>
         <Stars radius={radius} />
       </group>
-      <mesh position={[-250, 100, -250]} scale={[30, 30, 30]}>
+      <mesh position={[10, 200, -300]} scale={[30, 30, 30]}>
         <sphereBufferGeometry args={[2, 32, 32]} />
         <meshBasicMaterial color="#fcfabb" toneMapped={false} fog={false} />
-        <Shadow scale={[12, 12, 1]} opacity={0.7} color="#fcfabb" />
+        <Shadow scale={[10, 10, 1]} opacity={0.7} color="#fcfabb" />
       </mesh>
-      <Shadow position={[10, -100, -400]} scale={[600, 200, 100]} opacity={1} stop={0} color="gray" />
     </>
   );
 }

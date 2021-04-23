@@ -24,4 +24,4 @@ Floor.propTypes = {
   height: PropTypes.number.isRequired,
 };
 
-export default Floor;
+export default React.memo(Floor);
