@@ -26,7 +26,8 @@ import Grass from "./models/Grass";
 import useSocketRoom from "../hooks/useSocketRoom";
 import Universe from "./models/Universe";
 import Furniture from "./models/Furniture";
-import useItem from "../hooks/useItem";
+import useItemPosition from "../hooks/useItemPosition";
+import useSocketItem from "../hooks/useSocketItem";
 import { getItems, itemSelector } from "../reducers/itemSlice";
 
 const Container = styled.div`
@@ -57,55 +58,96 @@ function Room({ id, handleClickMailbox }) {
 
   const entrancePosition = [1 * 40, 24, 7 * 40];
   const [friends, setFriends] = useState([]);
+
+  const [items, setItems] = useState([]);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [currItemId, setCurrItemId] = useState(null);
+
+  console.log("currItemId", currItemId);
+
   const { position: dynamicPosition, direction } = usePosition([4 * 40, 24, 7 * 40]);
   const socket = useSocket();
   const room = useRoom(id);
 
-  const memoUpdateFriendsMove = useCallback(({ user: u, position: p, direction: d }) => {
-    setFriends((prev) => prev.map((friend) => {
-      if (friend.user.id !== u.id) {
-        return friend;
+  // NOTE 조건 확인
+  useEffect(() => {
+    setItems(room?.items);
+  }, [room]);
+
+  // 1. edit 모드 시작하면 소켓이벤트 발생
+  // 친구들에게 edit 시작했다고 알려주면 친구들은 edit 못함
+  // 아니 동시에 걍 해야 더 웃긴가
+  // 일단은 걍 한명이 edit했다고 이벤트 emit
+
+  const memoUpdateItemMove = useCallback((itemId, x, y, z) => {
+    if (!itemId) return;
+
+    setItems((prev) => prev.map((item) => {
+      if (item._id !== itemId) {
+        return item;
       }
 
-      return { user: u, position: p, direction: d };
+      return { _id: itemId, position: [x * 40, y, z * 40] };
     }));
-  }, [setFriends]);
+
+    setCurrItemId(null);
+  }, [setItems]);
+
+  useSocketItem({
+    socket,
+    isEditMode,
+    onItemMove: memoUpdateItemMove,
+  });
+
+  function handleSelect(itemId) {
+    setCurrItemId(itemId);
+  }
+
+  // const memoUpdateFriendsMove = useCallback(({ user: u, position: p, direction: d }) => {
+  //   setFriends((prev) => prev.map((friend) => {
+  //     if (friend.user.id !== u.id) {
+  //       return friend;
+  //     }
+
+  //     return { user: u, position: p, direction: d };
+  //   }));
+  // }, [setFriends]);
 
   // TODO: 이동 방향을 바꾸면, onListenMove가 2번 실행됨. 최적화 필요
-  useSocketMove({
-    socket,
-    position: dynamicPosition,
-    direction,
-    onListenMove: memoUpdateFriendsMove,
-  });
+  // useSocketMove({
+  //   socket,
+  //   position: dynamicPosition,
+  //   direction,
+  //   onListenMove: memoUpdateFriendsMove,
+  // });
 
-  const memoAddExistingFriend = useCallback((posInfo) => {
-    setFriends((prev) => prev.concat(posInfo));
-  }, [setFriends]);
+  // const memoAddExistingFriend = useCallback((posInfo) => {
+  //   setFriends((prev) => prev.concat(posInfo));
+  // }, [setFriends]);
 
-  const memoAddNewFriend = useCallback(({ id: i, name, socketId }) => {
-    setFriends((prev) => prev.concat({
-      user: { id: i, name },
-      position: entrancePosition,
-      direction: [0, 0, 0],
-    }));
-  }, [setFriends]);
+  // const memoAddNewFriend = useCallback(({ id: i, name, socketId }) => {
+  //   setFriends((prev) => prev.concat({
+  //     user: { id: i, name },
+  //     position: entrancePosition,
+  //     direction: [0, 0, 0],
+  //   }));
+  // }, [setFriends]);
 
-  const memoDeleteFriend = useCallback(({ id: i, name }) => {
-    setFriends((prev) => prev.filter((friend) => friend.user.id !== i));
-  }, [setFriends]);
+  // const memoDeleteFriend = useCallback(({ id: i, name }) => {
+  //   setFriends((prev) => prev.filter((friend) => friend.user.id !== i));
+  // }, [setFriends]);
 
-  useSocketRoom({
-    socket,
-    onListenParticipants: memoAddExistingFriend,
-    onListenRoom: memoAddNewFriend,
-    onListenLeave: memoDeleteFriend,
-    userId,
-    userName,
-    roomId: room?._id,
-    position: dynamicPosition,
-    direction,
-  });
+  // useSocketRoom({
+  //   socket,
+  //   onListenParticipants: memoAddExistingFriend,
+  //   onListenRoom: memoAddNewFriend,
+  //   onListenLeave: memoDeleteFriend,
+  //   userId,
+  //   userName,
+  //   roomId: room?._id,
+  //   position: dynamicPosition,
+  //   direction,
+  // });
 
   // TODO: 필요 없어지면 삭제
   const isMyRoom = id === undefined || userId === id;
@@ -119,9 +161,6 @@ function Room({ id, handleClickMailbox }) {
   async function handleAddFriendClick() {
     dispatch(updateUserData({ friend: id }));
   }
-
-  // 가구 불러오기 TempModel
-  // 위치 줘서 렌더링하기
 
   return (
     <Container>
@@ -148,13 +187,22 @@ function Room({ id, handleClickMailbox }) {
             onClick={() => handleClickMailbox(room.mailboxId)}
           />
         </Suspense>
-        {room && room.items.map((item) => (
-          <Furniture
-            name={item.name}
-            position={item.position}
-          />
-        ))}
-        <Floor width={8} height={8} />
+        {room && items
+          && items.map((item) => (
+            <Furniture
+              key={`${item._id}${Math.random(20)}`}
+              id={item._id}
+              name={item._id}
+              position={item.position}
+              isEditMode={isEditMode}
+              onClick={() => handleSelect(item._id)}
+            />
+          ))}
+        <Floor
+          width={8}
+          height={8}
+          onClick={memoUpdateItemMove}
+        />
         <OrbitControls />
         <ControlCam />
       </Canvas>
@@ -164,7 +212,7 @@ function Room({ id, handleClickMailbox }) {
       {isMyRoom ? (
         <StyledButton
           type="button"
-          onClick={() => console.log("click reomeling")}
+          // onClick={() => setIsEditMode(((prev) => !prev))}
         >
           리모델링
         </StyledButton>
