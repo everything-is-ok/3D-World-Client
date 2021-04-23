@@ -2,23 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { Html } from "@react-three/drei";
 
-import useFurniture from "../../hooks/useFurniture";
-
 function Furniture({
-  id,
   name = "furniture",
-  position = [5 * 40, 24, 3 * 40],
-  isEditMode,
+  position,
   onClick,
 }) {
   const group = useRef();
   const mesh = useRef();
-  // const {
-  //   position: currentPosition,
-  //   direction,
-  //   handlePositionChange,
-  // } = useFurniture(position);
-  // const [pos, setPos] = useState(position);
 
   return (
     <group
@@ -41,10 +31,8 @@ function Furniture({
 }
 
 Furniture.propTypes = {
-  id: PropTypes.string,
   name: PropTypes.string,
   position: PropTypes.array,
-  isEditMode: PropTypes.bool,
   onClick: PropTypes.func,
 };
 

@@ -11,9 +11,8 @@ export const getItems = createAsyncThunk(
   },
 );
 
-// TODO roomId 필요없으면 items 배열만 받도록 수정
+// TODO 현재는 item 스토어 자체가 필요가 없는 상태입니다
 const initialState = {
-  // list: [],
   data: null,
   error: null,
   status: "idle",

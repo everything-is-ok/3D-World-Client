@@ -26,9 +26,7 @@ import Grass from "./models/Grass";
 import useSocketRoom from "../hooks/useSocketRoom";
 import Universe from "./models/Universe";
 import Furniture from "./models/Furniture";
-import useItemPosition from "../hooks/useItemPosition";
-import useSocketItem from "../hooks/useSocketItem";
-import { getItems, itemSelector } from "../reducers/itemSlice";
+import fetchData from "../utils/fetchData";
 
 const Container = styled.div`
   position: relative;
@@ -62,108 +60,51 @@ function Room({ id, handleClickMailbox }) {
   const socket = useSocket();
   const room = useRoom(id);
 
-  const [items, setItems] = useState([]);
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [currItemId, setCurrItemId] = useState(null);
-  console.log("currItemId", currItemId);
-
-  // NOTE 조건 확인
-  useEffect(() => {
-    setItems(room?.items);
-  }, [room]);
-
-  // 1. edit 모드 시작하면 소켓이벤트 발생
-  // 친구들에게 edit 시작했다고 알려주면 친구들은 edit 못함
-  // 아니 동시에 걍 해야 더 웃긴가
-  // 일단은 걍 한명이 edit했다고 이벤트 emit
-
-  function toggleEditMode() {
-    setIsEditMode((prev) => !prev);
-  }
-
-  function handleMoveItem(x, y, z) {
-    if (!currItemId) return;
-
-    setItems((prev) => prev.map((item) => {
-      if (item._id !== currItemId) {
-        return item;
+  const memoUpdateFriendsMove = useCallback(({ user: u, position: p, direction: d }) => {
+    setFriends((prev) => prev.map((friend) => {
+      if (friend.user.id !== u.id) {
+        return friend;
       }
 
-      return { _id: currItemId, position: [x * 40, y, z * 40] };
+      return { user: u, position: p, direction: d };
     }));
-
-    // setCurrItemId(null);
-  }
-
-  // const memoUpdateItemMove = useCallback((itemId, x, y, z) => {
-  //   if (!itemId) return;
-
-  //   setItems((prev) => prev.map((item) => {
-  //     if (item._id !== itemId) {
-  //       return item;
-  //     }
-
-  //     return { _id: itemId, position: [x * 40, y, z * 40] };
-  //   }));
-
-  //   setCurrItemId(null);
-  // }, [setItems]);
-
-  // useSocketItem({
-  //   socket,
-  //   isEditMode,
-  //   onItemMove: memoUpdateItemMove,
-  // });
-
-  function handleSelect(itemId) {
-    setCurrItemId(itemId);
-  }
-
-  // const memoUpdateFriendsMove = useCallback(({ user: u, position: p, direction: d }) => {
-  //   setFriends((prev) => prev.map((friend) => {
-  //     if (friend.user.id !== u.id) {
-  //       return friend;
-  //     }
-
-  //     return { user: u, position: p, direction: d };
-  //   }));
-  // }, [setFriends]);
+  }, [setFriends]);
 
   // TODO: 이동 방향을 바꾸면, onListenMove가 2번 실행됨. 최적화 필요
-  // useSocketMove({
-  //   socket,
-  //   position: dynamicPosition,
-  //   direction,
-  //   onListenMove: memoUpdateFriendsMove,
-  // });
+  useSocketMove({
+    socket,
+    position: dynamicPosition,
+    direction,
+    onListenMove: memoUpdateFriendsMove,
+  });
 
-  // const memoAddExistingFriend = useCallback((posInfo) => {
-  //   setFriends((prev) => prev.concat(posInfo));
-  // }, [setFriends]);
+  const memoAddExistingFriend = useCallback((posInfo) => {
+    setFriends((prev) => prev.concat(posInfo));
+  }, [setFriends]);
 
-  // const memoAddNewFriend = useCallback(({ id: i, name, socketId }) => {
-  //   setFriends((prev) => prev.concat({
-  //     user: { id: i, name },
-  //     position: entrancePosition,
-  //     direction: [0, 0, 0],
-  //   }));
-  // }, [setFriends]);
+  const memoAddNewFriend = useCallback(({ id: i, name, socketId }) => {
+    setFriends((prev) => prev.concat({
+      user: { id: i, name },
+      position: entrancePosition,
+      direction: [0, 0, 0],
+    }));
+  }, [setFriends]);
 
-  // const memoDeleteFriend = useCallback(({ id: i, name }) => {
-  //   setFriends((prev) => prev.filter((friend) => friend.user.id !== i));
-  // }, [setFriends]);
+  const memoDeleteFriend = useCallback(({ id: i, name }) => {
+    setFriends((prev) => prev.filter((friend) => friend.user.id !== i));
+  }, [setFriends]);
 
-  // useSocketRoom({
-  //   socket,
-  //   onListenParticipants: memoAddExistingFriend,
-  //   onListenRoom: memoAddNewFriend,
-  //   onListenLeave: memoDeleteFriend,
-  //   userId,
-  //   userName,
-  //   roomId: room?._id,
-  //   position: dynamicPosition,
-  //   direction,
-  // });
+  useSocketRoom({
+    socket,
+    onListenParticipants: memoAddExistingFriend,
+    onListenRoom: memoAddNewFriend,
+    onListenLeave: memoDeleteFriend,
+    userId,
+    userName,
+    roomId: room?._id,
+    position: dynamicPosition,
+    direction,
+  });
 
   // TODO: 필요 없어지면 삭제
   const isMyRoom = id === undefined || userId === id;
@@ -177,6 +118,63 @@ function Room({ id, handleClickMailbox }) {
   async function handleAddFriendClick() {
     dispatch(updateUserData({ friend: id }));
   }
+
+  const [items, setItems] = useState([]);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [currItemId, setCurrItemId] = useState(null);
+
+  useEffect(() => {
+    setItems(room?.items);
+  }, [room]);
+
+  function handleSelect(itemId) {
+    if (!isEditMode) return;
+
+    setCurrItemId(itemId);
+  }
+
+  async function handleMoveItem(x, y) {
+    if (!currItemId || !isEditMode) return;
+
+    const itemPosition = [x * 40, 24, y * 40];
+
+    try {
+      await fetchData(
+        "PATCH",
+        "/item",
+        { id: currItemId, position: itemPosition },
+      );
+
+      setItems((prev) => prev.map((item) => {
+        if (item._id !== currItemId) {
+          return item;
+        }
+
+        return { _id: currItemId, position: itemPosition };
+      }));
+
+      socket.emit("update", { _id: currItemId, position: itemPosition });
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+
+  const memoUpdateItemMove = useCallback(({ _id, position }) => {
+    setItems((prev) => prev.map((item) => {
+      if (item._id !== _id) {
+        return item;
+      }
+
+      return { _id, position };
+    }));
+  }, [setItems]);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("update", memoUpdateItemMove);
+    return () => socket.off("update", memoUpdateItemMove);
+  }, [socket, memoUpdateItemMove]);
 
   return (
     <Container>
