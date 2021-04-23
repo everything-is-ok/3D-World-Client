@@ -58,7 +58,7 @@ function Header() {
             월드
           </Link>
         </StyledButton>
-        <StyledButton onClick={() => history.push("/")}>홈</StyledButton>
+        <StyledButton onClick={() => history.push(`/room/${_id}`)}>홈</StyledButton>
         <StyledButton onClick={() => dispatch(logout())}>로그아웃</StyledButton>
       </div>
     </Container>
