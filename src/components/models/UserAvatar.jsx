@@ -21,7 +21,7 @@ export default function Model({ ...props }) {
   const { position: initialPosition, socket, user } = props;
   const { position, direction } = usePosition(initialPosition);
   const { fetchNewPositionToWorld } = useUserSocket(socket, position);
-  const username = props.user.name.toUpperCase().replace(/ /g, "");
+
   useEffect(() => {
     props.socket.on("newUser", () => {
       props.socket.emit("sendPosition", {
@@ -40,7 +40,7 @@ export default function Model({ ...props }) {
     <Chicken
       position={position || initialPosition}
       direction={direction}
-      name={username}
+      name={user.name}
     />
   );
 }

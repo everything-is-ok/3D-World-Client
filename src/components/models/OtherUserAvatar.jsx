@@ -20,8 +20,6 @@ export default function Model({ user, socket }) {
   const [position, setPosition] = useState(user.position);
   const [direction, setDirection] = useState(user.direction);
 
-  const username = user?.name.toUpperCase().replace(/ /g, "") || "NONAME";
-
   useEffect(() => {
     socket.on(`receive_position_${user.id}`, ({ newPosition, newDirection }) => {
       setPosition([...newPosition]);
@@ -33,7 +31,7 @@ export default function Model({ user, socket }) {
     <Chicken
       position={[...position]}
       direction={direction}
-      name={username}
+      name={user.name}
     />
   );
 }

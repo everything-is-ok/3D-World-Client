@@ -21,12 +21,12 @@ export default function Texts({ ...props }) {
     [font],
   );
   const group = useRef();
-
+  const texts = props.letters.toUpperCase().replace(/ /g, "");
   return (
     <>
       <group {...props} ref={group}>
         <mesh>
-          <textBufferGeometry args={[props.letters, config]} />
+          <textBufferGeometry args={[texts, config]} />
           <meshStandardMaterial
             attach="material"
             metalness={0.2}
