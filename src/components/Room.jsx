@@ -127,7 +127,7 @@ function Room({ id, handleClickMailbox }) {
         <pointLight position={[40, 40, 40]} />
         <TempModel
           socket={socket}
-          name="너"
+          name="YOU"
           position={[...dynamicPosition]}
           direction={direction}
         />
