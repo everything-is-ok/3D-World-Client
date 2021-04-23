@@ -12,6 +12,11 @@ import UserAvatar from "./models/UserAvatar";
 import OtherUserAvatar from "./models/OtherUserAvatar";
 import useWorldSocket from "../hooks/useWorldSocket";
 import GreenFloor from "./models/GreenFloor";
+import AdventureMap from "./models/AdventureMap";
+import Tree from "./models/Tree";
+import Bonfire from "./models/Bonfire";
+import DungeonProps from "./models/DungeonProps";
+import Bedroom from "./models/Bedroom";
 
 const Container = styled.div`
   position: relative;
@@ -59,7 +64,7 @@ function World({ user }) {
 
   return (
     <Container>
-      <Canvas camera={{ position: [200, 200, 700], fov: 60 }}>
+      <Canvas camera={{ position: [200, 200, 700], fov: 60, far: 10000 }}>
         <Sky distance={550000} sunPosition={new Vector3(1000, 100, 1000)} />
         <ambientLight intensity={0.3} />
         <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
@@ -80,6 +85,16 @@ function World({ user }) {
               <OtherUserAvatar user={otherUser} socket={socket} />
             ))
           )}
+        </Suspense>
+        <Suspense fallback={null}>
+          <AdventureMap
+            scale={[0.1, 0.1, 0.1]}
+            rotation={[0, -Math.PI, 0]}
+            position={[-450, 10, -200]}
+          />
+          <Tree position={[-1000, 10, 300]} scale={[0.5, 0.5, 0.5]} />
+          <Bonfire position={[-500, 10, 300]} scale={[20, 20, 20]} />
+          <DungeonProps />
         </Suspense>
         <GreenFloor />
         <OrbitControls />

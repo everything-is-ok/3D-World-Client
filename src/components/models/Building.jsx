@@ -30,7 +30,7 @@ export default function Model({ position, user }) {
       position={position}
       dispose={null}
       scale={[0.1, 0.1, 0.1]}
-      // onClick={handleClick}
+      onClick={handleClick}
     >
       <Texts
         scale={[10, 10, 10]}

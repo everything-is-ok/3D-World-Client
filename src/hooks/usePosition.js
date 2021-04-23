@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-return-assign */
 import { useEffect, useState } from "react";
 
 const POS = {
@@ -16,7 +18,7 @@ export default function usePosition(InitialPosition, initialDirection = 0) {
     left: Math.PI / 2,
     right: -Math.PI / 2,
   };
-  const oneStep = 2;
+  const oneStep = 20;
   const initialY = InitialPosition[POS.Y];
 
   useEffect(() => {
@@ -45,40 +47,60 @@ export default function usePosition(InitialPosition, initialDirection = 0) {
   function handlePositionChange(e) {
     if (e.keyCode === 32) {
       setPosition((prev) => {
-        prev[POS.Y] += 15;
-        return [...prev];
+        return [...prev].map((each, index) => {
+          if (index === POS.Y) {
+            return each += oneStep;
+          }
+          return each;
+        });
       });
     }
     if (e.keyCode === 40) {
       setDirection(key.front);
       setPosition((prev) => {
-        prev[POS.Z] += oneStep;
-        return [...prev];
+        return [...prev].map((each, index) => {
+          if (index === POS.Z) {
+            return each += oneStep;
+          }
+          return each;
+        });
       });
     }
     if (e.keyCode === 38) {
       setDirection(key.back);
       setPosition((prev) => {
-        prev[POS.Z] -= oneStep;
-        return [...prev];
+        return [...prev].map((each, index) => {
+          if (index === POS.Z) {
+            return each -= oneStep;
+          }
+          return each;
+        });
       });
     }
     if (e.keyCode === 37) {
       setDirection(key.right);
       setPosition((prev) => {
-        prev[POS.X] -= oneStep;
-        return [...prev];
+        return [...prev].map((each, index) => {
+          if (index === POS.X) {
+            return each -= oneStep;
+          }
+          return each;
+        });
       });
     }
     if (e.keyCode === 39) {
       setDirection(key.left);
       setPosition((prev) => {
-        prev[POS.X] += oneStep;
-        return [...prev];
+        return [...prev].map((each, index) => {
+          if (index === POS.X) {
+            return each += oneStep;
+          }
+          return each;
+        });
       });
     }
   }
-
+  console.log(position, direction);
   return {
     position,
     direction,

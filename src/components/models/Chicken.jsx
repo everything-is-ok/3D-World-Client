@@ -25,19 +25,22 @@ export default function Model({ ...props }) {
     >
       <Texts position={[-7.65, 60, 0]} letters={name} />
       <group scale={[10, 10, 10]} rotation={[0, direction, 0]}>
-        <group position={[-5.65, 3.67, 0]} scale={[1.96, 3.02, 1.96]}>
+        <group
+          position={[0, 3.5, 0]}
+          scale={[1.96, 3.02, 1.96]}
+        >
           <mesh geometry={nodes.pCube1_phong5_0.geometry} material={materials.phong5} />
           <mesh geometry={nodes.pCube1_phong2_0.geometry} material={nodes.pCube1_phong2_0.material} />
           <mesh geometry={nodes.pCube1_phong3_0.geometry} material={materials.phong3} />
           <mesh geometry={nodes.pCube1_phong4_0.geometry} material={materials.phong4} />
         </group>
         <mesh
-          position={[-5.65, 0, 0]}
+          position={[0, 0, 0]}
           geometry={nodes.pCube2_phong2_0.geometry}
           material={nodes.pCube2_phong2_0.material}
         />
         <mesh
-          position={[-4.17, 0, 0]}
+          position={[1.5, 0, 0]}
           geometry={nodes.pCube2_phong2_0.geometry}
           material={nodes.pCube2_phong2_0.material}
         />
