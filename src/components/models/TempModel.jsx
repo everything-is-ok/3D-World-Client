@@ -33,7 +33,9 @@ function TempModel({ name, position, direction }) {
       position={position}
     >
       {/* NOTE: <textGeomety>로 하려고했는데, 현재 font load하는 부분인지 진행이 되지않아 html로 이름 표시함 */}
-      <Texts letters={name} position={[-12, 45, 0]} />
+      {/* <Suspense fallback={null}>
+        <Texts letters={name} position={[-12, 45, 0]} />
+      </Suspense> */}
       <mesh
         ref={mesh}
         rotation={[0, direction, 0]}

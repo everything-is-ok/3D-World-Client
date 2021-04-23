@@ -133,6 +133,16 @@ function Room({ id, handleClickMailbox }) {
     setCurrItemId(itemId);
   }
 
+  const memoUpdateItemMove = useCallback(({ _id, position }) => {
+    setItems((prev) => prev.map((item) => {
+      if (item._id !== _id) {
+        return item;
+      }
+
+      return { _id, position };
+    }));
+  }, [setItems]);
+
   async function handleMoveItem(x, y) {
     if (!currItemId || !isEditMode) return;
 
@@ -145,29 +155,13 @@ function Room({ id, handleClickMailbox }) {
         { id: currItemId, position: itemPosition },
       );
 
-      setItems((prev) => prev.map((item) => {
-        if (item._id !== currItemId) {
-          return item;
-        }
-
-        return { _id: currItemId, position: itemPosition };
-      }));
+      memoUpdateItemMove({ _id: currItemId, position: itemPosition });
 
       socket.emit("update", { _id: currItemId, position: itemPosition });
     } catch (err) {
       console.log(err.message);
     }
   }
-
-  const memoUpdateItemMove = useCallback(({ _id, position }) => {
-    setItems((prev) => prev.map((item) => {
-      if (item._id !== _id) {
-        return item;
-      }
-
-      return { _id, position };
-    }));
-  }, [setItems]);
 
   useEffect(() => {
     if (!socket) return;
@@ -185,12 +179,14 @@ function Room({ id, handleClickMailbox }) {
         />
         <ambientLight intensity={2} />
         <pointLight position={[40, 40, 40]} />
-        <TempModel
-          socket={socket}
-          name="너"
-          position={[...dynamicPosition]}
-          direction={direction}
-        />
+        {/* <Suspense fallback={null}>
+          <TempModel
+            socket={socket}
+            name="YOU"
+            position={[...dynamicPosition]}
+            direction={direction}
+          />
+        </Suspense> */}
         {friends.length
           && friends.map(({ user: u, position, direction: d }) => (
             <TempFriendModel key={u} user={u} position={position} direction={d} />

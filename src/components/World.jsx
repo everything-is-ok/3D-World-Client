@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Sky } from "@react-three/drei";
 import { Vector3 } from "three";
+import { useHistory } from "react-router-dom";
 
 // eslint-disable-next-line import/order
 
@@ -25,6 +26,7 @@ const Container = styled.div`
 function World({ user }) {
   const { socket, otherUsers } = useWorldSocket(user, [10, -5, 150], 0);
   const [randomUsers, setRandomUsers] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     async function getRandomIds() {
@@ -63,16 +65,16 @@ function World({ user }) {
         <Sky distance={550000} sunPosition={new Vector3(1000, 100, 1000)} />
         <ambientLight intensity={0.3} />
         <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
-        <Suspense fallback={null}>
-          {randomUsers.length > 0 && (
-            randomUsers.map((randomUser, index) => (
-              <Building
-                user={randomUser}
-                position={[(-300 * index + 1), -25, 10]}
-              />
-            ))
-          )}
-        </Suspense>
+        {randomUsers.length > 0 && (
+          randomUsers.map((randomUser, index) => (
+            <Building
+              user={randomUser}
+              position={[(-300 * index + 1), -25, 10]}
+            />
+          ))
+        )}
+        {/* <Suspense fallback={null}>
+        </Suspense> */}
         <Suspense fallback={null}>
           <UserAvatar position={[-300, -5, 150]} user={user} socket={socket} />
           {otherUsers.length > 0 && (

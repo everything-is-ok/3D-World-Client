@@ -18,19 +18,12 @@ export default function Model({ position, user }) {
   const group = useRef();
   const { nodes, materials } = useGLTF("models/building/scene.gltf");
 
-  function handleClick(e) {
-    e.stopPropagation();
-    // TODO: fix to LINK or..
-    window.location.href = `/room/${user._id}`;
-  }
-
   return (
     <group
       ref={group}
       position={position}
       dispose={null}
       scale={[0.1, 0.1, 0.1]}
-      // onClick={handleClick}
     >
       <Texts
         scale={[10, 10, 10]}
