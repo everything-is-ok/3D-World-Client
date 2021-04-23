@@ -1,7 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { Suspense, useRef } from "react";
 import PropTypes from "prop-types";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
+
+import Texts from "./Texts";
+import Chicken from "./Chicken";
 
 function TempModel({ name, position: [x, _, z], direction }) {
   const group = useRef();
@@ -20,6 +23,8 @@ function TempModel({ name, position: [x, _, z], direction }) {
     <group
       ref={group}
     >
+      {/* NOTE: <textGeomety>로 하려고했는데, 현재 font load하는 부분인지 진행이 되지않아 html로 이름 표시함 */}
+      <Texts letters={name} position={[-12, 45, 0]} />
       <mesh
         ref={mesh}
         position={[0, 5, 0]}
@@ -59,6 +64,13 @@ function TempModel({ name, position: [x, _, z], direction }) {
             <meshStandardMaterial color="#644624" />
           </mesh>
         </group>
+      </mesh>
+      <mesh scale={[0.5, 0.5, 0.5]}>
+        <Chicken
+          position={[0, -30, 0]}
+          direction={0}
+          name=""
+        />
       </mesh>
     </group>
   );

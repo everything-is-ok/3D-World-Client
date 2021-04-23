@@ -4,7 +4,7 @@ import * as THREE from "three";
 import { useLoader } from "@react-three/fiber";
 
 /* eslint-disable react/prop-types */
-export default function Text({ ...props }) {
+export default function Texts({ ...props }) {
   const font = useLoader(THREE.FontLoader, "fonts/bold.blob");
   const config = useMemo(
     () => ({
@@ -21,12 +21,12 @@ export default function Text({ ...props }) {
     [font],
   );
   const group = useRef();
-
+  const texts = props.letters.toUpperCase().replace(/ /g, "");
   return (
     <>
       <group {...props} ref={group}>
         <mesh>
-          <textBufferGeometry args={[props.letters, config]} />
+          <textBufferGeometry args={[texts, config]} />
           <meshStandardMaterial
             attach="material"
             metalness={0.2}
