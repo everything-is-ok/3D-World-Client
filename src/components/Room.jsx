@@ -58,16 +58,14 @@ function Room({ id, handleClickMailbox }) {
 
   const entrancePosition = [1 * 40, 24, 7 * 40];
   const [friends, setFriends] = useState([]);
+  const { position: dynamicPosition, direction } = usePosition([4 * 40, 24, 7 * 40]);
+  const socket = useSocket();
+  const room = useRoom(id);
 
   const [items, setItems] = useState([]);
   const [isEditMode, setIsEditMode] = useState(false);
   const [currItemId, setCurrItemId] = useState(null);
-
   console.log("currItemId", currItemId);
-
-  const { position: dynamicPosition, direction } = usePosition([4 * 40, 24, 7 * 40]);
-  const socket = useSocket();
-  const room = useRoom(id);
 
   // NOTE 조건 확인
   useEffect(() => {
@@ -79,25 +77,43 @@ function Room({ id, handleClickMailbox }) {
   // 아니 동시에 걍 해야 더 웃긴가
   // 일단은 걍 한명이 edit했다고 이벤트 emit
 
-  const memoUpdateItemMove = useCallback((itemId, x, y, z) => {
-    if (!itemId) return;
+  function toggleEditMode() {
+    setIsEditMode((prev) => !prev);
+  }
+
+  function handleMoveItem(x, y, z) {
+    if (!currItemId) return;
 
     setItems((prev) => prev.map((item) => {
-      if (item._id !== itemId) {
+      if (item._id !== currItemId) {
         return item;
       }
 
-      return { _id: itemId, position: [x * 40, y, z * 40] };
+      return { _id: currItemId, position: [x * 40, y, z * 40] };
     }));
 
-    setCurrItemId(null);
-  }, [setItems]);
+    // setCurrItemId(null);
+  }
 
-  useSocketItem({
-    socket,
-    isEditMode,
-    onItemMove: memoUpdateItemMove,
-  });
+  // const memoUpdateItemMove = useCallback((itemId, x, y, z) => {
+  //   if (!itemId) return;
+
+  //   setItems((prev) => prev.map((item) => {
+  //     if (item._id !== itemId) {
+  //       return item;
+  //     }
+
+  //     return { _id: itemId, position: [x * 40, y, z * 40] };
+  //   }));
+
+  //   setCurrItemId(null);
+  // }, [setItems]);
+
+  // useSocketItem({
+  //   socket,
+  //   isEditMode,
+  //   onItemMove: memoUpdateItemMove,
+  // });
 
   function handleSelect(itemId) {
     setCurrItemId(itemId);
@@ -201,7 +217,7 @@ function Room({ id, handleClickMailbox }) {
         <Floor
           width={8}
           height={8}
-          onClick={memoUpdateItemMove}
+          onClick={handleMoveItem}
         />
         <OrbitControls />
         <ControlCam />
@@ -212,7 +228,7 @@ function Room({ id, handleClickMailbox }) {
       {isMyRoom ? (
         <StyledButton
           type="button"
-          // onClick={() => setIsEditMode(((prev) => !prev))}
+          onClick={() => setIsEditMode(((prev) => !prev))}
         >
           리모델링
         </StyledButton>
