@@ -8,17 +8,28 @@ const POS = {
   Z: 2,
 };
 
+const key = {
+  front: 0,
+  back: Math.PI,
+  left: Math.PI / 2,
+  right: -Math.PI / 2,
+};
+
+const oneStep = 20;
+
+function getChangedPosition(array, position, step) {
+  return [...array].map((each, index) => {
+    if (index === position) {
+      return each += step;
+    }
+
+    return each;
+  });
+}
+
 export default function usePosition(InitialPosition, initialDirection = 0) {
   const [position, setPosition] = useState(InitialPosition);
   const [direction, setDirection] = useState(initialDirection);
-
-  const key = {
-    front: 0,
-    back: Math.PI,
-    left: Math.PI / 2,
-    right: -Math.PI / 2,
-  };
-  const oneStep = 20;
   const initialY = InitialPosition[POS.Y];
 
   useEffect(() => {
@@ -29,10 +40,13 @@ export default function usePosition(InitialPosition, initialDirection = 0) {
 
   useEffect(() => {
     const ID = setTimeout(() => {
-      setPosition((prev) => {
-        prev[POS.Y] = initialY;
-        return [...prev];
-      });
+      setPosition((prev) => [...prev].map((each, index) => {
+        if (index === POS.Y) {
+          return each = initialY;
+        }
+
+        return each;
+      }));
     }, 20);
 
     return () => clearTimeout(ID);
@@ -46,61 +60,26 @@ export default function usePosition(InitialPosition, initialDirection = 0) {
 
   function handlePositionChange(e) {
     if (e.keyCode === 32) {
-      setPosition((prev) => {
-        return [...prev].map((each, index) => {
-          if (index === POS.Y) {
-            return each += oneStep;
-          }
-          return each;
-        });
-      });
+      setPosition((prev) => getChangedPosition(prev, POS.Y, oneStep));
     }
     if (e.keyCode === 40) {
       setDirection(key.front);
-      setPosition((prev) => {
-        return [...prev].map((each, index) => {
-          if (index === POS.Z) {
-            return each += oneStep;
-          }
-          return each;
-        });
-      });
+      setPosition((prev) => getChangedPosition(prev, POS.Z, oneStep));
     }
     if (e.keyCode === 38) {
       setDirection(key.back);
-      setPosition((prev) => {
-        return [...prev].map((each, index) => {
-          if (index === POS.Z) {
-            return each -= oneStep;
-          }
-          return each;
-        });
-      });
+      setPosition((prev) => getChangedPosition(prev, POS.Z, -oneStep));
     }
     if (e.keyCode === 37) {
       setDirection(key.right);
-      setPosition((prev) => {
-        return [...prev].map((each, index) => {
-          if (index === POS.X) {
-            return each -= oneStep;
-          }
-          return each;
-        });
-      });
+      setPosition((prev) => getChangedPosition(prev, POS.X, -oneStep));
     }
     if (e.keyCode === 39) {
       setDirection(key.left);
-      setPosition((prev) => {
-        return [...prev].map((each, index) => {
-          if (index === POS.X) {
-            return each += oneStep;
-          }
-          return each;
-        });
-      });
+      setPosition((prev) => getChangedPosition(prev, POS.X, oneStep));
     }
   }
-  console.log(position, direction);
+
   return {
     position,
     direction,

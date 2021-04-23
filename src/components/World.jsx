@@ -17,7 +17,6 @@ import AdventureMap from "./models/AdventureMap";
 import Tree from "./models/Tree";
 import Bonfire from "./models/Bonfire";
 import DungeonProps from "./models/DungeonProps";
-import Bedroom from "./models/Bedroom";
 
 const Container = styled.div`
   position: relative;
@@ -45,7 +44,6 @@ function World({ user }) {
           headers: {
             "Content-Type": "application/json",
           },
-          credentials: "include",
         });
 
         response = await response.json();
@@ -75,27 +73,27 @@ function World({ user }) {
         <Sky distance={550000} sunPosition={new Vector3(1000, 100, 1000)} />
         <ambientLight intensity={0.3} />
         <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
-        <Suspense fallback={null}>
-          {randomUsers.length > 0 && (
-            randomUsers.map((randomUser, index) => (
-              <Building
-                user={randomUser}
-                position={[(-300 * index + 1), -25, 10]}
-                onClick={handleBuildingClick}
-              />
-            ))
-          )}
-        </Suspense>
-        <Suspense fallback={null}>
-          <UserAvatar position={[-300, -5, 150]} user={user} socket={socket} />
-        </Suspense>
-        <Suspense fallback={null}>
-          {otherUsers.length > 0 && (
-            otherUsers.map((otherUser) => (
-              <OtherUserAvatar user={otherUser} socket={socket} />
-            ))
-          )}
-        </Suspense>
+        {/* <Suspense fallback={null}> */}
+        {randomUsers.length > 0 && (
+          randomUsers.map((randomUser, index) => (
+            <Building
+              user={randomUser}
+              position={[(-300 * index + 1), -25, 10]}
+              onClick={handleBuildingClick}
+            />
+          ))
+        )}
+        {/* </Suspense> */}
+        {/* <Suspense fallback={null}> */}
+        <UserAvatar position={[-300, -5, 150]} user={user} socket={socket} />
+        {/* </Suspense> */}
+        {/* <Suspense fallback={null}> */}
+        {otherUsers.length > 0 && (
+          otherUsers.map((otherUser) => (
+            <OtherUserAvatar user={otherUser} socket={socket} />
+          ))
+        )}
+        {/* </Suspense> */}
         <Suspense fallback={null}>
           <AdventureMap
             scale={[0.1, 0.1, 0.1]}
