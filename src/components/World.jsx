@@ -80,6 +80,8 @@ function World({ user }) {
         </Suspense>
         <Suspense fallback={null}>
           <UserAvatar position={[-300, -5, 150]} user={user} socket={socket} />
+        </Suspense>
+        <Suspense fallback={null}>
           {otherUsers.length > 0 && (
             otherUsers.map((otherUser) => (
               <OtherUserAvatar user={otherUser} socket={socket} />

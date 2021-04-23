@@ -125,12 +125,12 @@ function Room({ id, handleClickMailbox }) {
         />
         <ambientLight intensity={2} />
         <pointLight position={[40, 40, 40]} />
-        <TempModel
+        {/* <TempModel
           socket={socket}
           name="YOU"
           position={[...dynamicPosition]}
           direction={direction}
-        />
+        /> */}
         {friends.length
           && friends.map(({ user: u, position, direction: d }) => (
             <TempFriendModel key={u} user={u} position={position} direction={d} />
