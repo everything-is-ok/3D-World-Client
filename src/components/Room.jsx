@@ -1,8 +1,6 @@
 import React, {
   Suspense,
   useCallback,
-  useEffect,
-  useMemo,
   useState,
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +8,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
+import * as THREE from "three";
 
 import Chat from "./Chat";
 import Mailbox from "./models/Mailbox";
@@ -53,6 +52,7 @@ function Room({ id, handleClickMailbox }) {
 
   const entrancePosition = [1 * 40, 24, 7 * 40];
   const [friends, setFriends] = useState([]);
+  const [isRemodelingMode, setIsRemodelingMode] = useState(false);
   const { position: dynamicPosition, direction } = usePosition([4 * 40, 24, 7 * 40]);
   const socket = useSocket();
   const room = useRoom(id);
@@ -107,7 +107,9 @@ function Room({ id, handleClickMailbox }) {
   const isMyRoom = id === undefined || userId === id;
 
   function ControlCam() {
-    useFrame(({ camera }) => camera.lookAt(160, 0, 160));
+    useFrame(({ camera }) => {
+      camera.lookAt(...dynamicPosition);
+    });
 
     return null;
   }
@@ -127,7 +129,7 @@ function Room({ id, handleClickMailbox }) {
         <pointLight position={[40, 40, 40]} />
         <TempModel
           socket={socket}
-          name="너"
+          name="YOU"
           position={[...dynamicPosition]}
           direction={direction}
         />
@@ -136,10 +138,10 @@ function Room({ id, handleClickMailbox }) {
             <TempFriendModel key={u.id} user={u.name} position={position} direction={d} />
           ))}
         <Suspense fallback={null}>
-          {/* <Mailbox
+          <Mailbox
             position={[7 * 40, 7 * 40]}
             onClick={() => handleClickMailbox(room.mailboxId)}
-          /> */}
+          />
         </Suspense>
         <Floor width={8} height={8} />
         <OrbitControls />
@@ -151,7 +153,7 @@ function Room({ id, handleClickMailbox }) {
       {isMyRoom ? (
         <StyledButton
           type="button"
-          onClick={() => console.log("click reomeling")}
+          onClick={() => setIsRemodelingMode((prev) => !prev)}
         >
           리모델링
         </StyledButton>

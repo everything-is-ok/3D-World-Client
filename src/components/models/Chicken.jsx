@@ -10,7 +10,7 @@ source: https://sketchfab.com/3d-models/crossy-road-b7e2910d0ffe4da5860dedf39a71
 title: Crossy Road
 */
 
-import React from "react";
+import React, { Suspense } from "react";
 import { useGLTF } from "@react-three/drei";
 
 import Texts from "./Texts";
@@ -23,7 +23,9 @@ export default function Model({ ...props }) {
     <group
       position={[...position]}
     >
-      <Texts position={[-7.65, 60, 0]} letters={name} />
+      <Suspense fallback={null}>
+        <Texts position={[-7.65, 60, 0]} letters={name} />
+      </Suspense>
       <group scale={[10, 10, 10]} rotation={[0, direction, 0]}>
         <group position={[-5.65, 3.67, 0]} scale={[1.96, 3.02, 1.96]}>
           <mesh geometry={nodes.pCube1_phong5_0.geometry} material={materials.phong5} />
