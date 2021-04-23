@@ -34,7 +34,6 @@ function App() {
             <Route exact path="/world">
               <World user={user} />
             </Route>
-
             <Redirect to={`/room/${user._id}`} />
           </Switch>
         </>

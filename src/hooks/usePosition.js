@@ -19,6 +19,12 @@ export default function usePosition(InitialPosition, initialDirection = 0) {
   const oneStep = 2;
   const initialY = InitialPosition[POS.Y];
 
+  useEffect(() => {
+    window.addEventListener("keydown", handlePositionChange);
+
+    return () => window.removeEventListener("keydown", handlePositionChange);
+  }, []);
+
   // useEffect(() => {
   //   const ID = setTimeout(() => {
   //     setPosition((prev) => {
@@ -26,6 +32,7 @@ export default function usePosition(InitialPosition, initialDirection = 0) {
   //       return [...prev];
   //     });
   //   }, 20);
+
   //   return () => clearTimeout(ID);
   // }, [position[POS.Y]]);
 
