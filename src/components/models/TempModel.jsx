@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
@@ -24,13 +24,12 @@ function TempModel({ name, position: [x, _, z], direction }) {
       ref={group}
     >
       {/* NOTE: <textGeomety>로 하려고했는데, 현재 font load하는 부분인지 진행이 되지않아 html로 이름 표시함 */}
-      <Suspense fallback={null}>
-        <Texts letters={name} position={[-12, 45, 0]} />
-      </Suspense>
+      <Texts letters={name} position={[-12, 45, 0]} />
       <mesh
         ref={mesh}
         position={[0, 5, 0]}
         rotation={[0, direction, 0]}
+        receiveShadow
       >
         <group>
           <mesh>

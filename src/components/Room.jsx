@@ -1,5 +1,4 @@
 import React, {
-  Suspense,
   useCallback,
   useState,
 } from "react";
@@ -23,6 +22,7 @@ import usePosition from "../hooks/usePosition";
 import useSocketMove from "../hooks/useSocketMove";
 import useSocketRoom from "../hooks/useSocketRoom";
 import Universe from "./models/Universe";
+import Bedroom from "./models/Bedroom";
 
 const Container = styled.div`
   position: relative;
@@ -106,9 +106,18 @@ function Room({ id, handleClickMailbox }) {
   // TODO: 필요 없어지면 삭제
   const isMyRoom = id === undefined || userId === id;
 
+  const [vectorLookAt] = useState(() => new THREE.Vector3());
+
   function ControlCam() {
     useFrame(({ camera }) => {
-      camera.lookAt(...dynamicPosition);
+      // console.log(dynamicPosition);
+      // console.log(vectorLookAt.lerp([...dynamicPosition], 0.5));
+      // console.log(camera);
+      // camera.fov = 80;
+      // camera.position.lerp([...dynamicPosition], 0.5);
+      // camera.lookAt(...dynamicPosition);
+      // eslint-disable-next-line max-len
+      // camera.position.lerp([dynamicPosition[0], dynamicPosition[1] + 100, dynamicPosition[2] + 100], 0.5);
     });
 
     return null;
@@ -120,10 +129,10 @@ function Room({ id, handleClickMailbox }) {
 
   return (
     <Container>
-      <Canvas camera={{ position: [160, 100, 400], fov: 80 }}>
+      <Canvas camera={{ position: [160, 200, 40] }}>
         <Universe
-          position={[4 * 40, 0, 4 * 40]}
-          radius={200}
+          position={[6 * 40, 0, 6 * 40]}
+          radius={400}
         />
         <ambientLight intensity={2} />
         <pointLight position={[40, 40, 40]} />
@@ -137,13 +146,12 @@ function Room({ id, handleClickMailbox }) {
           && friends.map(({ user: u, position, direction: d }) => (
             <TempFriendModel key={u.id} user={u.name} position={position} direction={d} />
           ))}
-        <Suspense fallback={null}>
-          <Mailbox
-            position={[7 * 40, 7 * 40]}
-            onClick={() => handleClickMailbox(room.mailboxId)}
-          />
-        </Suspense>
-        <Floor width={8} height={8} />
+        <Mailbox
+          position={[7 * 40, 7 * 40]}
+          onClick={() => handleClickMailbox(room.mailboxId)}
+        />
+        <Floor width={12} height={12} />
+        <Bedroom receiveShadow scale={4 * 12} position={[0, 20, 0]} />
         <OrbitControls />
         <ControlCam />
       </Canvas>
