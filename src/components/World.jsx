@@ -1,6 +1,7 @@
 import React, { Suspense, useEffect, useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Sky } from "@react-three/drei";
 import { Vector3 } from "three";
@@ -30,6 +31,7 @@ const Container = styled.div`
 function World({ user }) {
   const { socket, otherUsers } = useWorldSocket(user, [10, -5, 150], 0);
   const [randomUsers, setRandomUsers] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     async function getRandomIds() {
@@ -62,6 +64,11 @@ function World({ user }) {
     getRandomIds();
   }, []);
 
+  function handleBuildingClick(e, id) {
+    e.stopPropagation();
+    history.push(`/room/${id}`);
+  }
+
   return (
     <Container>
       <Canvas camera={{ position: [200, 200, 700], fov: 60, far: 10000 }}>
@@ -74,6 +81,7 @@ function World({ user }) {
               <Building
                 user={randomUser}
                 position={[(-300 * index + 1), -25, 10]}
+                onClick={handleBuildingClick}
               />
             ))
           )}

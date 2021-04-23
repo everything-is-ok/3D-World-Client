@@ -11,18 +11,11 @@ title: lowpoly building
 import React, { Suspense, useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 import Texts from "./Texts";
 
-export default function Model({ position, user }) {
+export default function Model({ position, user, onClick }) {
   const group = useRef();
   const { nodes, materials } = useGLTF("models/building/scene.gltf");
-
-  function handleClick(e) {
-    e.stopPropagation();
-    // TODO: fix to LINK or..
-    window.location.replace(`/room/${user._id}`);
-  }
 
   return (
     <group
@@ -30,7 +23,7 @@ export default function Model({ position, user }) {
       position={position}
       dispose={null}
       scale={[0.1, 0.1, 0.1]}
-      onClick={handleClick}
+      onClick={(e) => onClick(e, user._id)}
     >
       <Suspense fallback={null}>
         <Texts
@@ -64,4 +57,5 @@ useGLTF.preload("models/building/scene.gltf");
 Model.propTypes = {
   position: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
