@@ -37,7 +37,7 @@ function MailForm({ mailboxId, toggle }) {
       toggle();
     } catch (err) {
       // TODO 전송을 다시 누르게 하기
-      console.log(err.message);
+      // console.log(err.message);
     }
   }
 
