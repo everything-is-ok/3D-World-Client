@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -33,12 +33,25 @@ function Main() {
   // TODO: 필요 없어지면 삭제
   const isLoggedInUser = userId === undefined || loggedInUserId === userId;
 
+  // NOTE: Room과 프로필 부분을 한번 더 분리해야 리렌더링을 막을 수 있을 것 같습니다.
   const {
     mailboxId,
     isToggled,
     toggle,
     handleClickMailbox,
   } = useMailbox(isLoggedInUser);
+
+  // const mailboxRef = useRef({
+  //   isToggled: false,
+  //   mailboxId: null,
+  // });
+
+  // function handleClick(mailboxId) {
+  //   mailboxRef.current = {
+  //     isToggled: !mailboxRef.current.isToggled,
+  //     mailboxId,
+  //   };
+  // }
 
   useEffect(() => {
     setPrevUserId(userId);
@@ -57,6 +70,7 @@ function Main() {
           <Room
             id={userId}
             isMyRoom={isLoggedInUser}
+            // handleClickMailbox={handleClick}
             handleClickMailbox={handleClickMailbox}
           />
           {isToggled && (
@@ -64,6 +78,7 @@ function Main() {
               toggle={toggle}
               mailboxId={mailboxId}
               isMyMailbox={isLoggedInUser}
+              // mailboxRef={mailboxRef}
             />
           )}
         </>
