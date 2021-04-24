@@ -1,12 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
-import { Html } from "@react-three/drei";
 
-function Furniture({
-  name = "furniture",
-  position,
-  onClick,
-}) {
+function Furniture({ position, onClick }) {
   const group = useRef();
   const mesh = useRef();
 
@@ -15,9 +10,6 @@ function Furniture({
       ref={group}
       position={position}
     >
-      <Html position={[-2, 25, 0]}>
-        <h3>{name}</h3>
-      </Html>
       <mesh
         ref={mesh}
         rotation={[0, 0, 0]}
@@ -31,7 +23,6 @@ function Furniture({
 }
 
 Furniture.propTypes = {
-  name: PropTypes.string,
   position: PropTypes.array,
   onClick: PropTypes.func,
 };

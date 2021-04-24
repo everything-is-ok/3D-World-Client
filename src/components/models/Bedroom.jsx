@@ -13,48 +13,47 @@ import { useGLTF } from "@react-three/drei";
 export default function Model(props) {
   const group = useRef();
   const { nodes, materials } = useGLTF("models/bedroom/scene.gltf");
+
   return (
     <group ref={group} {...props} dispose={null}>
-      <group rotation={[-Math.PI / 2, 0, 0]}>
-        <group rotation={[Math.PI / 2, 0, 0]}>
-          <group position={[-4.73, 3.98, -0.4]} scale={[0.32, 0.4, 0.4]}>
-            <mesh geometry={nodes.mesh_0.geometry} material={materials["Material.011"]} />
-            <mesh geometry={nodes.mesh_1.geometry} material={materials["Material.026"]} />
-            <mesh geometry={nodes.mesh_2.geometry} material={materials["Material.023"]} />
-            <mesh geometry={nodes.mesh_3.geometry} material={materials["Material.024"]} />
-            <mesh geometry={nodes.mesh_4.geometry} material={materials["Material.022"]} />
-            <mesh geometry={nodes.mesh_5.geometry} material={materials["Material.012"]} />
-            <mesh geometry={nodes.mesh_6.geometry} material={materials["Material.029"]} />
-            <mesh geometry={nodes.mesh_7.geometry} material={materials["Material.030"]} />
-            <mesh geometry={nodes.mesh_8.geometry} material={materials["Material.008"]} />
-            <mesh geometry={nodes.mesh_9.geometry} material={materials["Material.027"]} />
-            <mesh geometry={nodes.mesh_10.geometry} material={materials["Material.031"]} />
-            <mesh geometry={nodes.mesh_11.geometry} material={materials["Material.032"]} />
-            <mesh geometry={nodes.mesh_12.geometry} material={materials["Material.009"]} />
-            <mesh geometry={nodes.mesh_13.geometry} material={materials["Material.010"]} />
-            <mesh geometry={nodes.mesh_14.geometry} material={materials["Material.004"]} />
-            <mesh geometry={nodes.mesh_15.geometry} material={materials["Material.007"]} />
-            <mesh geometry={nodes.mesh_16.geometry} material={materials["Material.006"]} />
-            <mesh geometry={nodes.mesh_17.geometry} material={materials["Material.005"]} />
-            <mesh geometry={nodes.mesh_18.geometry} material={materials.Material} />
-            <mesh geometry={nodes.mesh_19.geometry} material={materials["Material.001"]} />
-            <mesh geometry={nodes.mesh_20.geometry} material={materials["Material.002"]} />
-            <mesh geometry={nodes.mesh_21.geometry} material={materials["Material.003"]} />
-            <mesh geometry={nodes.mesh_22.geometry} material={materials["Material.019"]} />
-            <mesh geometry={nodes.mesh_23.geometry} material={materials["Material.018"]} />
-            <mesh geometry={nodes.mesh_24.geometry} material={materials["Material.020"]} />
-            <mesh geometry={nodes.mesh_25.geometry} material={materials["Material.021"]} />
-            <mesh geometry={nodes.mesh_26.geometry} material={materials["Material.015"]} />
-            <mesh geometry={nodes.mesh_27.geometry} material={materials["Material.014"]} />
-            <mesh geometry={nodes.mesh_28.geometry} material={materials["Material.016"]} />
-            <mesh geometry={nodes.mesh_29.geometry} material={materials["Material.017"]} />
-          </group>
-          <group position={[-4.73, 4.28, -1.21]} scale={[0.32, 0.4, 0.4]}>
-            <mesh geometry={nodes.mesh_30.geometry} material={nodes.mesh_30.material} />
-          </group>
-          <group position={[-4.73, 4.01, -2.02]} scale={[0.32, 0.4, 0.4]}>
-            <mesh geometry={nodes.mesh_31.geometry} material={nodes.mesh_31.material} />
-          </group>
+      <group position={[-0.3, 3.6, 4.1]} scale={[0.32, 0.4, 0.4]}>
+        <group>
+          <mesh geometry={nodes.mesh_5.geometry} material={materials["Material.012"]} />
+          <mesh geometry={nodes.mesh_4.geometry} material={materials["Material.022"]} />
+          <mesh geometry={nodes.mesh_2.geometry} material={materials["Material.023"]} />
+          <mesh geometry={nodes.mesh_3.geometry} material={materials["Material.024"]} />
+          <mesh geometry={nodes.mesh_1.geometry} material={materials["Material.026"]} />
+          <mesh geometry={nodes.mesh_28.geometry} material={materials["Material.016"]} />
+          <mesh geometry={nodes.mesh_29.geometry} material={materials["Material.017"]} />
+          <mesh geometry={nodes.mesh_27.geometry} material={materials["Material.014"]} />
+          <mesh geometry={nodes.mesh_26.geometry} material={materials["Material.015"]} />
+          <mesh geometry={nodes.mesh_25.geometry} material={materials["Material.021"]} />
+          <mesh geometry={nodes.mesh_23.geometry} material={materials["Material.018"]} />
+          <mesh geometry={nodes.mesh_24.geometry} material={materials["Material.020"]} />
+          <mesh geometry={nodes.mesh_22.geometry} material={materials["Material.019"]} />
+        </group>
+        <group>
+          <mesh geometry={nodes.mesh_14.geometry} material={materials["Material.004"]} />
+          <mesh geometry={nodes.mesh_18.geometry} material={materials.Material} />
+          <mesh geometry={nodes.mesh_20.geometry} material={materials["Material.002"]} />
+          <mesh geometry={nodes.mesh_19.geometry} material={materials["Material.001"]} />
+          <mesh geometry={nodes.mesh_21.geometry} material={materials["Material.003"]} />
+          <mesh geometry={nodes.mesh_17.geometry} material={materials["Material.005"]} />
+        </group>
+        <group>
+          <mesh geometry={nodes.mesh_15.geometry} material={materials["Material.007"]} />
+          <mesh geometry={nodes.mesh_16.geometry} material={materials["Material.006"]} />
+        </group>
+        <group>
+          <mesh geometry={nodes.mesh_9.geometry} material={materials["Material.027"]} />
+          <mesh geometry={nodes.mesh_0.geometry} material={materials["Material.011"]} />
+          <mesh geometry={nodes.mesh_6.geometry} material={materials["Material.029"]} />
+          <mesh geometry={nodes.mesh_7.geometry} material={materials["Material.030"]} />
+          <mesh geometry={nodes.mesh_8.geometry} material={materials["Material.008"]} />
+          <mesh geometry={nodes.mesh_10.geometry} material={materials["Material.031"]} />
+          <mesh geometry={nodes.mesh_11.geometry} material={materials["Material.032"]} />
+          <mesh geometry={nodes.mesh_12.geometry} material={materials["Material.009"]} />
+          <mesh geometry={nodes.mesh_13.geometry} material={materials["Material.010"]} />
         </group>
       </group>
     </group>

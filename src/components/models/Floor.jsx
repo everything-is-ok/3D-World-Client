@@ -25,4 +25,4 @@ Floor.propTypes = {
   onClick: PropTypes.func,
 };
 
-export default Floor;
+export default React.memo(Floor);

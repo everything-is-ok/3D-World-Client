@@ -1,65 +1,55 @@
-// import { useEffect, useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { getItems } from "../reducers/itemSlice";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-// import { deleteMailList, deleteMailItem, mailSelector } from "../reducers/mailSlice";
-// import fetchData from "../utils/fetchData";
+import {
+  mailSelector,
+  getMailList,
+  deleteMailList,
+  deleteMailItem,
+  readMailItem,
+} from "../reducers/mailSlice";
 
-// function useMailList({ isLoggedInUser }) {
-//   // ㄷㅏ른 사람 아이디가 날아오면 그 사람 아이디로 보내야한다
-//   const dispatch = useDispatch();
-//   const mails = useSelector(mailSelector);
-//   const [mailList, setMailList] = useState(mails);
+function useMailList() {
+  const dispatch = useDispatch();
+  const mailList = useSelector(mailSelector);
+  const [isDetail, setIsDetail] = useState(false);
+  const [selectedMail, setSelectedMail] = useState(null);
 
-//   useEffect(() => {
-//     if (!isLoggedInUser) return; // 타인이면 안불러옴
+  useEffect(() => {
+    dispatch(getMailList());
+  }, []);
 
-//     dispatch(getItems());
-//   }, [isLoggedInUser]);
+  function handleClose() {
+    setIsDetail((prev) => !prev);
+  }
 
-//   const [content, setContent] = useState("");
-//   const [mailboxId, setMailboxId] = useState(null);
-//   const [isToggled, setIsToggled] = useState(false);
+  async function handleSelectMail(mail) {
+    if (mail.status === "NEW") {
+      dispatch(readMailItem(mail._id));
+    }
 
-//   function handleFormSubmit(e) {
-//     e.preventDefault();
+    setSelectedMail(mail);
+    setIsDetail((prev) => !prev);
+  }
 
-//     fetchData(
-//       "POST",
-//       `/mailbox/mail/${mailboxId}`,
-//       { content },
-//     );
+  async function handleDeleteMailItem() {
+    await dispatch(deleteMailItem(selectedMail._id));
+    setIsDetail((prev) => !prev);
+  }
 
-//     setIsToggled(false);
-//   }
+  function handleDeleteMailList() {
+    dispatch(deleteMailList());
+  }
 
-//   function handleInputChange(e) {
-//     setContent(e.target.value);
-//   }
+  return {
+    mailList,
+    isDetail,
+    selectedMail,
+    handleClose,
+    handleSelectMail,
+    handleDeleteMailItem,
+    handleDeleteMailList,
+  };
+}
 
-//   function toggle() {
-//     setIsToggled((prev) => !prev);
-//   }
-
-//   function handleClickMailbox(id) {
-//     setMailboxId(id);
-//     setIsToggled((prev) => !prev);
-//   }
-
-  
-
-//   return {
-//     mailList,
-//     content,
-//     mailboxId,
-//     isToggled,
-//     toggle,
-//     handleFormSubmit,
-//     handleInputChange,
-//     handleClickMailbox,
-//     handleDeleteMailList,
-//     handleDeleteMailItem,
-//   };
-// }
-
-// export default useMailList;
+export default useMailList;

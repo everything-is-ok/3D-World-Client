@@ -11,10 +11,9 @@ title: lowpoly building
 import React, { Suspense, useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import PropTypes from "prop-types";
+import Texts from "./Texts";
 
-// import Texts from "./Texts";
-
-export default function Model({ position, user }) {
+export default function Model({ position, user, onClick }) {
   const group = useRef();
   const { nodes, materials } = useGLTF("models/building/scene.gltf");
 
@@ -24,14 +23,15 @@ export default function Model({ position, user }) {
       position={position}
       dispose={null}
       scale={[0.1, 0.1, 0.1]}
+      onClick={(e) => onClick(e, user._id)}
     >
-      {/* <Suspense fallback={null}>
+      <Suspense fallback={null}>
         <Texts
           scale={[10, 10, 10]}
           position={[-300, 3500, 500]}
           letters={user.email.split("@")[0]}
         />
-      </Suspense> */}
+      </Suspense>
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <mesh geometry={nodes.mesh_0.geometry} material={materials.material_2} />
         <mesh geometry={nodes.mesh_1.geometry} material={materials.material_8} />
@@ -57,4 +57,5 @@ useGLTF.preload("models/building/scene.gltf");
 Model.propTypes = {
   position: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired,
 };

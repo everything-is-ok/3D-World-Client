@@ -10,10 +10,12 @@ function useWorldSocket(user, position, direction = 0) {
 
   useEffect(() => {
     const connection = io(URL);
-
     setSocket(connection);
-    return () => connection.disconnect();
-  }, [setSocket]);
+
+    return () => {
+      connection.disconnect();
+    };
+  }, [user]);
 
   useEffect(() => {
     if (!socket) {
@@ -36,6 +38,12 @@ function useWorldSocket(user, position, direction = 0) {
           position: newUserPosition,
           direction: newDirection,
         },
+      ]));
+    });
+
+    socket.on("leaveWorld", (leftUser) => {
+      setOtherUsers((prev) => ([
+        ...prev.filter((prevUSer) => prevUSer.id !== leftUser._id),
       ]));
     });
   }, [socket, user]);
