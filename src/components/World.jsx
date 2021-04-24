@@ -17,6 +17,10 @@ import AdventureMap from "./models/AdventureMap";
 import Tree from "./models/Tree";
 import Bonfire from "./models/Bonfire";
 import DungeonProps from "./models/DungeonProps";
+import SpaceTaxi from "./models/SpaceTaxi";
+import Fox from "./models/Fox";
+import Gryphon from "./models/Gryphon";
+import Closet from "./models/Closet";
 
 const Container = styled.div`
   position: relative;
@@ -73,27 +77,27 @@ function World({ user }) {
         <Sky distance={550000} sunPosition={new Vector3(1000, 100, 1000)} />
         <ambientLight intensity={0.3} />
         <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
-        {/* <Suspense fallback={null}> */}
-        {randomUsers.length > 0 && (
-          randomUsers.map((randomUser, index) => (
-            <Building
-              user={randomUser}
-              position={[(-300 * index + 1), -25, 10]}
-              onClick={handleBuildingClick}
-            />
-          ))
-        )}
-        {/* </Suspense> */}
-        {/* <Suspense fallback={null}> */}
-        <UserAvatar position={[-300, -5, 150]} user={user} socket={socket} />
-        {/* </Suspense> */}
-        {/* <Suspense fallback={null}> */}
-        {otherUsers.length > 0 && (
-          otherUsers.map((otherUser) => (
-            <OtherUserAvatar user={otherUser} socket={socket} />
-          ))
-        )}
-        {/* </Suspense> */}
+        {/* <Suspense fallback={null}>
+          {randomUsers.length > 0 && (
+            randomUsers.map((randomUser, index) => (
+              <Building
+                user={randomUser}
+                position={[(-300 * index + 1), -25, 10]}
+                onClick={handleBuildingClick}
+              />
+            ))
+          )}
+        </Suspense> */}
+        {/* <Suspense fallback={null}>
+          <UserAvatar position={[-300, -5, 150]} user={user} socket={socket} />
+        </Suspense> */}
+        {/* <Suspense fallback={null}>
+          {otherUsers.length > 0 && (
+            otherUsers.map((otherUser) => (
+              <OtherUserAvatar user={otherUser} socket={socket} />
+            ))
+          )}
+        </Suspense> */}
         <Suspense fallback={null}>
           <AdventureMap
             scale={[0.1, 0.1, 0.1]}
@@ -102,7 +106,11 @@ function World({ user }) {
           />
           <Tree position={[-1000, 10, 300]} scale={[0.5, 0.5, 0.5]} />
           <Bonfire position={[-500, 10, 300]} scale={[20, 20, 20]} />
+          <Closet />
           <DungeonProps />
+          <SpaceTaxi position={[100, 100, 300]} scale={[40, 40, 40]} />
+          <Fox position={[-500, 500, 500]} scale={[40, 40, 40]} />
+          <Gryphon position={[-1000, 1000, 3000]} />
         </Suspense>
         <GreenFloor />
         <OrbitControls />
