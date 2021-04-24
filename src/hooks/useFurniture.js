@@ -33,7 +33,7 @@ function useMailList({
   async function handleMoveItem(x, y) {
     if (!currItemId || !isEditMode) return;
 
-    const itemPosition = [(x * 40), 10, (y * 40)];
+    const itemPosition = [(x * 40), 24, (y * 40)];
 
     try {
       await fetchData(

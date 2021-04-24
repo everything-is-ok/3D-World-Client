@@ -15,7 +15,7 @@ function Furniture({ position, onClick }) {
         rotation={[0, 0, 0]}
         onClick={onClick}
       >
-        <boxGeometry args={[50, 50, 50]} />
+        <boxGeometry args={[40, 40, 40]} />
         <meshStandardMaterial color="skyblue" />
       </mesh>
     </group>
@@ -23,7 +23,7 @@ function Furniture({ position, onClick }) {
 }
 
 Furniture.propTypes = {
-  position: PropTypes.array,
+  position: PropTypes.array.isRequired,
   onClick: PropTypes.func,
 };
 

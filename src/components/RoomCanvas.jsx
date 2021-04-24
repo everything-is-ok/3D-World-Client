@@ -33,7 +33,12 @@ function RoomCanvas({
         radius={400}
       />
       <ambientLight intensity={2} />
-      <pointLight position={[40, 40, 40]} />
+      <pointLight
+        castShadow
+        shadow-mapSize-height={512}
+        shadow-mapSize-width={512}
+        position={[40, 40, 40]}
+      />
       <TempModel
         socket={socket}
         name={userName}
