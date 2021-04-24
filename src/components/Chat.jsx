@@ -23,6 +23,7 @@ const ChatDiv = styled.div`
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  color: white;
 `;
 
 // TODO: 채팅이 많아지면 스크롤하여 이전의 채팅도 볼 수 있도록 수정
@@ -32,6 +33,7 @@ const ChatList = styled.div`
   justify-content: flex-end;
   width: 100%;
   height: 100px;
+  color: white;
 `;
 
 const FormContainer = styled.form`

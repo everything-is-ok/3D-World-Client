@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import MailItem from "./shared/MailItem";
+import MailboxList from "./MailboxList";
 import StyledInput from "./shared/StyledInput";
 import StyledButton from "./shared/StyledButton";
 import { mailSelector, getMailList } from "../reducers/mailSlice";
@@ -47,33 +47,14 @@ function MailboxModal({
   handleDeleteMailList,
   handleDeleteMailItem,
 }) {
-  const dispatch = useDispatch();
-  const mailList = useSelector(mailSelector);
-
-  useEffect(() => {
-    if (isMyMailbox) {
-      dispatch(getMailList());
-    }
-  }, []);
-
   return (
     <Container>
       {isMyMailbox ? (
-        <>
-          {mailList && mailList.mails.map((mail) => (
-            <MailItem
-              key={mail._id}
-              mail={mail}
-              handleDelete={handleDeleteMailItem}
-            />
-          ))}
-          <StyledButton onClick={handleDeleteMailList}>
-            Delete All
-          </StyledButton>
-          <StyledButton onClick={toggle}>
-            Close
-          </StyledButton>
-        </>
+        <MailboxList
+          toggle={toggle}
+          handleDeleteMailList={handleDeleteMailList}
+          handleDeleteMailItem={handleDeleteMailItem}
+        />
       ) : (
         <Form
           onSubmit={handleFormSubmit}

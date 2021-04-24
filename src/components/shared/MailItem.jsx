@@ -46,40 +46,36 @@ const Buttons = styled.div``;
 // TODO 보낸사람 주소 타고 이동하도록 링크만들어야함
 // TODO modalOpen 상태일 때 신규메일임을 표현(3순위)
 // TODO 메일 한개 클릭 시 read PATCH
-function MailItem({ mail, handleDelete }) {
-  const { modalOpen, toggle } = useModal(false);
+function MailItem({
+  mail,
+  handleClose,
+  handleClick,
+  handleDelete,
+}) {
   const { _id, sender, content } = mail;
 
   return (
-    <Container onClick={toggle}>
-      {modalOpen ? (
-        <MailDetail>
-          <MailContent>{content}</MailContent>
-          <MailSender>{sender}</MailSender>
-          <Buttons>
-            <StyledButton onClick={() => handleDelete(_id)}>
-              ❌
-            </StyledButton>
-            <StyledButton onClick={toggle}>
-              ⬅️
-            </StyledButton>
-          </Buttons>
-        </MailDetail>
-      ) : (
-        <>
-          <MailSpan>{content}</MailSpan>
-          <MailSpan>{sender}</MailSpan>
+    <Container onClick={handleClose}>
+      <MailDetail onClick={() => handleClick(mail)}>
+        <MailContent>{content}</MailContent>
+        <MailSender>{sender}</MailSender>
+        <Buttons>
           <StyledButton onClick={() => handleDelete(_id)}>
             ❌
           </StyledButton>
-        </>
-      )}
+          <StyledButton onClick={handleClose}>
+            ⬅️
+          </StyledButton>
+        </Buttons>
+      </MailDetail>
     </Container>
   );
 }
 
 MailItem.propTypes = {
   mail: PropTypes.object.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  handleClick: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired,
 };
 

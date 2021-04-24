@@ -133,7 +133,7 @@ function Room({ id, handleClickMailbox }) {
     setCurrItemId(itemId);
   }
 
-  const memoUpdateItemMove = useCallback(({ _id, position }) => {
+  function updateMoveItem({ _id, position }) {
     setItems((prev) => prev.map((item) => {
       if (item._id !== _id) {
         return item;
@@ -141,7 +141,7 @@ function Room({ id, handleClickMailbox }) {
 
       return { _id, position };
     }));
-  }, [setItems]);
+  }
 
   async function handleMoveItem(x, y) {
     if (!currItemId || !isEditMode) return;
@@ -155,7 +155,7 @@ function Room({ id, handleClickMailbox }) {
         { id: currItemId, position: itemPosition },
       );
 
-      memoUpdateItemMove({ _id: currItemId, position: itemPosition });
+      updateMoveItem({ _id: currItemId, position: itemPosition });
 
       socket.emit("update", { _id: currItemId, position: itemPosition });
     } catch (err) {
@@ -166,9 +166,9 @@ function Room({ id, handleClickMailbox }) {
   useEffect(() => {
     if (!socket) return;
 
-    socket.on("update", memoUpdateItemMove);
-    return () => socket.off("update", memoUpdateItemMove);
-  }, [socket, memoUpdateItemMove]);
+    socket.on("update", updateMoveItem);
+    return () => socket.off("update", updateMoveItem);
+  }, [socket]);
 
   return (
     <Container>

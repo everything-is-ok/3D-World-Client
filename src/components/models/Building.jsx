@@ -8,11 +8,11 @@ source: https://sketchfab.com/models/413c73b527904fcaa83ee8224d70fe43
 title: lowpoly building
 */
 
-import React, { useRef } from "react";
+import React, { Suspense, useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import PropTypes from "prop-types";
 
-import Texts from "./Texts";
+// import Texts from "./Texts";
 
 export default function Model({ position, user }) {
   const group = useRef();
@@ -25,11 +25,13 @@ export default function Model({ position, user }) {
       dispose={null}
       scale={[0.1, 0.1, 0.1]}
     >
-      <Texts
-        scale={[10, 10, 10]}
-        position={[-300, 3500, 500]}
-        letters={user.email.split("@")[0]}
-      />
+      {/* <Suspense fallback={null}>
+        <Texts
+          scale={[10, 10, 10]}
+          position={[-300, 3500, 500]}
+          letters={user.email.split("@")[0]}
+        />
+      </Suspense> */}
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <mesh geometry={nodes.mesh_0.geometry} material={materials.material_2} />
         <mesh geometry={nodes.mesh_1.geometry} material={materials.material_8} />

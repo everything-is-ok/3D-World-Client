@@ -65,16 +65,16 @@ function World({ user }) {
         <Sky distance={550000} sunPosition={new Vector3(1000, 100, 1000)} />
         <ambientLight intensity={0.3} />
         <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
-        {randomUsers.length > 0 && (
-          randomUsers.map((randomUser, index) => (
-            <Building
-              user={randomUser}
-              position={[(-300 * index + 1), -25, 10]}
-            />
-          ))
-        )}
-        {/* <Suspense fallback={null}>
-        </Suspense> */}
+        <Suspense fallback={null}>
+          {randomUsers.length > 0 && (
+            randomUsers.map((randomUser, index) => (
+              <Building
+                user={randomUser}
+                position={[(-300 * index + 1), -25, 10]}
+              />
+            ))
+          )}
+        </Suspense>
         <Suspense fallback={null}>
           <UserAvatar position={[-300, -5, 150]} user={user} socket={socket} />
           {otherUsers.length > 0 && (
