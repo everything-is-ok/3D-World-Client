@@ -21,6 +21,7 @@ import Fox from "./models/Fox";
 import Gryphon from "./models/Gryphon";
 import Closet from "./models/Closet";
 import Kitchen from "./models/Kitchen";
+import HouseInForest from "./models/HouseInForest";
 import useWorldSocket from "../hooks/useWorldSocket";
 
 const Container = styled.div`
@@ -112,7 +113,7 @@ function World({ user }) {
           <SpaceTaxi position={[100, 100, 300]} scale={[40, 40, 40]} />
           <Fox position={[-500, 500, 500]} scale={[40, 40, 40]} />
           <Gryphon position={[-1000, 1000, 3000]} />
-          <Kitchen position={[-400, 10, 300]} scale={[0.5, 0.5, 0.5]} />
+          {/* <HouseInForest /> */}
         </Suspense>
         <GreenFloor />
         <OrbitControls />
