@@ -7,7 +7,7 @@ function Universe({ position, radius }) {
     <>
       <color attach="background" args={["black"]} />
       <group position={position}>
-        <Stars radius={radius} />
+        {/* <Stars radius={radius} /> */}
       </group>
       <mesh position={[10, 200, -300]} scale={[30, 30, 30]}>
         <sphereBufferGeometry args={[2, 32, 32]} />

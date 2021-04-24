@@ -1,21 +1,54 @@
-import React, { useEffect, useRef } from "react";
+import React, { Suspense, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 
 import Texts from "./Texts";
 import Chicken from "./Chicken";
+import usePosition from "../../hooks/usePosition";
 
-function TempModel({ name, position: [x, _, z], direction }) {
+function TempModel({
+  socket,
+  id,
+  name,
+  position,
+}) {
   const group = useRef();
   const mesh = useRef();
-  const vec = new THREE.Vector3(x, _, z);
+
+  const { position: dynamicPosition, direction } = usePosition(position);
 
   useEffect(() => {
-    group.current.position.set(x, _, z);
-  }, []);
+    if (!socket) {
+      return;
+    }
+
+    socket.emit("move", { position: dynamicPosition, direction });
+  }, [dynamicPosition, direction, socket]);
+
+  useEffect(() => {
+    if (!socket) {
+      return;
+    }
+
+    function sendPosToNewUser({ socketId }) {
+      socket.emit("oldUser", {
+        listener: socketId,
+        posInfo: { user: { id, name }, position: dynamicPosition, direction },
+      });
+    }
+
+    socket.on("newUser", sendPosToNewUser);
+    return () => socket.off("newUser", sendPosToNewUser);
+  }, [socket, dynamicPosition, direction]);
+
+  const vec = new THREE.Vector3(...dynamicPosition);
 
   useFrame(() => {
+    if (!group.current) {
+      return;
+    }
+
     group.current.position.lerp(vec, 0.05);
   });
 
@@ -23,8 +56,9 @@ function TempModel({ name, position: [x, _, z], direction }) {
     <group
       ref={group}
     >
-      {/* NOTE: <textGeomety>로 하려고했는데, 현재 font load하는 부분인지 진행이 되지않아 html로 이름 표시함 */}
-      <Texts letters={name} position={[-12, 45, 0]} />
+      <Suspense fallback={null}>
+        <Texts letters={name} position={[-12, 45, 0]} />
+      </Suspense>
       <mesh
         ref={mesh}
         position={[0, 5, 0]}
@@ -79,7 +113,8 @@ function TempModel({ name, position: [x, _, z], direction }) {
 
 TempModel.propTypes = {
   position: PropTypes.array.isRequired,
-  direction: PropTypes.number.isRequired,
+  socket: PropTypes.any.isRequired,
+  id: PropTypes.string.isRequired,
   name: PropTypes.string,
 };
 

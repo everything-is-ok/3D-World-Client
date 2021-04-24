@@ -29,7 +29,6 @@ export default function useMyProfile() {
     e.preventDefault();
 
     try {
-      // TODO: await 지워도 된다는 것 같다는데 확인 필요.
       const actionResult = await dispatch(updateUserData(userData));
       unwrapResult(actionResult);
       setIsEditing(false);

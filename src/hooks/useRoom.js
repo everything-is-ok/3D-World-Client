@@ -5,7 +5,7 @@ import { getRoomById, roomSelector } from "../reducers/roomSlice";
 
 export default function useRoom(id) {
   const dispatch = useDispatch();
-  const room = useSelector(roomSelector);
+  const room = useSelector(roomSelector) || {};
 
   useEffect(() => {
     dispatch(getRoomById(id));
