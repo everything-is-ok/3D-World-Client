@@ -7,7 +7,7 @@ import MailboxList from "./MailboxList";
 import StyledInput from "./shared/StyledInput";
 import StyledButton from "./shared/StyledButton";
 import { mailSelector, getMailList } from "../reducers/mailSlice";
-import useMailbox from "../hooks/bbb";
+import useMailbox from "../hooks/useMailbox";
 import MailForm from "./MailForm";
 
 // TODO: 일단 중앙에 띄워서 확인하기 위한 컨테이너

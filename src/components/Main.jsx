@@ -8,7 +8,7 @@ import Room from "./Room";
 import OtherUserProfile from "./OtherUserProfile";
 import { userIdSelector } from "../reducers/userSlice";
 import useMailbox from "../hooks/useMailbox";
-import MailboxModal from "";
+import MailboxModal from "./MailboxModal";
 
 // TODO: 배치 수정
 const Container = styled.div`

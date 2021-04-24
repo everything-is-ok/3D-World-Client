@@ -7,7 +7,12 @@ import MailItem from "./shared/MailItem";
 import CustomModal from "./shared/CustomModal";
 import StyledInput from "./shared/StyledInput";
 import StyledButton from "./shared/StyledButton";
-import { mailSelector, getMailList } from "../reducers/mailSlice";
+import {
+  mailSelector,
+  getMailList,
+  deleteMailList,
+  deleteMailItem,
+} from "../reducers/mailSlice";
 
 const Container = styled.div`
   position: fixed;
@@ -26,12 +31,9 @@ const Container = styled.div`
 const Content = styled.div`
 `;
 
-function MailboxList({
-  toggle,
-}) {
+function MailboxList({ toggle }) {
   const dispatch = useDispatch();
   const mailList = useSelector(mailSelector);
-  // const [mailList, setMailList] = useState(mails);
   const [isDetail, setIsDetail] = useState(false);
   const [selectedMail, setSelectedMail] = useState(null);
 
@@ -44,6 +46,14 @@ function MailboxList({
     setSelectedMail(mail);
   }
 
+  function handleDeleteMailList() {
+    dispatch(deleteMailList());
+  }
+
+  function handleDeleteMailItem(mailId) {
+    dispatch(deleteMailItem(mailId));
+  }
+
   return (
     <Container>
       <CustomModal>
@@ -54,6 +64,9 @@ function MailboxList({
             <Content>{selectedMail}</Content>
             <StyledButton onClick={handleDeleteMailItem}>
               삭제
+            </StyledButton>
+            <StyledButton onClick={() => console.log("이전")}>
+              확인
             </StyledButton>
           </>
         ) : (

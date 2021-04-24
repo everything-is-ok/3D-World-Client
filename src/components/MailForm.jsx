@@ -51,7 +51,7 @@ function MailForm({ mailboxId, toggle }) {
       { content },
     );
 
-    setIsToggled(false);
+    toggle();
   }
 
   function handleInputChange(e) {

@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+
 import { getItems } from "../reducers/itemSlice";
 
 function useMailbox({ isLoggedInUser }) {
-  // ㄷㅏ른 사람 아이디가 날아오면 그 사람 아이디로 보내야한다
+  const dispatch = useDispatch();
   const [mailboxId, setMailboxId] = useState(null);
   const [isToggled, setIsToggled] = useState(false);
 
   useEffect(() => {
-    if (!isLoggedInUser) return; // 타인이면 안불러옴
+    if (!isLoggedInUser) return;
 
-    // 내꺼면 계속 불러온다
     dispatch(getItems());
   }, [isLoggedInUser]);
-
 
   function handleClickMailbox(id) {
     setMailboxId(id);
