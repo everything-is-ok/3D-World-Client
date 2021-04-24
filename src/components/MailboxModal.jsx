@@ -1,115 +1,33 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
 
-import MailItem from "./shared/MailItem";
-import StyledInput from "./shared/StyledInput";
-import StyledButton from "./shared/StyledButton";
-import { mailSelector, getMailList } from "../reducers/mailSlice";
-
-// TODO: 일단 중앙에 띄워서 확인하기 위한 컨테이너
-const Container = styled.div`
-  position: fixed;
-  top: 30%;
-  left: 30%;
-  width: 40vw;
-  height: 60vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 3vw;
-
-  border: 1px solid black;
-`;
-
-const Form = styled.form`
-`;
-
-const FormGroup = styled.div`
-  width: 100%;
-`;
-
-const Label = styled.label`
-  padding-top: calc(0.375rem + 1px);
-  padding-bottom: calc(0.375rem + 1px);
-  margin-bottom: 0;
-  font-size: inherit;
-  line-height: 1.5;
-`;
+import CustomModal from "./shared/CustomModal";
+import MailboxList from "./MailboxList";
+import MailForm from "./MailForm";
 
 function MailboxModal({
+  mailboxId,
   isMyMailbox,
-  content,
   toggle,
-  handleFormSubmit,
-  handleInputChange,
-  handleDeleteMailList,
-  handleDeleteMailItem,
 }) {
-  const dispatch = useDispatch();
-  const mailList = useSelector(mailSelector);
-
-  useEffect(() => {
-    if (isMyMailbox) {
-      dispatch(getMailList());
-    }
-  }, []);
-
   return (
-    <Container>
+    <CustomModal handleClose={toggle}>
       {isMyMailbox ? (
-        <>
-          {mailList && mailList.mails.map((mail) => (
-            <MailItem
-              key={mail._id}
-              mail={mail}
-              handleDelete={handleDeleteMailItem}
-            />
-          ))}
-          <StyledButton onClick={handleDeleteMailList}>
-            Delete All
-          </StyledButton>
-          <StyledButton onClick={toggle}>
-            Close
-          </StyledButton>
-        </>
+        <MailboxList toggle={toggle} />
       ) : (
-        <Form
-          onSubmit={handleFormSubmit}
-        >
-          <FormGroup>
-            <Label htmlFor="content">
-              content
-            </Label>
-            <StyledInput
-              id="content"
-              name="content"
-              type="text"
-              value={content}
-              onChange={handleInputChange}
-            />
-          </FormGroup>
-          <StyledButton type="submit">
-            Submit
-          </StyledButton>
-          <StyledButton onClick={toggle}>
-            Close
-          </StyledButton>
-        </Form>
+        <MailForm
+          mailboxId={mailboxId}
+          toggle={toggle}
+        />
       )}
-    </Container>
+    </CustomModal>
   );
 }
 
 MailboxModal.propTypes = {
+  mailboxId: PropTypes.string.isRequired,
   isMyMailbox: PropTypes.bool.isRequired,
-  content: PropTypes.string.isRequired,
   toggle: PropTypes.func.isRequired,
-  handleFormSubmit: PropTypes.func.isRequired,
-  handleInputChange: PropTypes.func.isRequired,
-  handleDeleteMailList: PropTypes.func.isRequired,
-  handleDeleteMailItem: PropTypes.func.isRequired,
 };
 
 export default MailboxModal;
