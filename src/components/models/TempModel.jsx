@@ -101,11 +101,13 @@ function TempModel({
         </group>
       </mesh>
       <mesh scale={[0.5, 0.5, 0.5]}>
-        <Chicken
-          position={[0, -30, 0]}
-          direction={0}
-          name=""
-        />
+        <Suspense fallback={null}>
+          <Chicken
+            position={[0, -30, 0]}
+            direction={0}
+            name=""
+          />
+        </Suspense>
       </mesh>
     </group>
   );

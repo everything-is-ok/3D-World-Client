@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -54,6 +54,8 @@ function Room({ id, handleClickMailbox }) {
     dispatch(updateUserData({ friend: id }));
   }
 
+  const [isEditMode, setIsEditMode] = useState(false);
+
   return (
     <Container>
       <RoomCanvas
@@ -62,6 +64,7 @@ function Room({ id, handleClickMailbox }) {
         userId={userId}
         userName={userName}
         handleClickMailbox={handleClickMailbox}
+        isEditMode={isEditMode}
       />
       <AbsoluteContainer>
         <Chat socket={socket} />
@@ -69,7 +72,7 @@ function Room({ id, handleClickMailbox }) {
       {isMyRoom ? (
         <StyledButton
           type="button"
-          onClick={() => console.log("remodeling")}
+          onClick={() => setIsEditMode(((prev) => !prev))}
         >
           리모델링
         </StyledButton>

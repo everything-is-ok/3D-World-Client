@@ -7,14 +7,18 @@ source: https://sketchfab.com/3d-models/game-pirate-adventure-map-696dfa212fda42
 title: Game pirate adventure map
 */
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 
 export default function Model(props) {
   const group = useRef();
   const { nodes, materials, animations } = useGLTF("models/adventureMap/scene.gltf");
   const { actions } = useAnimations(animations, group);
-  console.log(actions);
+
+  useEffect(() => {
+    actions["Take 001"].play();
+  });
+
   return (
     <group ref={group} {...props} dispose={null}>
       <group rotation={[-Math.PI / 2, 0, 0]}>

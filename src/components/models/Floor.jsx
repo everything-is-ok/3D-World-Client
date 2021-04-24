@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Grass from "./Grass";
 
-function Floor({ width, height }) {
+function Floor({ width, height, onClick }) {
   return (
     <group rotateX={-Math.PI / 2}>
       {Array.from({ length: width }).map((_, y) => (
@@ -11,7 +11,7 @@ function Floor({ width, height }) {
             // eslint-disable-next-line react/no-array-index-key
             key={`x:${x}, y:${y}`}
             position={[(x * 40), 10, (y * 40)]}
-            onClick={() => console.log("X", x, "Y", y)}
+            onClick={() => onClick(x, y)}
           />
         ))
       ))}
@@ -22,6 +22,7 @@ function Floor({ width, height }) {
 Floor.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
+  onClick: PropTypes.func,
 };
 
 export default React.memo(Floor);

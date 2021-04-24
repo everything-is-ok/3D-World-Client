@@ -10,7 +10,7 @@ source: https://sketchfab.com/3d-models/crossy-road-b7e2910d0ffe4da5860dedf39a71
 title: Crossy Road
 */
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 
 import Chicken from "./Chicken";
@@ -23,6 +23,8 @@ export default function Model({ ...props }) {
   const { fetchNewPositionToWorld } = useUserSocket(socket, position);
 
   useEffect(() => {
+    fetchNewPositionToWorld(props.user._id, position, direction);
+
     props.socket.on("newUser", () => {
       props.socket.emit("sendPosition", {
         user,
@@ -30,10 +32,8 @@ export default function Model({ ...props }) {
         direction,
       });
     });
-  }, []);
 
-  useEffect(() => {
-    fetchNewPositionToWorld(props.user._id, position, direction);
+    return () => props.socket.off("newUser");
   }, [position]);
 
   return (

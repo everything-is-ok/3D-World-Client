@@ -23,18 +23,16 @@ export default function Texts({ ...props }) {
   const group = useRef();
   const texts = props.letters.toUpperCase().replace(/ /g, "");
   return (
-    <>
-      <group {...props} ref={group}>
-        <mesh>
-          <textBufferGeometry args={[texts, config]} />
-          <meshStandardMaterial
-            attach="material"
-            metalness={0.2}
-            roughness={0.3}
-            color="#f7b77e"
-          />
-        </mesh>
-      </group>
-    </>
+    <group {...props} ref={group}>
+      <mesh>
+        <textBufferGeometry args={[texts, config]} />
+        <meshStandardMaterial
+          attach="material"
+          metalness={0.2}
+          roughness={0.3}
+          color="#f7b77e"
+        />
+      </mesh>
+    </group>
   );
 }
