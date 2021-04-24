@@ -16,18 +16,20 @@ function useMailList({
 
   function handleSelect(itemId) {
     if (!isEditMode) return;
+    if (currItemId === itemId) return;
 
     setCurrItemId(itemId);
   }
 
   function updateMoveItem({ _id, position }) {
-    if (!isEditMode) return;
+    if (!isEditMode || !currItemId) return;
 
     setItems((prev) => prev.map((item) => {
       if (item._id !== _id) {
         return item;
       }
 
+      setCurrItemId(null);
       return { _id, position };
     }));
   }
