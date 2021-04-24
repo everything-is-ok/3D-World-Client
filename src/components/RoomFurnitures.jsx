@@ -16,8 +16,7 @@ function RoomFurnitures({ socket, room, isEditMode }) {
     <>
       {items && items.map((item) => (
         <Furniture
-          key={`${item._id}${Math.random(20)}`}
-          id={item._id}
+          key={item._id}
           name={item._id}
           position={item.position}
           isEditMode={isEditMode}
