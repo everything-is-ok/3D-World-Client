@@ -10,8 +10,10 @@ source: https://sketchfab.com/3d-models/crossy-road-b7e2910d0ffe4da5860dedf39a71
 title: Crossy Road
 */
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
+import * as THREE from "three";
 
 import Chicken from "./Chicken";
 import usePosition from "../../hooks/usePosition";
@@ -36,12 +38,38 @@ export default function Model({ ...props }) {
     return () => props.socket.off("newUser");
   }, [position]);
 
+  // eslint-disable-next-line no-shadow
+  function Dolly({ camPosition }) {
+    // This one makes the camera move in and out
+    const vec = new THREE.Vector3(...camPosition.map((each, i) => {
+      if (i === 0) {
+        return each - 30;
+      }
+      if (i === 1) {
+        return each + 140;
+      }
+      if (i === 2) {
+        return each + 350;
+      }
+
+      return each;
+    }));
+    useFrame(({ camera }) => {
+      camera.position.lerp(vec, 0.1);
+    });
+
+    return null;
+  }
+
   return (
-    <Chicken
-      position={position || initialPosition}
-      direction={direction}
-      name={user.name}
-    />
+    <>
+      <Chicken
+        position={position || initialPosition}
+        direction={direction}
+        name={user.name}
+      />
+      <Dolly camPosition={position} />
+    </>
   );
 }
 
