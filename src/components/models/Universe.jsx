@@ -1,14 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Stars } from "@react-three/drei";
+import { Shadow, Stars } from "@react-three/drei";
 
 function Universe({ position, radius }) {
   return (
     <>
       <color attach="background" args={["black"]} />
       <group position={position}>
-        <Stars radius={radius} />
+        {/* <Stars radius={radius} /> */}
       </group>
+      <mesh position={[10, 200, -300]} scale={[30, 30, 30]}>
+        <sphereBufferGeometry args={[2, 32, 32]} />
+        <meshBasicMaterial color="#fcfabb" toneMapped={false} fog={false} />
+        <Shadow scale={[10, 10, 1]} opacity={0.7} color="#fcfabb" />
+      </mesh>
     </>
   );
 }

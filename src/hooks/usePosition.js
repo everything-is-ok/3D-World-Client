@@ -33,12 +33,6 @@ export default function usePosition(InitialPosition, initialDirection = 0) {
   const initialY = InitialPosition[POS.Y];
 
   useEffect(() => {
-    window.addEventListener("keydown", handlePositionChange);
-
-    return () => window.removeEventListener("keydown", handlePositionChange);
-  }, []);
-
-  useEffect(() => {
     const ID = setTimeout(() => {
       setPosition((prev) => [...prev].map((each, index) => {
         if (index === POS.Y) {
@@ -56,7 +50,7 @@ export default function usePosition(InitialPosition, initialDirection = 0) {
     window.addEventListener("keydown", handlePositionChange);
 
     return () => window.removeEventListener("keydown", handlePositionChange);
-  }, [position, direction, handlePositionChange]);
+  }, []);
 
   function handlePositionChange(e) {
     if (e.keyCode === 32) {

@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  HashRouter as Router,
   // BrowserRouter as Router,
+  HashRouter as Router,
   Switch,
   Route,
   Redirect,
@@ -31,10 +31,10 @@ function App() {
         <>
           <Header />
           <Switch>
-            <Route exact path="/room/:userId" component={Main} />
             <Route exact path="/world">
               <World user={user} />
             </Route>
+            <Route exact path="/room/:userId" component={Main} />
             <Redirect to={`/room/${user._id}`} />
           </Switch>
         </>
