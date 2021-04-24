@@ -16,7 +16,9 @@ export default function Model(props) {
   const { actions } = useAnimations(animations, group);
 
   useEffect(() => {
-    console.log(actions);
+    actions.landing_2.play();
+
+    return () => actions.landing_2.stop();
   }, []);
 
   return (
