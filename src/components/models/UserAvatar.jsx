@@ -10,7 +10,7 @@ source: https://sketchfab.com/3d-models/crossy-road-b7e2910d0ffe4da5860dedf39a71
 title: Crossy Road
 */
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 
 import Chicken from "./Chicken";

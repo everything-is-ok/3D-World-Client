@@ -10,18 +10,37 @@ source: https://sketchfab.com/3d-models/crossy-road-b7e2910d0ffe4da5860dedf39a71
 title: Crossy Road
 */
 
-import React, { Suspense } from "react";
+import React, { Suspense, useRef } from "react";
 import { useGLTF } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
+import * as THREE from "three";
 
 import Texts from "./Texts";
 
 export default function Model({ ...props }) {
-  const { position, direction, name } = props;
+  // TODO: useLerp?
+  const ref = useRef();
+
+  const {
+    position,
+    direction,
+    name,
+  } = props;
   const { nodes, materials } = useGLTF("models/chicken/scene.gltf");
+
+  const vec = new THREE.Vector3(...position);
+
+  useFrame(() => {
+    if (!ref.current) {
+      return;
+    }
+
+    ref.current.position.lerp(vec, 0.05);
+  });
 
   return (
     <group
-      position={[...position]}
+      ref={ref}
     >
       <Suspense fallback={null}>
         <Texts position={[-45, 60, 0]} letters={name} />
