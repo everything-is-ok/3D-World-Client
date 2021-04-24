@@ -11,7 +11,6 @@ import { Vector3 } from "three";
 import Building from "./models/Building";
 import UserAvatar from "./models/UserAvatar";
 import OtherUserAvatar from "./models/OtherUserAvatar";
-import useWorldSocket from "../hooks/useWorldSocket";
 import GreenFloor from "./models/GreenFloor";
 import AdventureMap from "./models/AdventureMap";
 import Tree from "./models/Tree";
@@ -21,6 +20,8 @@ import SpaceTaxi from "./models/SpaceTaxi";
 import Fox from "./models/Fox";
 import Gryphon from "./models/Gryphon";
 import Closet from "./models/Closet";
+
+import useWorldSocket from "../hooks/useWorldSocket";
 
 const Container = styled.div`
   position: relative;
@@ -77,7 +78,7 @@ function World({ user }) {
         <Sky distance={550000} sunPosition={new Vector3(1000, 100, 1000)} />
         <ambientLight intensity={0.3} />
         <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
-        {/* <Suspense fallback={null}>
+        <Suspense fallback={null}>
           {randomUsers.length > 0 && (
             randomUsers.map((randomUser, index) => (
               <Building
@@ -87,17 +88,17 @@ function World({ user }) {
               />
             ))
           )}
-        </Suspense> */}
-        {/* <Suspense fallback={null}>
+        </Suspense>
+        <Suspense fallback={null}>
           <UserAvatar position={[-300, -5, 150]} user={user} socket={socket} />
-        </Suspense> */}
-        {/* <Suspense fallback={null}>
+        </Suspense>
+        <Suspense fallback={null}>
           {otherUsers.length > 0 && (
             otherUsers.map((otherUser) => (
               <OtherUserAvatar user={otherUser} socket={socket} />
             ))
           )}
-        </Suspense> */}
+        </Suspense>
         <Suspense fallback={null}>
           <AdventureMap
             scale={[0.1, 0.1, 0.1]}
