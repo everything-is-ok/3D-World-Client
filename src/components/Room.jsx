@@ -19,11 +19,14 @@ import useRoom from "../hooks/useRoom";
 import useSocket from "../hooks/useSocket";
 import { updateUserData, userIdSelector, userNameSelector } from "../reducers/userSlice";
 import TempModel from "./models/TempModel";
-import TempFriendModel from "./models/TempFriendModel";
 import usePosition from "../hooks/usePosition";
+import TempFriendModel from "./models/TempFriendModel";
 import useSocketMove from "../hooks/useSocketMove";
+import Grass from "./models/Grass";
 import useSocketRoom from "../hooks/useSocketRoom";
 import Universe from "./models/Universe";
+import Furniture from "./models/Furniture";
+import fetchData from "../utils/fetchData";
 
 const Container = styled.div`
   position: relative;
@@ -116,6 +119,57 @@ function Room({ id, handleClickMailbox }) {
     dispatch(updateUserData({ friend: id }));
   }
 
+  const [items, setItems] = useState([]);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [currItemId, setCurrItemId] = useState(null);
+
+  useEffect(() => {
+    setItems(room?.items);
+  }, [room]);
+
+  function handleSelect(itemId) {
+    if (!isEditMode) return;
+
+    setCurrItemId(itemId);
+  }
+
+  function updateMoveItem({ _id, position }) {
+    setItems((prev) => prev.map((item) => {
+      if (item._id !== _id) {
+        return item;
+      }
+
+      return { _id, position };
+    }));
+  }
+
+  async function handleMoveItem(x, y) {
+    if (!currItemId || !isEditMode) return;
+
+    const itemPosition = [x * 40, 24, y * 40];
+
+    try {
+      await fetchData(
+        "PATCH",
+        "/item",
+        { id: currItemId, position: itemPosition },
+      );
+
+      updateMoveItem({ _id: currItemId, position: itemPosition });
+
+      socket.emit("update", { _id: currItemId, position: itemPosition });
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("update", updateMoveItem);
+    return () => socket.off("update", updateMoveItem);
+  }, [socket]);
+
   return (
     <Container>
       <Canvas camera={{ position: [160, 100, 400], fov: 80 }}>
@@ -125,23 +179,40 @@ function Room({ id, handleClickMailbox }) {
         />
         <ambientLight intensity={2} />
         <pointLight position={[40, 40, 40]} />
-        <TempModel
-          socket={socket}
-          name="너"
-          position={[...dynamicPosition]}
-          direction={direction}
-        />
+        {/* <Suspense fallback={null}>
+          <TempModel
+            socket={socket}
+            name="YOU"
+            position={[...dynamicPosition]}
+            direction={direction}
+          />
+        </Suspense> */}
         {friends.length
           && friends.map(({ user: u, position, direction: d }) => (
             <TempFriendModel key={u} user={u} position={position} direction={d} />
           ))}
         <Suspense fallback={null}>
-          {/* <Mailbox
-            position={[7 * 40, 7 * 40]}
+          <Grass
+            position={[7 * 40, 30, 7 * 40]}
             onClick={() => handleClickMailbox(room.mailboxId)}
-          /> */}
+          />
         </Suspense>
-        <Floor width={8} height={8} />
+        {room && items
+          && items.map((item) => (
+            <Furniture
+              key={`${item._id}${Math.random(20)}`}
+              id={item._id}
+              name={item._id}
+              position={item.position}
+              isEditMode={isEditMode}
+              onClick={() => handleSelect(item._id)}
+            />
+          ))}
+        <Floor
+          width={8}
+          height={8}
+          onClick={handleMoveItem}
+        />
         <OrbitControls />
         <ControlCam />
       </Canvas>
@@ -151,7 +222,7 @@ function Room({ id, handleClickMailbox }) {
       {isMyRoom ? (
         <StyledButton
           type="button"
-          onClick={() => console.log("click reomeling")}
+          onClick={() => setIsEditMode(((prev) => !prev))}
         >
           리모델링
         </StyledButton>

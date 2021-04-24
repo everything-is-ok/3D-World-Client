@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Sky } from "@react-three/drei";
 import { Vector3 } from "three";
+import { useHistory } from "react-router-dom";
 
 // eslint-disable-next-line import/order
 
@@ -25,6 +26,7 @@ const Container = styled.div`
 function World({ user }) {
   const { socket, otherUsers } = useWorldSocket(user, [10, -5, 150], 0);
   const [randomUsers, setRandomUsers] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     async function getRandomIds() {

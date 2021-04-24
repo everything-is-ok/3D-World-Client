@@ -25,16 +25,16 @@ export default function usePosition(InitialPosition, initialDirection = 0) {
     return () => window.removeEventListener("keydown", handlePositionChange);
   }, []);
 
-  useEffect(() => {
-    const ID = setTimeout(() => {
-      setPosition((prev) => {
-        prev[POS.Y] = initialY;
-        return [...prev];
-      });
-    }, 20);
+  // useEffect(() => {
+  //   const ID = setTimeout(() => {
+  //     setPosition((prev) => {
+  //       prev[POS.Y] = initialY;
+  //       return [...prev];
+  //     });
+  //   }, 20);
 
-    return () => clearTimeout(ID);
-  }, [position[POS.Y]]);
+  //   return () => clearTimeout(ID);
+  // }, [position[POS.Y]]);
 
   useEffect(() => {
     window.addEventListener("keydown", handlePositionChange);
