@@ -8,7 +8,7 @@ import Room from "./Room";
 import OtherUserProfile from "./OtherUserProfile";
 import { userIdSelector } from "../reducers/userSlice";
 import useMailbox from "../hooks/useMailbox";
-import MailboxModal from "./MailboxModal";
+import MailboxModal from "";
 
 // TODO: 배치 수정
 const Container = styled.div`
@@ -27,22 +27,18 @@ const Container = styled.div`
 function Main() {
   const { userId } = useParams();
   const [prevUserId, setPrevUserId] = useState(userId);
-  const {
-    content,
-    mailboxId,
-    isToggled,
-    toggle,
-    handleFormSubmit,
-    handleInputChange,
-    handleClickMailbox,
-    handleDeleteMailList,
-    handleDeleteMailItem,
-  } = useMailbox();
 
   // NOTE: 확인 필요합니다. 여기서 유저를 바라보기때문에 유저 바뀔 때마다 밑의 룸이 리랜더링하는 경우가 있는지
   const loggedInUserId = useSelector(userIdSelector);
   // TODO: 필요 없어지면 삭제
   const isLoggedInUser = userId === undefined || loggedInUserId === userId;
+
+  const {
+    mailboxId,
+    isToggled,
+    toggle,
+    handleClickMailbox,
+  } = useMailbox(isLoggedInUser);
 
   useEffect(() => {
     setPrevUserId(userId);
@@ -65,14 +61,9 @@ function Main() {
           />
           {isToggled && (
             <MailboxModal
-              isMyMailbox={isLoggedInUser}
-              content={content}
-              mailboxId={mailboxId}
               toggle={toggle}
-              handleFormSubmit={handleFormSubmit}
-              handleInputChange={handleInputChange}
-              handleDeleteMailList={handleDeleteMailList}
-              handleDeleteMailItem={handleDeleteMailItem}
+              mailboxId={mailboxId}
+              isMyMailbox={isLoggedInUser}
             />
           )}
         </>

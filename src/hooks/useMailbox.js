@@ -1,58 +1,33 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { getItems } from "../reducers/itemSlice";
 
-import { deleteMailList, deleteMailItem } from "../reducers/mailSlice";
-import fetchData from "../utils/fetchData";
-
-function useMailbox() {
-  const dispatch = useDispatch();
-  const [content, setContent] = useState("");
+function useMailbox({ isLoggedInUser }) {
+  // ㄷㅏ른 사람 아이디가 날아오면 그 사람 아이디로 보내야한다
   const [mailboxId, setMailboxId] = useState(null);
   const [isToggled, setIsToggled] = useState(false);
 
-  function handleFormSubmit(e) {
-    e.preventDefault();
+  useEffect(() => {
+    if (!isLoggedInUser) return; // 타인이면 안불러옴
 
-    fetchData(
-      "POST",
-      `/mailbox/mail/${mailboxId}`,
-      { content },
-    );
+    // 내꺼면 계속 불러온다
+    dispatch(getItems());
+  }, [isLoggedInUser]);
 
-    setIsToggled(false);
-  }
-
-  function handleInputChange(e) {
-    setContent(e.target.value);
-  }
-
-  function toggle() {
-    setIsToggled((prev) => !prev);
-  }
 
   function handleClickMailbox(id) {
     setMailboxId(id);
     setIsToggled((prev) => !prev);
   }
 
-  function handleDeleteMailList() {
-    dispatch(deleteMailList());
-  }
-
-  function handleDeleteMailItem(mailId) {
-    dispatch(deleteMailItem(mailId));
+  function toggle() {
+    setIsToggled((prev) => !prev);
   }
 
   return {
-    content,
     mailboxId,
     isToggled,
     toggle,
-    handleFormSubmit,
-    handleInputChange,
     handleClickMailbox,
-    handleDeleteMailList,
-    handleDeleteMailItem,
   };
 }
 

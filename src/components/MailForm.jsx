@@ -6,9 +6,7 @@ import styled from "styled-components";
 import MailboxList from "./MailboxList";
 import StyledInput from "./shared/StyledInput";
 import StyledButton from "./shared/StyledButton";
-import { mailSelector, getMailList } from "../reducers/mailSlice";
-import useMailbox from "../hooks/bbb";
-import MailForm from "./MailForm";
+import fetchData from "../utils/fetchData";
 
 // TODO: 일단 중앙에 띄워서 확인하기 위한 컨테이너
 const Container = styled.div`
@@ -41,31 +39,56 @@ const Label = styled.label`
   line-height: 1.5;
 `;
 
-function MailboxModal({
-  mailboxId,
-  isMyMailbox,
-  toggle,
-}) {
+function MailForm({ mailboxId, toggle }) {
+  const [content, setContent] = useState("");
+
+  function handleFormSubmit(e) {
+    e.preventDefault();
+
+    fetchData(
+      "POST",
+      `/mailbox/mail/${mailboxId}`,
+      { content },
+    );
+
+    setIsToggled(false);
+  }
+
+  function handleInputChange(e) {
+    setContent(e.target.value);
+  }
+
   return (
     <Container>
-      {isMyMailbox ? (
-        <MailboxList
-          toggle={toggle}
-        />
-      ) : (
-        <MailForm
-          mailboxId={mailboxId}
-          toggle={toggle}
-        />
-      )}
+      <Form
+        onSubmit={handleFormSubmit}
+      >
+        <FormGroup>
+          <Label htmlFor="content">
+            content
+          </Label>
+          <StyledInput
+            id="content"
+            name="content"
+            type="text"
+            value={content}
+            onChange={handleInputChange}
+          />
+        </FormGroup>
+        <StyledButton type="submit">
+          Submit
+        </StyledButton>
+        <StyledButton onClick={toggle}>
+          Close
+        </StyledButton>
+      </Form>
     </Container>
   );
 }
 
-MailboxModal.propTypes = {
+MailForm.propTypes = {
   mailboxId: PropTypes.string.isRequired,
-  isMyMailbox: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
 };
 
-export default MailboxModal;
+export default MailForm;

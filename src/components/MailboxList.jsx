@@ -9,7 +9,6 @@ import StyledInput from "./shared/StyledInput";
 import StyledButton from "./shared/StyledButton";
 import { mailSelector, getMailList } from "../reducers/mailSlice";
 
-// TODO: 일단 중앙에 띄워서 확인하기 위한 컨테이너
 const Container = styled.div`
   position: fixed;
   top: 30%;
@@ -29,11 +28,10 @@ const Content = styled.div`
 
 function MailboxList({
   toggle,
-  handleDeleteMailItem,
-  handleDeleteMailList,
 }) {
   const dispatch = useDispatch();
   const mailList = useSelector(mailSelector);
+  // const [mailList, setMailList] = useState(mails);
   const [isDetail, setIsDetail] = useState(false);
   const [selectedMail, setSelectedMail] = useState(null);
 
@@ -51,6 +49,15 @@ function MailboxList({
       <CustomModal>
         {isDetail ? (
           <>
+            <Content>{selectedMail.content}</Content>
+            <Content>{selectedMail.sender}</Content>
+            <Content>{selectedMail}</Content>
+            <StyledButton onClick={handleDeleteMailItem}>
+              삭제
+            </StyledButton>
+          </>
+        ) : (
+          <>
             {mailList.map((mail) => (
               <MailItem
                 key={mail._id}
@@ -59,13 +66,6 @@ function MailboxList({
                 handleDelete={handleDeleteMailItem}
               />
             ))}
-          </>
-        ) : (
-          <>
-            <Content>{selectedMail.Content}</Content>
-            <StyledButton onClick={handleDeleteMailItem}>
-              삭제
-            </StyledButton>
           </>
         )}
       </CustomModal>
@@ -81,8 +81,6 @@ function MailboxList({
 
 MailboxList.propTypes = {
   toggle: PropTypes.func.isRequired,
-  handleDeleteMailItem: PropTypes.func.isRequired,
-  handleDeleteMailList: PropTypes.func.isRequired,
 };
 
 export default MailboxList;

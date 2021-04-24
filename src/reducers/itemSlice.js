@@ -45,4 +45,4 @@ const itemSlice = createSlice({
 
 export default itemSlice.reducer;
 
-export const itemSelector = (state) => state.item.data.items;
+export const itemSelector = (state) => state.item.data.items || [];
