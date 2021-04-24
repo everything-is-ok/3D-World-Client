@@ -29,6 +29,15 @@ export const deleteMailItem = createAsyncThunk(
   },
 );
 
+export const readMailItem = createAsyncThunk(
+  "mail/readMailItem",
+  async (mailId) => {
+    const response = await fetchData("PATCH", "/mailbox/read", { mailId });
+
+    return response;
+  },
+);
+
 const initialState = {
   data: null,
   error: null,
@@ -87,6 +96,23 @@ const mailSlice = createSlice({
       }
     },
     [deleteMailItem.rejected]: (state, action) => {
+      if (state.status === "pending") {
+        state.status = "idle";
+        state.error = action.payload || null;
+      }
+    },
+    [readMailItem.pending]: (state) => {
+      if (state.status === "idle") {
+        state.status = "pending";
+      }
+    },
+    [readMailItem.fulfilled]: (state, action) => {
+      if (state.status === "pending") {
+        state.status = "idle";
+        state.data = action.payload;
+      }
+    },
+    [readMailItem.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
         state.error = action.payload || null;
