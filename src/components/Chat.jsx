@@ -61,7 +61,7 @@ function Chat({ socket }) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    socket.emit("chat", { message });
+    socket.emit("chat message", { message });
     addChatElement(message);
     setMessage("");
   }
