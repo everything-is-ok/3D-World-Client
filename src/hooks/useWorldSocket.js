@@ -24,8 +24,8 @@ function useWorldSocket(user, position, direction = 0) {
 
     const userInfo = {
       ...user,
-      direction: position,
-      position: direction,
+      direction,
+      position,
     };
 
     socket.emit("join world", userInfo);
@@ -70,8 +70,9 @@ function useWorldSocket(user, position, direction = 0) {
     });
 
     socket.on("leave world", (leftUserInfo) => {
+      console.log(leftUserInfo);
       setOtherUsers((prev) => ([
-        ...prev.filter((prevUSer) => prevUSer.id !== leftUserInfo._id),
+        ...prev.filter((prevUser) => prevUser.id !== leftUserInfo._id),
       ]));
     });
   }, [socket, user]);
