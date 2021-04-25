@@ -53,7 +53,7 @@ function Main() {
         <OtherUserProfile id={userId} />
       )}
       {/* TODO: World와 Room Comp를 토글방식으로 적용. */}
-      { prevUserId === userId ? (
+      {prevUserId === userId ? (
         <>
           <Room
             id={userId}

@@ -16,7 +16,7 @@ function Floor({
             // eslint-disable-next-line react/no-array-index-key
             key={`x:${x}, y:${y}`}
             position={[(x * 40), 10, (y * 40)]}
-            onClick={(e) => onClick(e, x, y)}
+            onClick={() => onClick(x, y)}
             currItemId={currItemId}
           />
         ))

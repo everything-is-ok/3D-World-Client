@@ -1,18 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import {
-  TextureLoader,
-  RepeatWrapping,
-} from "three";
+// import {
+//   TextureLoader,
+//   RepeatWrapping,
+// } from "three";
 
-import grassImg from "./textures/grass.jpeg";
+// import grassImg from "./textures/grass.jpeg";
 
 function Grass({ position, onClick, currItemId }) {
   const mesh = useRef();
-  const texture = new TextureLoader().load(grassImg);
-  texture.wrapS = RepeatWrapping;
-  texture.wrapT = RepeatWrapping;
-  texture.repeat.set(10, 10);
+
+  // NOTE texture 렌더를 async로 바꿀 수 있는지 확인
+  // let texture;
+  // useEffect(async () => {
+  //   texture = await new TextureLoader().load(grassImg);
+  //   texture.wrapS = RepeatWrapping;
+  //   texture.wrapT = RepeatWrapping;
+  //   texture.repeat.set(10, 10);
+  // }, []);
 
   const [hovered, setHover] = useState(false);
 
@@ -33,7 +38,7 @@ function Grass({ position, onClick, currItemId }) {
     >
       <boxBufferGeometry attach="geometry" args={[39, 10, 39]} />
       <meshStandardMaterial
-        map={texture}
+        // map={texture}
         attach="material"
         color={hovered ? "tomato" : "green"}
       />

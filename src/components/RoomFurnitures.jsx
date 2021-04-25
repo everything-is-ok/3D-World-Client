@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 
 import Floor from "./models/Floor";
@@ -21,7 +21,7 @@ function RoomFurnitures({ socket, room, isEditMode }) {
           name={item._id}
           position={item.position}
           isEditMode={isEditMode}
-          onClick={(e) => handleSelect(e, item._id, item.position)}
+          onClick={() => handleSelect(item._id, item.position)}
         />
       ))}
       <Floor

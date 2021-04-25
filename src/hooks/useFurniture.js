@@ -14,9 +14,7 @@ function useMailList({
     setItems(room?.items);
   }, [room]);
 
-  function handleSelect(e, itemId, itemPosition) {
-    e.stopPropagation();
-
+  function handleSelect(itemId, itemPosition) {
     if (!isEditMode || currItemId === itemId) return;
 
     const [x, y, z] = itemPosition;
@@ -42,9 +40,7 @@ function useMailList({
     }));
   }, [setItems]);
 
-  async function handleMoveItem(e, x, y) {
-    e.stopPropagation();
-
+  async function handleMoveItem(x, y) {
     if (!currItemId || !isEditMode) return;
 
     const itemPosition = [(x * 40), 0, (y * 40)];
