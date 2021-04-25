@@ -24,8 +24,8 @@ function useWorldSocket(user, position, direction = 0) {
 
     const userInfo = {
       ...user,
-      direction: position,
-      position: direction,
+      direction,
+      position,
     };
 
     socket.emit("join world", userInfo);
