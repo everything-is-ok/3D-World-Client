@@ -15,7 +15,7 @@ function Furniture({ position, onClick }) {
         rotation={[0, 0, 0]}
         onClick={onClick}
       >
-        <boxGeometry args={[30, 30, 30]} />
+        <boxGeometry args={[50, 50, 50]} />
         <meshStandardMaterial color="skyblue" />
       </mesh>
     </group>
