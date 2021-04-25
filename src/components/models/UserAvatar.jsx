@@ -38,9 +38,7 @@ export default function Model({ ...props }) {
     return () => props.socket.off("newUser");
   }, [position]);
 
-  // eslint-disable-next-line no-shadow
-  function Dolly({ camPosition }) {
-    // This one makes the camera move in and out
+  function ThirdPersonCamera({ camPosition }) {
     const vec = new THREE.Vector3(...camPosition.map((each, i) => {
       if (i === 0) {
         return each - 30;
@@ -68,7 +66,7 @@ export default function Model({ ...props }) {
         direction={direction}
         name={user.name}
       />
-      <Dolly camPosition={position} />
+      <ThirdPersonCamera camPosition={position} />
     </>
   );
 }
