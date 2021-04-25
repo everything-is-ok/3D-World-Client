@@ -59,6 +59,7 @@ function Chat({ socket }) {
   }
 
   function handleSubmit(e) {
+    // TODO: socket error handle
     e.preventDefault();
 
     socket.emit("chat message", { message });
