@@ -22,26 +22,54 @@ function useWorldSocket(user, position, direction = 0) {
       return;
     }
 
-    socket.emit("world", { user, position, direction });
+    const userInfo = {
+      ...user,
+      direction: position,
+      position: direction,
+    };
+
+    socket.emit("join world", userInfo);
     // TODO: 변수명 정리 (user/ newuser/ incominguser.., data...)
-    socket.on("worldConnection", ({
-      direction: newDirection,
-      user: newUser,
-      position: newUserPosition,
-    }) => {
-      const { name } = newUser;
+
+    socket.on("join world", (newUserInfo) => {
+      const {
+        name,
+        _id,
+        direction: newUserDirection,
+        position: newUserPosition,
+      } = newUserInfo;
+
       setOtherUsers((prev) => ([
         ...prev,
         {
           name,
-          id: newUser._id,
+          id: _id,
           position: newUserPosition,
-          direction: newDirection,
+          direction: newUserDirection,
         },
       ]));
     });
 
-    socket.on("leaveWorld", (leftUser) => {
+    socket.on("old user info", (oldUserInfo) => {
+      const {
+        _id,
+        name,
+        direction: oldUserDirection,
+        position: oldUserPosition,
+      } = oldUserInfo;
+
+      setOtherUsers((prev) => ([
+        ...prev,
+        {
+          name,
+          id: _id,
+          position: oldUserPosition,
+          direction: oldUserDirection,
+        },
+      ]));
+    });
+
+    socket.on("leave world", (leftUser) => {
       setOtherUsers((prev) => ([
         ...prev.filter((prevUSer) => prevUSer.id !== leftUser._id),
       ]));

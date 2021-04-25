@@ -44,7 +44,7 @@ function Room({ id, handleClickMailbox }) {
       return;
     }
 
-    socket.emit("room", { user: { id: userId, name: userName }, roomId: room._id });
+    socket.emit("join room", { user: { id: userId, name: userName }, roomId: room._id });
   }, [socket, userId, userName, room._id]);
 
   // TODO: 필요 없어지면 삭제

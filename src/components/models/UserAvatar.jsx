@@ -27,15 +27,18 @@ export default function Model({ ...props }) {
   useEffect(() => {
     fetchNewPositionToWorld(props.user._id, position, direction);
 
-    props.socket.on("newUser", () => {
-      props.socket.emit("sendPosition", {
-        user,
-        position,
-        direction,
+    props.socket.on("new user socket id", ({ socketId }) => {
+      props.socket.emit("old user info", {
+        userInfo: {
+          ...user,
+          position,
+          direction,
+        },
+        listener: socketId,
       });
     });
 
-    return () => props.socket.off("newUser");
+    return () => props.socket.off("new user socket id");
   }, [position]);
 
   function ThirdPersonCamera({ camPosition }) {
