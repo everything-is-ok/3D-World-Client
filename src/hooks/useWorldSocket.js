@@ -38,7 +38,7 @@ function useWorldSocket(user, position, direction = 0) {
         direction: newUserDirection,
         position: newUserPosition,
       } = newUserInfo;
-      console.log(newUserInfo);
+
       setOtherUsers((prev) => ([
         ...prev,
         {
