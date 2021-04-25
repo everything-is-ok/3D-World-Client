@@ -33,6 +33,7 @@ function Main() {
   // TODO: 필요 없어지면 삭제
   const isLoggedInUser = userId === undefined || loggedInUserId === userId;
 
+  // NOTE: Room과 프로필 부분을 한번 더 분리해야 리렌더링을 막을 수 있을 것 같습니다.
   const {
     mailboxId,
     isToggled,
