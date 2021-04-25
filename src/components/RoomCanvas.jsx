@@ -50,7 +50,6 @@ function RoomCanvas({
         position={[7 * 40, 7 * 40]}
         onClick={() => handleClickMailbox(room.mailboxId)}
       />
-      {/* NOTE 조건확인 */}
       <RoomFurnitures
         socket={socket}
         isEditMode={isEditMode}

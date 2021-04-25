@@ -21,7 +21,7 @@ function RoomFurnitures({ socket, room, isEditMode }) {
           name={item._id}
           position={item.position}
           isEditMode={isEditMode}
-          onClick={() => handleSelect(item._id)}
+          onClick={(e) => handleSelect(e, item._id, item.position)}
         />
       ))}
       <Floor
