@@ -17,7 +17,7 @@ export default function Model(props) {
 
   return (
     <group ref={group} {...props} dispose={null}>
-      <group name="tableGroup">
+      <group position={[0, 0, -40]} name="tableGroup">
         <group position={[-3.86, 24.03, 40.59]} rotation={[3.12, 0.01, 3.11]}>
           <mesh geometry={nodes.cushion_02_redMat_0.geometry} material={nodes.cushion_02_redMat_0.material} />
         </group>

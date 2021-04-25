@@ -14,22 +14,18 @@ function Grass({ position, onClick, currItemId }) {
   texture.wrapT = RepeatWrapping;
   texture.repeat.set(10, 10);
 
-  const [hovered, setHover] = useState(!!currItemId);
-
   return (
     <mesh
       ref={mesh}
       scale={1}
       position={[...position]}
       onClick={onClick}
-      onPointerOver={() => setHover(true)}
-      onPointerOut={() => setHover(false)}
     >
       <boxBufferGeometry attach="geometry" args={[39, 10, 39]} />
       <meshStandardMaterial
         map={texture}
         attach="material"
-        color={hovered ? "hotpink" : "green"}
+        color="green"
       />
     </mesh>
   );
