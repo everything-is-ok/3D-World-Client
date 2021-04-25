@@ -69,9 +69,9 @@ function useWorldSocket(user, position, direction = 0) {
       ]));
     });
 
-    socket.on("leave world", (leftUser) => {
+    socket.on("leave world", (leftUserInfo) => {
       setOtherUsers((prev) => ([
-        ...prev.filter((prevUSer) => prevUSer.id !== leftUser._id),
+        ...prev.filter((prevUSer) => prevUSer.id !== leftUserInfo._id),
       ]));
     });
   }, [socket, user]);
