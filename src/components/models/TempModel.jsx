@@ -6,6 +6,7 @@ import { useFrame } from "@react-three/fiber";
 import Texts from "./Texts";
 import Chicken from "./Chicken";
 import usePosition from "../../hooks/usePosition";
+import zusePosition from "../../hooks/zusePosition";
 
 function TempModel({
   socket,
@@ -16,7 +17,12 @@ function TempModel({
   const group = useRef();
   const mesh = useRef();
 
-  const { position: dynamicPosition, direction } = usePosition(position);
+  const {
+    position: dynamicPosition,
+    direction,
+    height,
+    updateHeight,
+  } = zusePosition(position);
 
   useEffect(() => {
     if (!socket) {
@@ -42,14 +48,17 @@ function TempModel({
     return () => socket.off("newUser", sendPosToNewUser);
   }, [socket, dynamicPosition, direction]);
 
-  const vec = new THREE.Vector3(...dynamicPosition);
+  // const vec = new THREE.Vector3(dynamicPosition[0], height, dynamicPosition[2]);
+  const vec = new THREE.Vector3(dynamicPosition[0], height, dynamicPosition[2]);
 
   useFrame(() => {
     if (!group.current) {
       return;
     }
 
+    updateHeight();
     group.current.position.lerp(vec, 0.05);
+    group.current.position.y = height;
   });
 
   return (
@@ -115,9 +124,9 @@ function TempModel({
 
 TempModel.propTypes = {
   position: PropTypes.array.isRequired,
-  socket: PropTypes.any.isRequired,
   id: PropTypes.string.isRequired,
   name: PropTypes.string,
+  socket: PropTypes.any,
 };
 
 TempModel.defaultProps = {
