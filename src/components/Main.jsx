@@ -27,7 +27,6 @@ const Container = styled.div`
 function Main() {
   const { userId } = useParams();
   const [prevUserId, setPrevUserId] = useState(userId);
-
   // NOTE: 확인 필요합니다. 여기서 유저를 바라보기때문에 유저 바뀔 때마다 밑의 룸이 리랜더링하는 경우가 있는지
   const loggedInUserId = useSelector(userIdSelector);
   // TODO: 필요 없어지면 삭제

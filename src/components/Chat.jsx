@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
@@ -40,10 +40,10 @@ const FormContainer = styled.form`
 `;
 
 // TODO: 내가 보낸 채팅과 받은 채팅을 구분할 수 있도록 수정
-function Chat({ socket }) {
+function Chat({ socket, ref }) {
   const [message, setMessage] = useState("");
   const [chatList, setChatList] = useState([]);
-
+  const inputRef = useRef();
   useSocketChat(socket, handleChat);
 
   function handleChat({ message: data }) {
@@ -55,6 +55,7 @@ function Chat({ socket }) {
   }
 
   function handleInputChange(e) {
+    e.stopPropagation();
     setMessage(e.target.value);
   }
 
@@ -77,6 +78,7 @@ function Chat({ socket }) {
         onSubmit={handleSubmit}
       >
         <StyledInput
+          ref={inputRef}
           value={message}
           onChange={handleInputChange}
         />
@@ -88,6 +90,7 @@ function Chat({ socket }) {
 
 Chat.propTypes = {
   socket: PropTypes.any,
+  ref: PropTypes.any,
 };
 
 export default Chat;

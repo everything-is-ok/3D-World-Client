@@ -55,7 +55,6 @@ function Room({ id, handleClickMailbox }) {
   }
 
   const [isEditMode, setIsEditMode] = useState(false);
-
   return (
     <Container>
       <RoomCanvas
