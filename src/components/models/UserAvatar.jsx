@@ -10,8 +10,10 @@ source: https://sketchfab.com/3d-models/crossy-road-b7e2910d0ffe4da5860dedf39a71
 title: Crossy Road
 */
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
+import * as THREE from "three";
 
 import Chicken from "./Chicken";
 import usePosition from "../../hooks/usePosition";
@@ -25,23 +27,50 @@ export default function Model({ ...props }) {
   useEffect(() => {
     fetchNewPositionToWorld(props.user._id, position, direction);
 
-    props.socket.on("newUser", () => {
-      props.socket.emit("sendPosition", {
-        user,
-        position,
-        direction,
+    props.socket.on("new user socket id", ({ socketId }) => {
+      props.socket.emit("old user info", {
+        userInfo: {
+          ...user,
+          position,
+          direction,
+        },
+        listener: socketId,
       });
     });
 
-    return () => props.socket.off("newUser");
+    return () => props.socket.off("new user socket id");
   }, [position]);
 
+  function ThirdPersonCamera({ camPosition }) {
+    const vec = new THREE.Vector3(...camPosition.map((each, i) => {
+      if (i === 0) {
+        return each - 30;
+      }
+      if (i === 1) {
+        return each + 140;
+      }
+      if (i === 2) {
+        return each + 350;
+      }
+
+      return each;
+    }));
+    useFrame(({ camera }) => {
+      camera.position.lerp(vec, 0.1);
+    });
+
+    return null;
+  }
+
   return (
-    <Chicken
-      position={position || initialPosition}
-      direction={direction}
-      name={user.name}
-    />
+    <>
+      <Chicken
+        position={position || initialPosition}
+        direction={direction}
+        name={user.name}
+      />
+      <ThirdPersonCamera camPosition={position} />
+    </>
   );
 }
 

@@ -21,7 +21,7 @@ export default function Model({ user, socket }) {
   const [direction, setDirection] = useState(user.direction);
 
   useEffect(() => {
-    socket.on(`receive_position_${user.id}`, ({ newPosition, newDirection }) => {
+    socket.on(`update movement:${user.id}`, ({ newPosition, newDirection }) => {
       setPosition([...newPosition]);
       setDirection(newDirection);
     });

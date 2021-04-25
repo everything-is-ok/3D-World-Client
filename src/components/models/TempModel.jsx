@@ -23,7 +23,7 @@ function TempModel({
       return;
     }
 
-    socket.emit("move", { position: dynamicPosition, direction });
+    socket.emit("user movement", { position: dynamicPosition, direction });
   }, [dynamicPosition, direction, socket]);
 
   useEffect(() => {
@@ -32,14 +32,14 @@ function TempModel({
     }
 
     function sendPosToNewUser({ socketId }) {
-      socket.emit("oldUser", {
+      socket.emit("old user info", {
         listener: socketId,
         posInfo: { user: { id, name }, position: dynamicPosition, direction },
       });
     }
-
-    socket.on("newUser", sendPosToNewUser);
-    return () => socket.off("newUser", sendPosToNewUser);
+    // TODO: 맨토님께 질문, 스페이스 쓸지 어절지
+    socket.on("new user socket id", sendPosToNewUser);
+    return () => socket.off("new user socket id", sendPosToNewUser);
   }, [socket, dynamicPosition, direction]);
 
   const vec = new THREE.Vector3(...dynamicPosition);

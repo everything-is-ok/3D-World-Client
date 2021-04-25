@@ -6,8 +6,8 @@ function useSocketChat(socket, handleChat) {
       return;
     }
 
-    socket.on("chat", handleChat);
-    return () => socket.off("chat", handleChat);
+    socket.on("chat message", handleChat);
+    return () => socket.off("chat message", handleChat);
   }, [socket]);
 }
 

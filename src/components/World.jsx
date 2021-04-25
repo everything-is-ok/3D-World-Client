@@ -1,10 +1,13 @@
-import React, { Suspense, useEffect, useState } from "react";
+/* eslint-disable react/jsx-props-no-spreading */
+import React, {
+  Suspense, useEffect, useRef, useState,
+} from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Sky } from "@react-three/drei";
-import { Vector3 } from "three";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { CubeCamera, OrbitControls, Sky } from "@react-three/drei";
+import { DirectionalLight, Vector3 } from "three";
 
 // eslint-disable-next-line import/order
 
@@ -20,8 +23,6 @@ import SpaceTaxi from "./models/SpaceTaxi";
 import Fox from "./models/Fox";
 import Gryphon from "./models/Gryphon";
 import Closet from "./models/Closet";
-import Kitchen from "./models/Kitchen";
-import HouseInForest from "./models/HouseInForest";
 import useWorldSocket from "../hooks/useWorldSocket";
 
 const Container = styled.div`
@@ -32,6 +33,16 @@ const Container = styled.div`
   // NOTE: 사이즈 확인용 border
   border: 2px solid black;
 `;
+
+function Camera(props) {
+  const ref = useRef();
+  let count = 0;
+  useFrame(() => {
+    ref.current.position.set([count++, count++, count++]);
+  });
+
+  return <perspectiveCamera ref={ref} {...props} />;
+}
 
 function World({ user }) {
   const { socket, otherUsers } = useWorldSocket(user, [10, -5, 150], 0);
@@ -75,7 +86,8 @@ function World({ user }) {
 
   return (
     <Container>
-      <Canvas camera={{ position: [200, 200, 700], fov: 60, far: 10000 }}>
+      <Canvas>
+        <Camera />
         <Sky distance={550000} sunPosition={new Vector3(1000, 100, 1000)} />
         <ambientLight intensity={0.3} />
         <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
@@ -116,7 +128,6 @@ function World({ user }) {
           {/* <HouseInForest /> */}
         </Suspense>
         <GreenFloor />
-        <OrbitControls />
       </Canvas>
     </Container>
   );

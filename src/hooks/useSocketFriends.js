@@ -21,8 +21,8 @@ function useSocketFriends({
       }));
     }
 
-    socket.on("move", updateFriendsMove);
-    return () => socket.off("move", updateFriendsMove);
+    socket.on("user movement", updateFriendsMove);
+    return () => socket.off("user movement", updateFriendsMove);
   }, [socket]);
 
   useEffect(() => {
@@ -38,11 +38,11 @@ function useSocketFriends({
       setfriends((prev) => prev.filter((friend) => friend.user.id !== user.id));
     }
 
-    socket.on("setOldUser", addExistingFriend);
-    socket.on("leave", deleteFriend);
+    socket.on("old user info", addExistingFriend);
+    socket.on("leave room", deleteFriend);
     return () => {
-      socket.off("setOldUser", addExistingFriend);
-      socket.off("leave", deleteFriend);
+      socket.off("old user info", addExistingFriend);
+      socket.off("leave room", deleteFriend);
     };
   }, [socket]);
 
@@ -59,8 +59,8 @@ function useSocketFriends({
       }));
     }
 
-    socket.on("room", addNewFriend);
-    return () => socket.off("room", addNewFriend);
+    socket.on("join room", addNewFriend);
+    return () => socket.off("join room", addNewFriend);
   }, [socket]);
 
   return friends;
