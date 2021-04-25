@@ -6,9 +6,9 @@ import MailboxList from "./MailboxList";
 import MailForm from "./MailForm";
 
 function MailboxModal({
+  toggle,
   mailboxId,
   isMyMailbox,
-  toggle,
 }) {
   return (
     <CustomModal handleClose={toggle}>
@@ -25,9 +25,9 @@ function MailboxModal({
 }
 
 MailboxModal.propTypes = {
+  toggle: PropTypes.func.isRequired,
   mailboxId: PropTypes.string.isRequired,
   isMyMailbox: PropTypes.bool.isRequired,
-  toggle: PropTypes.func.isRequired,
 };
 
 export default MailboxModal;

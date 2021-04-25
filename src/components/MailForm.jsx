@@ -6,7 +6,6 @@ import StyledInput from "./shared/StyledInput";
 import StyledButton from "./shared/StyledButton";
 import fetchData from "../utils/fetchData";
 
-// TODO: 일단 중앙에 띄워서 확인하기 위한 컨테이너
 const Container = styled.div`
 `;
 
@@ -37,7 +36,7 @@ function MailForm({ mailboxId, toggle }) {
       toggle();
     } catch (err) {
       // TODO 전송을 다시 누르게 하기
-      console.log(err.message);
+      // console.log(err.message);
     }
   }
 
