@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import fetchData from "../utils/fetchData";
 
@@ -30,7 +30,7 @@ function useMailList({
     setCurrItemId(itemId);
   }
 
-  const updateMoveItem = useCallback(async ({ _id, position }) => {
+  async function updateMoveItem({ _id, position }) {
     setItems((prev) => prev.map((item) => {
       if (item._id !== _id) {
         return item;
@@ -38,7 +38,7 @@ function useMailList({
 
       return { ...item, position };
     }));
-  }, [setItems]);
+  }
 
   async function handleMoveItem(x, y) {
     if (!currItemId || !isEditMode) return;

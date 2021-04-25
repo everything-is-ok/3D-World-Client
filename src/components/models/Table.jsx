@@ -25,7 +25,7 @@ export default function Model(props) {
         <group position={[-1.74, 0.47, -8.05]} rotation={[0, -0.05, 0]}>
           <mesh geometry={nodes.chair_02_tan_Mat_0.geometry} material={nodes.chair_02_tan_Mat_0.material} />
         </group>
-        <mesh geometry={nodes.table_tan_Mat_0.geometry} material={nodes.table_tan_Mat_0.material} />
+        <mesh color="red" geometry={nodes.table_tan_Mat_0.geometry} material={nodes.table_tan_Mat_0.material} />
         <group position={[35.82, -0.97, 90.07]} rotation={[-3.13, 0.03, -3.1]}>
           <mesh geometry={nodes.cushion_01_redMat_0.geometry} material={nodes.cushion_01_redMat_0.material} />
         </group>
