@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { Suspense, useRef } from "react";
 import PropTypes from "prop-types";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
@@ -10,6 +10,8 @@ import Mailbox from "./models/Mailbox";
 import Bedroom from "./models/Bedroom";
 import Friends from "./Friends";
 import RoomFurnitures from "./RoomFurnitures";
+import Closet from "./models/Closet";
+import LongTree from "./models/LongTree";
 
 const CanvasContainer = styled.div`
   width: 100%;
@@ -63,7 +65,7 @@ function RoomCanvas({
         />
         <Friends socket={socket} />
         <Mailbox
-          position={[7 * 40, 7 * 40]}
+          position={[3 * 40, 13 * 40]}
           onClick={() => handleClickMailbox(room.mailboxId)}
         />
         {/* NOTE 조건확인 */}
@@ -72,6 +74,10 @@ function RoomCanvas({
           isEditMode={isEditMode}
           room={room}
         />
+        <Suspense fallback={null}>
+          <Closet position={[20, 18, 350]} />
+          <LongTree position={[150, 80, 30]} />
+        </Suspense>
         <Bedroom receiveShadow scale={4 * 12} position={[0, 20, 0]} />
         {/* NOTE: OrbitControls 삭제하고 view 고정해야함 */}
         <OrbitControls />

@@ -9,9 +9,9 @@ function Mailbox({ position, onClick }) {
   return (
     <group
       ref={group}
-      scale={20}
+      scale={40}
       dispose={null}
-      position={[position[0], 5, position[1]]}
+      position={[position[0], 10, position[1]]}
       rotation={[-Math.PI / 2, 0, -Math.PI / 2]}
     >
       <mesh
