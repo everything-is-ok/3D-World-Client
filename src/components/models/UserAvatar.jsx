@@ -18,7 +18,7 @@ import * as THREE from "three";
 import Chicken from "./Chicken";
 import usePosition from "../../hooks/usePosition";
 import useUserSocket from "../../hooks/useUserSocket";
-import SOCKET from "../../constants/socket";
+import SOCKET from "../../constants/socketEvents";
 
 export default function Model({ ...props }) {
   const { position: initialPosition, socket, user } = props;

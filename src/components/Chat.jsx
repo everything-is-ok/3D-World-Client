@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import useSocketChat from "../hooks/useSocketChat";
 import StyledInput from "./shared/StyledInput";
+import EVENTS from "../constants/socketEvents";
 
 const ChatHeader = styled.header`
   padding: 0.5rem;
@@ -54,6 +55,7 @@ function Chat({ socket }) {
   const [chatList, setChatList] = useState([]);
   const inputRef = useRef();
   const chatListRef = useRef();
+  const { CHAT_MESSAGE } = EVENTS;
 
   useSocketChat(socket, handleChat);
 
@@ -84,7 +86,7 @@ function Chat({ socket }) {
       return;
     }
     // TODO: socket error handle
-    socket.emit("chat message", { message });
+    socket.emit(CHAT_MESSAGE, { message });
     addChatElement({ user: "나", message });
     setMessage("");
   }
