@@ -15,7 +15,7 @@ const key = {
   right: -Math.PI / 2,
 };
 
-const oneStep = 20;
+const oneStep = 40;
 
 function getChangedPosition(array, position, step) {
   return [...array].map((each, index) => {
@@ -32,19 +32,19 @@ export default function usePosition(InitialPosition, initialDirection = 0) {
   const [direction, setDirection] = useState(initialDirection);
   const initialY = InitialPosition[POS.Y];
 
-  useEffect(() => {
-    const ID = setTimeout(() => {
-      setPosition((prev) => [...prev].map((each, index) => {
-        if (index === POS.Y) {
-          return each = initialY;
-        }
+  // useEffect(() => {
+  //   const ID = setTimeout(() => {
+  //     setPosition((prev) => [...prev].map((each, index) => {
+  //       if (index === POS.Y) {
+  //         return each = initialY;
+  //       }
 
-        return each;
-      }));
-    }, 20);
+  //       return each;
+  //     }));
+  //   }, 20);
 
-    return () => clearTimeout(ID);
-  }, [position[POS.Y]]);
+  //   return () => clearTimeout(ID);
+  // }, [position[POS.Y]]);
 
   useEffect(() => {
     window.addEventListener("keydown", handlePositionChange);
@@ -78,9 +78,15 @@ export default function usePosition(InitialPosition, initialDirection = 0) {
     }
   }
 
+  function initPosition() {
+    setPosition(InitialPosition);
+    setDirection(initialDirection);
+  }
+
   return {
     position,
     direction,
     handlePositionChange,
+    initPosition,
   };
 }
