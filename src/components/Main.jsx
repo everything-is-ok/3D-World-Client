@@ -88,7 +88,7 @@ function Main() {
         <Chat socket={socket} />
       </SideContainer>
       {/* TODO: World와 Room Comp를 토글방식으로 적용. */}
-      { room ? (
+      {room ? (
         <>
           <Room
             socket={socket}

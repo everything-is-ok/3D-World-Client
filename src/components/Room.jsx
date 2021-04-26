@@ -73,6 +73,7 @@ function Room({
           type="button"
           onClick={handleAddFriendClick}
         >
+          {/* TODO 친구사이면 버튼 안나오게 수정 */}
           친구추가
         </StyledButton>
       )}
