@@ -6,7 +6,7 @@ import { useFrame } from "@react-three/fiber";
 import Texts from "./Texts";
 import Chicken from "./Chicken";
 import usePosition from "../../hooks/usePosition";
-import SOCKET from "../../constants/socket";
+import EVENTS from "../../constants/socketEvents";
 // import zusePosition from "../../hooks/zusePosition";
 
 function TempModel({
@@ -23,7 +23,7 @@ function TempModel({
     direction,
     initPosition,
   } = usePosition(position);
-  const { USER_MOVEMENT, OLD_USER_INFO, NEW_USER_SOCKET_ID } = SOCKET;
+  const { USER_MOVEMENT, OLD_USER_INFO, NEW_USER_SOCKET_ID } = EVENTS;
 
   useEffect(() => {
     initPosition();

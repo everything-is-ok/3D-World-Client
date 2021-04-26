@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import SOCKET from "../constants/socket";
+import EVENTS from "../constants/socketEvents";
 
 function useSocketFriends({
   socket,
@@ -12,7 +12,7 @@ function useSocketFriends({
     OLD_USER_INFO,
     LEAVE_ROOM,
     JOIN_ROOM,
-  } = SOCKET;
+  } = EVENTS;
 
   useEffect(() => {
     if (!socket) {
