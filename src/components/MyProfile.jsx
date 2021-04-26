@@ -6,9 +6,8 @@ import ProfileForm from "./shared/ProfileForm";
 import useMyProfile from "../hooks/useMyProfile";
 
 const Container = styled.div`
-  width: 20%;
   height: 100%;
-
+  padding: 0.5rem;
   // NOTE: 사이즈 확인용 border
   border: 2px solid black;
 `;
