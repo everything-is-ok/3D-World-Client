@@ -43,7 +43,7 @@ function RoomCanvas({
   function handleClickCanvas() {
     canvasRef.current.focus();
   }
-
+  // TODO: delete temp model
   return (
     <CanvasContainer
       onClick={handleClickCanvas}

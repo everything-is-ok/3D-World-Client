@@ -38,7 +38,10 @@ function useSocketFriends({
       setfriends((prev) => prev.filter((friend) => friend.user.id !== user.id));
     }
 
-    socket.on("old user info", addExistingFriend);
+    socket.on("old user info", (data) => {
+      addExistingFriend(data);
+    });
+
     socket.on("leave room", deleteFriend);
     return () => {
       socket.off("old user info", addExistingFriend);
