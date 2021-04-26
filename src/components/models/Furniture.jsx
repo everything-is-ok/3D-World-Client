@@ -1,4 +1,4 @@
-import React, { Suspense, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
 
 import Table from "./Table";
@@ -16,8 +16,6 @@ function Furniture({ name, position, onClick }) {
     onClick();
   }
 
-  console.log(name);
-
   return (
     <group ref={group} position={position}>
       <mesh
@@ -26,13 +24,9 @@ function Furniture({ name, position, onClick }) {
         onClick={handleClick}
         color={isSelected ?? "red"}
       >
-        {/* {name === "Table" && (
-          <Suspense fallback={null}>
-            <Table />
-          </Suspense>
-        )}
+        {name === "Table" && <Table />}
         {name === "LongTree" && <LongTree />}
-        {name === "Closet" && <Closet />} */}
+        {name === "Closet" && <Closet />}
       </mesh>
     </group>
   );

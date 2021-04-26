@@ -13,9 +13,8 @@ const Container = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 10vh;
-  padding: 1%;
-  border-bottom: 2px solid black;
+  height: 5vh;
+  padding: 1rem;
 `;
 
 // TODO 친구목록에 key 추가하기
@@ -37,7 +36,7 @@ function Header() {
         name={name}
       />
       <DropDown
-        name="친구 목록"
+        name="친구 목록 👨‍👨‍👧‍👦"
         isOpen={modalOpen}
         toggle={toggle}
       >

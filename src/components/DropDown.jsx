@@ -6,9 +6,7 @@ import StyledButton from "./shared/StyledButton";
 
 const Container = styled.div`
   position: relative;
-  z-index: 99;
-  // NOTE: 전체 사이즈 확인을 위한 border
-  border: 2px solid black;
+  z-index: 1;
 `;
 
 const display = css`
