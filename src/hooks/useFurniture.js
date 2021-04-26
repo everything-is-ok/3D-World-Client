@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import fetchData from "../utils/fetchData";
 
-function useMailList({
+function useFurniture({
   socket,
   room,
   isEditMode,
@@ -14,26 +14,37 @@ function useMailList({
     setItems(room?.items);
   }, [room]);
 
-  function handleSelect(itemId) {
-    if (!isEditMode || currItemId === itemId) return;
-
-    setCurrItemId(itemId);
-  }
-
-  function updateMoveItem({ _id, position }) {
+  function updateItems({ _id, position }) {
     setItems((prev) => prev.map((item) => {
       if (item._id !== _id) {
         return item;
       }
 
-      return { _id, position };
+      return { ...item, position };
     }));
+  }
+
+  function handleSelectItem(itemId, itemPosition) {
+    if (!isEditMode || currItemId === itemId) return;
+
+    const [x, y, z] = itemPosition;
+
+    setItems((prev) => prev.map((item) => {
+      if (item._id !== itemId) {
+        return item;
+      }
+
+      return { ...item, position: [x, y + 20, z] };
+    }));
+
+    setCurrItemId(itemId);
   }
 
   async function handleMoveItem(x, y) {
     if (!currItemId || !isEditMode) return;
 
-    const itemPosition = [(x * 40), 10, (y * 40)];
+    const height = items.find((item) => item._id === currItemId).position[1];
+    const itemPosition = [(x * 40), height - 20, (y * 40)];
 
     try {
       await fetchData(
@@ -42,7 +53,7 @@ function useMailList({
         { id: currItemId, position: itemPosition },
       );
 
-      updateMoveItem({ _id: currItemId, position: itemPosition });
+      updateItems({ _id: currItemId, position: itemPosition });
       setCurrItemId(null);
 
       socket.emit("update", { _id: currItemId, position: itemPosition });
@@ -55,15 +66,16 @@ function useMailList({
   useEffect(() => {
     if (!socket) return;
 
-    socket.on("update", updateMoveItem);
-    return () => socket.off("update", updateMoveItem);
+    socket.on("update", updateItems);
+    return () => socket.off("update", updateItems);
   }, [socket]);
 
   return {
     items,
-    handleSelect,
+    currItemId,
+    handleSelectItem,
     handleMoveItem,
   };
 }
 
-export default useMailList;
+export default useFurniture;

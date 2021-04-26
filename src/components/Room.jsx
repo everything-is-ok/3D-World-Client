@@ -46,6 +46,7 @@ function Room({
   }
 
   const [isEditMode, setIsEditMode] = useState(false);
+
   return (
     <Container>
       <RoomCanvas
@@ -61,13 +62,14 @@ function Room({
           type="button"
           onClick={() => setIsEditMode(((prev) => !prev))}
         >
-          리모델링
+          리모델링 🪑
         </StyledButton>
       ) : (
         <StyledButton
           type="button"
           onClick={handleAddFriendClick}
         >
+          {/* TODO 친구사이면 버튼 안나오게 수정 */}
           친구추가
         </StyledButton>
       )}
