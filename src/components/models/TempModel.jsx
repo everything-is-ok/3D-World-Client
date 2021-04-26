@@ -49,7 +49,7 @@ function TempModel({
   }, [socket, dynamicPosition, direction]);
 
   // const vec = new THREE.Vector3(dynamicPosition[0], height, dynamicPosition[2]);
-  const vec = new THREE.Vector3(dynamicPosition[0], height, dynamicPosition[2]);
+  const vec = new THREE.Vector3(dynamicPosition[0], height, dynamicPosition[1]);
 
   useFrame(() => {
     if (!group.current) {
@@ -58,7 +58,7 @@ function TempModel({
 
     updateHeight();
     group.current.position.lerp(vec, 0.05);
-    group.current.position.y = height;
+    // group.current.position.y = height;
   });
 
   return (

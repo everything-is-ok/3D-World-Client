@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 
 const POS = {
   X: 0,
-  Y: 1,
-  Z: 2,
+  // Y: 1,
+  Z: 1,
 };
 
 const key = {
@@ -28,12 +28,13 @@ function getChangedPosition(array, position, step) {
 }
 
 function zusePosition(InitialPosition, initialDirection = 0) {
-  const [height, setHeight] = useState(InitialPosition[1]);
-  const [ground, setGround] = useState(InitialPosition[1]);
+  const [x, y, z] = InitialPosition;
+  const [height, setHeight] = useState(y);
+  const [ground, setGround] = useState(y);
   const [velocity, setVelocity] = useState(0);
 
   const [direction, setDirection] = useState(initialDirection);
-  const [position, setPosition] = useState(InitialPosition);
+  const [position, setPosition] = useState([x, z]);
 
   function updateHeight() {
     if (height <= ground && velocity < 0) {
