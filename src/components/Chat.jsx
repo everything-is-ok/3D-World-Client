@@ -6,11 +6,11 @@ import useSocketChat from "../hooks/useSocketChat";
 import StyledInput from "./shared/StyledInput";
 
 const ChatHeader = styled.header`
- padding: 0.5rem;
- font-weight: bolder;
- border-bottom: 1.5px dashed ${(props) => props.theme.titleColor.color};
- margin-bottom: 1rem;
- color: ${(props) => props.theme.titleColor.color};
+  padding: 0.5rem;
+  font-weight: bolder;
+  border-bottom: 1.5px dashed ${(props) => props.theme.titleColor.color};
+  margin-bottom: 1rem;
+  color: ${(props) => props.theme.titleColor.color};
 `;
 
 const ChatButton = styled.button`
