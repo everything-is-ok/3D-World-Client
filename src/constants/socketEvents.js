@@ -1,4 +1,4 @@
-const SOCKET = {
+export default {
   JOIN_ROOM: "join room",
   NEW_USER_SOCKET_ID: "new user socket id",
   USER_MOVEMENT: "user movement",
@@ -10,5 +10,3 @@ const SOCKET = {
   LEAVE_WORLD: "leave world",
   UPDATE_MOVEMENT: (id) => `update movement:${id}`,
 };
-
-export default SOCKET;
