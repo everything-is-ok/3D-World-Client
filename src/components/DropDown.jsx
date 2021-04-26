@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 
@@ -47,7 +47,7 @@ function DropDown({
   toggle,
 }) {
   return (
-    <Container>
+    <Container onBlur={toggle}>
       <StyledButton onClick={toggle}>
         {name}
       </StyledButton>

@@ -14,8 +14,18 @@ function useMailList({
     setItems(room?.items);
   }, [room]);
 
-  function handleSelect(itemId) {
+  function handleSelect(itemId, itemPosition) {
     if (!isEditMode || currItemId === itemId) return;
+
+    const [x, y, z] = itemPosition;
+
+    setItems((prev) => prev.map((item) => {
+      if (item._id !== itemId) {
+        return item;
+      }
+
+      return { ...item, position: [x, y + 20, z] };
+    }));
 
     setCurrItemId(itemId);
   }
@@ -26,14 +36,14 @@ function useMailList({
         return item;
       }
 
-      return { _id, position };
+      return { ...item, position };
     }));
   }
 
   async function handleMoveItem(x, y) {
     if (!currItemId || !isEditMode) return;
 
-    const itemPosition = [(x * 40), 10, (y * 40)];
+    const itemPosition = [(x * 40), 0, (y * 40)];
 
     try {
       await fetchData(
@@ -61,6 +71,7 @@ function useMailList({
 
   return {
     items,
+    currItemId,
     handleSelect,
     handleMoveItem,
   };
