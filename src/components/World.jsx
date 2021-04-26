@@ -1,13 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, {
-  Suspense, useEffect, useRef, useState,
+  Suspense, useEffect, useState,
 } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { CubeCamera, OrbitControls, Sky } from "@react-three/drei";
-import { DirectionalLight, Vector3 } from "three";
+import { Canvas } from "@react-three/fiber";
+import { Sky } from "@react-three/drei";
+import { Vector3 } from "three";
 
 // eslint-disable-next-line import/order
 
@@ -21,28 +21,24 @@ import Bonfire from "./models/Bonfire";
 import DungeonProps from "./models/DungeonProps";
 import SpaceTaxi from "./models/SpaceTaxi";
 import Fox from "./models/Fox";
-import Gryphon from "./models/Gryphon";
-import Closet from "./models/Closet";
 import useWorldSocket from "../hooks/useWorldSocket";
 
 const Container = styled.div`
   position: relative;
   width: 100%;
   height: 90%;
-
-  // NOTE: 사이즈 확인용 border
-  border: 2px solid black;
 `;
 
-function Camera(props) {
-  const ref = useRef();
-  let count = 0;
-  useFrame(() => {
-    ref.current.position.set([count++, count++, count++]);
-  });
+// TODO: 카메라 부재의 문제 없을 시 삭제
+// function Camera(props) {
+//   const ref = useRef();
+//   let count = 0;
+//   useFrame(() => {
+//     ref.current.position.set([count++, count++, count++]);
+//   });
 
-  return <perspectiveCamera ref={ref} {...props} />;
-}
+//   return <perspectiveCamera ref={ref} {...props} />;
+// }
 
 function World({ user }) {
   const { socket, otherUsers } = useWorldSocket(user, [10, -5, 150], 0);
@@ -87,7 +83,6 @@ function World({ user }) {
   return (
     <Container>
       <Canvas>
-        <Camera />
         <Sky distance={550000} sunPosition={new Vector3(1000, 100, 1000)} />
         <ambientLight intensity={0.3} />
         <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
@@ -120,12 +115,9 @@ function World({ user }) {
           />
           <Tree position={[-1000, 10, 300]} scale={[0.5, 0.5, 0.5]} />
           <Bonfire position={[-500, 10, 300]} scale={[20, 20, 20]} />
-          <Closet />
           <DungeonProps />
           <SpaceTaxi position={[100, 100, 300]} scale={[40, 40, 40]} />
           <Fox position={[-500, 500, 500]} scale={[40, 40, 40]} />
-          <Gryphon position={[-1000, 1000, 3000]} />
-          {/* <HouseInForest /> */}
         </Suspense>
         <GreenFloor />
       </Canvas>

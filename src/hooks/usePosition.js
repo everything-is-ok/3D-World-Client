@@ -53,6 +53,10 @@ export default function usePosition(InitialPosition, initialDirection = 0) {
   }, []);
 
   function handlePositionChange(e) {
+    if (e.target.tagName === "INPUT") {
+      return;
+    }
+
     if (e.keyCode === 32) {
       setPosition((prev) => getChangedPosition(prev, POS.Y, oneStep));
     }
