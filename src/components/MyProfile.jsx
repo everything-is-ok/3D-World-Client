@@ -6,8 +6,6 @@ import ProfileForm from "./shared/ProfileForm";
 import useMyProfile from "../hooks/useMyProfile";
 
 const Container = styled.div`
-  height: 100%;
-  padding: 0.5rem;
 `;
 
 // NOTE: rename options: editable profile & readonly profile?
