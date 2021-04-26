@@ -1,29 +1,36 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
+
+import Table from "./Table";
 
 function Furniture({ position, onClick }) {
   const group = useRef();
   const mesh = useRef();
 
+  const [isSelected, setIsSelected] = useState(false);
+
+  function handleClick() {
+    setIsSelected((prev) => !prev);
+    onClick();
+  }
+
   return (
-    <group
-      ref={group}
-      position={position}
-    >
+    <group ref={group} position={position}>
       <mesh
         ref={mesh}
         rotation={[0, 0, 0]}
-        onClick={onClick}
+        onClick={handleClick}
+        color={isSelected ?? "red"}
       >
-        <boxGeometry args={[50, 50, 50]} />
-        <meshStandardMaterial color="skyblue" />
+        <Table args={[40, 40, 40]} isSelected />
+        {/* <meshStandardMaterial /> */}
       </mesh>
     </group>
   );
 }
 
 Furniture.propTypes = {
-  position: PropTypes.array,
+  position: PropTypes.array.isRequired,
   onClick: PropTypes.func,
 };
 
