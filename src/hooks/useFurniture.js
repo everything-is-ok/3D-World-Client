@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import fetchData from "../utils/fetchData";
 
-function useMailList({
+function useFurniture({
   socket,
   room,
   isEditMode,
@@ -78,4 +78,4 @@ function useMailList({
   };
 }
 
-export default useMailList;
+export default useFurniture;
