@@ -50,10 +50,7 @@ function RoomCanvas({
       ref={canvasRef}
       tabIndex={0}
     >
-      <Canvas
-        orthographic
-        camera={{ position: [300, 300, 300], zoom: 0.9 }}
-      >
+      <Canvas orthographic camera={{ position: [300, 300, 300], fov: 80, near: 10 }}>
         <Universe
           position={[6 * 40, 0, 6 * 40]}
           radius={400}

@@ -9,21 +9,24 @@ function RoomFurnitures({ socket, room, isEditMode }) {
   const {
     items,
     currItemId,
-    handleSelect,
+    handleSelectItem,
     handleMoveItem,
   } = useFurniture({ socket, room, isEditMode });
 
   return (
     <>
-      {items && items.map((item) => (
-        <Furniture
-          key={item._id}
-          name={item._id}
-          position={item.position}
-          isEditMode={isEditMode}
-          onClick={() => handleSelect(item._id, item.position)}
-        />
-      ))}
+      {items && items.map((item) => {
+        const { _id, name, position } = item;
+
+        return (
+          <Furniture
+            key={_id}
+            name={name}
+            position={position}
+            onClick={() => handleSelectItem(_id, position)}
+          />
+        );
+      })}
       <Floor
         width={12}
         height={12}

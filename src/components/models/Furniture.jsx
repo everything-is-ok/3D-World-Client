@@ -1,9 +1,9 @@
-import React, { Suspense, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
 
-import Table from "./Table";
+import getFurniture from "../../utils/getFurniture";
 
-function Furniture({ position, onClick }) {
+function Furniture({ name, position, onClick }) {
   const group = useRef();
   const mesh = useRef();
 
@@ -14,6 +14,8 @@ function Furniture({ position, onClick }) {
     onClick();
   }
 
+  const ChildFurniture = getFurniture(name);
+
   return (
     <group ref={group} position={position}>
       <mesh
@@ -22,17 +24,15 @@ function Furniture({ position, onClick }) {
         onClick={handleClick}
         color={isSelected ?? "red"}
       >
-        <Suspense fallback={null}>
-          <Table args={[40, 40, 40]} isSelected />
-        </Suspense>
-        {/* <meshStandardMaterial /> */}
+        <ChildFurniture />
       </mesh>
     </group>
   );
 }
 
 Furniture.propTypes = {
-  position: PropTypes.array.isRequired,
+  name: PropTypes.string.isRequired,
+  position: PropTypes.array,
   onClick: PropTypes.func,
 };
 
