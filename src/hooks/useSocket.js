@@ -4,15 +4,15 @@ import io from "socket.io-client";
 const URL = process.env.REACT_APP_SERVER_URL;
 
 // NOTE: component mount에 한번 연결, unmount에 disconnect
-function useSocket() {
+function useSocket(userId) {
   const [socket, setSocket] = useState(null);
+  const connection = io(URL);
 
   useEffect(() => {
-    const connection = io(URL);
-
     setSocket(connection);
+
     return () => connection.disconnect();
-  }, [setSocket]);
+  }, [userId]);
 
   return socket;
 }

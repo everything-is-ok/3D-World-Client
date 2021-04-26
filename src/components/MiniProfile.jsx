@@ -14,8 +14,6 @@ const Container = styled.div`
   &:hover {
     cursor: pointer;
   }
-  // NOTE: 전체 사이즈 확인을 위한 border
-  border: 2px solid black;
 `;
 
 function MiniProfile({ photoURL, name, onClick }) {

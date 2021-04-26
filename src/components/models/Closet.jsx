@@ -15,18 +15,12 @@ export default function Model(props) {
   const group = useRef();
   const { nodes, materials } = useGLTF("models/closet/scene.gltf");
   return (
-    <group ref={group} {...props} dispose={null}>
-      <group rotation={[-Math.PI / 2, 0, 0]}>
-        <group rotation={[Math.PI / 2, 0, 0]}>
-          <group position={[12.03, -2.8, 152.15]} rotation={[-Math.PI / 2, 0, 0]}>
-            <group position={[0, 0, 2.8]}>
-              <mesh geometry={nodes.armario_00_LP_madera_0.geometry} material={materials.madera} />
-              <mesh geometry={nodes.armario_00_LP_vidrio_0.geometry} material={materials.vidrio} />
-              <mesh geometry={nodes.armario_00_LP_oro_0.geometry} material={materials.material} />
-              <mesh geometry={nodes.armario_00_LP_metal_oscuro_0.geometry} material={materials.metal_oscuro} />
-            </group>
-          </group>
-        </group>
+    <group ref={group} {...props} dispose={null} scale={[3, 3, 3]}>
+      <group rotation={[-Math.PI / 2, 0, Math.PI / 2]}>
+        <mesh geometry={nodes.armario_00_LP_madera_0.geometry} material={materials.madera} />
+        <mesh geometry={nodes.armario_00_LP_vidrio_0.geometry} material={materials.vidrio} />
+        <mesh geometry={nodes.armario_00_LP_oro_0.geometry} material={materials.material} />
+        <mesh geometry={nodes.armario_00_LP_metal_oscuro_0.geometry} material={materials.metal_oscuro} />
       </group>
     </group>
   );
