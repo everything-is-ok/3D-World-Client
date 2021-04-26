@@ -19,11 +19,11 @@ function Grass({ position, onClick, currItemId }) {
   //   texture.repeat.set(10, 10);
   // }, []);
 
-  const [hovered, setHover] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
   function handleChange() {
     if (currItemId) {
-      setHover(true);
+      setHovered(true);
     }
   }
 
@@ -34,7 +34,7 @@ function Grass({ position, onClick, currItemId }) {
       position={[...position]}
       onClick={onClick}
       onPointerOver={handleChange}
-      onPointerOut={() => setHover(false)}
+      onPointerOut={() => setHovered(false)}
     >
       <boxBufferGeometry attach="geometry" args={[39, 10, 39]} />
       <meshStandardMaterial

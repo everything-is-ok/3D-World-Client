@@ -30,7 +30,7 @@ function useMailList({
     setCurrItemId(itemId);
   }
 
-  async function updateMoveItem({ _id, position }) {
+  function updateMoveItem({ _id, position }) {
     setItems((prev) => prev.map((item) => {
       if (item._id !== _id) {
         return item;
