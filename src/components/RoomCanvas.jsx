@@ -27,7 +27,10 @@ function RoomCanvas({
   }
 
   return (
-    <Canvas orthographic camera={{ position: [300, 300, 300], fov: 80, near: 10 }}>
+    <Canvas
+      orthographic
+      camera={{ position: [300, 300, 300], fov: 80, near: 10 }}
+    >
       <Universe
         position={[6 * 40, 0, 6 * 40]}
         radius={400}
@@ -51,7 +54,11 @@ function RoomCanvas({
         isEditMode={isEditMode}
         room={room}
       />
-      <Bedroom receiveShadow scale={4 * 12} position={[0, 20, 0]} />
+      <Bedroom
+        receiveShadow
+        scale={4 * 12}
+        position={[0, 20, 0]}
+      />
       {/* NOTE: OrbitControls 삭제하고 view 고정해야함 */}
       <OrbitControls />
       <ControlCam />
