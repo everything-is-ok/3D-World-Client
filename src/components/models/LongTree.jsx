@@ -10,9 +10,10 @@ title: Lowpoly  Tree 3
 import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 
-export default function Model(props) {
+function LongTree(props) {
   const group = useRef();
   const { nodes, materials } = useGLTF("models/longTree/scene.gltf");
+
   return (
     <group ref={group} {...props} dispose={null} scale={[5, 5, 5]}>
       <mesh geometry={nodes.Tree_1_1_Tree_1_0.geometry} material={materials.Tree_1} />
@@ -22,3 +23,5 @@ export default function Model(props) {
 }
 
 useGLTF.preload("models/longTree/scene.gltf");
+
+export default LongTree;

@@ -11,9 +11,10 @@ title: Armario - Lowpoly
 import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 
-export default function Model(props) {
+function Closet(props) {
   const group = useRef();
   const { nodes, materials } = useGLTF("models/closet/scene.gltf");
+
   return (
     <group ref={group} {...props} dispose={null} scale={[3, 3, 3]}>
       <group rotation={[-Math.PI / 2, 0, Math.PI / 2]}>
@@ -25,5 +26,7 @@ export default function Model(props) {
     </group>
   );
 }
+
+export default Closet;
 
 useGLTF.preload("models/closet/scene.gltf");

@@ -6,6 +6,8 @@ import { useFrame } from "@react-three/fiber";
 import Texts from "./Texts";
 import Chicken from "./Chicken";
 import usePosition from "../../hooks/usePosition";
+import SOCKET from "../../constants/socket";
+// import zusePosition from "../../hooks/zusePosition";
 
 function TempModel({
   socket,
@@ -16,14 +18,23 @@ function TempModel({
   const group = useRef();
   const mesh = useRef();
 
-  const { position: dynamicPosition, direction } = usePosition(position);
+  const {
+    position: dynamicPosition,
+    direction,
+    initPosition,
+  } = usePosition(position);
+  const { USER_MOVEMENT, OLD_USER_INFO, NEW_USER_SOCKET_ID } = SOCKET;
+
+  useEffect(() => {
+    initPosition();
+  }, [socket]);
 
   useEffect(() => {
     if (!socket) {
       return;
     }
 
-    socket.emit("user movement", { position: dynamicPosition, direction });
+    socket.emit(USER_MOVEMENT, { position: dynamicPosition, direction });
   }, [dynamicPosition, direction, socket]);
 
   useEffect(() => {
@@ -32,14 +43,14 @@ function TempModel({
     }
 
     function sendPosToNewUser({ socketId }) {
-      socket.emit("old user info", {
+      socket.emit(OLD_USER_INFO, {
         listener: socketId,
         posInfo: { user: { id, name }, position: dynamicPosition, direction },
       });
     }
     // TODO: 맨토님께 질문, 스페이스 쓸지 어절지
-    socket.on("new user socket id", sendPosToNewUser);
-    return () => socket.off("new user socket id", sendPosToNewUser);
+    socket.on(NEW_USER_SOCKET_ID, sendPosToNewUser);
+    return () => socket.off(NEW_USER_SOCKET_ID, sendPosToNewUser);
   }, [socket, dynamicPosition, direction]);
 
   const vec = new THREE.Vector3(...dynamicPosition);
@@ -49,7 +60,9 @@ function TempModel({
       return;
     }
 
+    // throttleUpdateHeight();
     group.current.position.lerp(vec, 0.05);
+    // group.current.position.y = height;
   });
 
   return (
@@ -115,9 +128,9 @@ function TempModel({
 
 TempModel.propTypes = {
   position: PropTypes.array.isRequired,
-  socket: PropTypes.any.isRequired,
   id: PropTypes.string.isRequired,
   name: PropTypes.string,
+  socket: PropTypes.any,
 };
 
 TempModel.defaultProps = {

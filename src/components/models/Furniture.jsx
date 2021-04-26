@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { Suspense, useRef, useState } from "react";
 import PropTypes from "prop-types";
 
 import Table from "./Table";
@@ -22,7 +22,9 @@ function Furniture({ position, onClick }) {
         onClick={handleClick}
         color={isSelected ?? "red"}
       >
-        <Table args={[40, 40, 40]} isSelected />
+        <Suspense fallback={null}>
+          <Table args={[40, 40, 40]} isSelected />
+        </Suspense>
         {/* <meshStandardMaterial /> */}
       </mesh>
     </group>
