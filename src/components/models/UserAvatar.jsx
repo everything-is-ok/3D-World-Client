@@ -18,17 +18,19 @@ import * as THREE from "three";
 import Chicken from "./Chicken";
 import usePosition from "../../hooks/usePosition";
 import useUserSocket from "../../hooks/useUserSocket";
+import SOCKET from "../../constants/socketEvents";
 
 export default function Model({ ...props }) {
   const { position: initialPosition, socket, user } = props;
   const { position, direction } = usePosition(initialPosition);
   const { fetchNewPositionToWorld } = useUserSocket(socket, position);
+  const { NEW_USER_SOCKET_ID, OLD_USER_INFO } = SOCKET;
 
   useEffect(() => {
     fetchNewPositionToWorld(props.user._id, position, direction);
 
-    props.socket.on("new user socket id", ({ socketId }) => {
-      props.socket.emit("old user info", {
+    props.socket.on(NEW_USER_SOCKET_ID, ({ socketId }) => {
+      props.socket.emit(OLD_USER_INFO, {
         userInfo: {
           ...user,
           position,
@@ -38,7 +40,7 @@ export default function Model({ ...props }) {
       });
     });
 
-    return () => props.socket.off("new user socket id");
+    return () => props.socket.off(NEW_USER_SOCKET_ID);
   }, [position]);
 
   function ThirdPersonCamera({ camPosition }) {

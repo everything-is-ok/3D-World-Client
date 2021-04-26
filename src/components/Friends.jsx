@@ -19,7 +19,7 @@ function Friends({ socket }) {
 }
 
 Friends.propTypes = {
-  socket: PropTypes.any.isRequired,
+  socket: PropTypes.any,
 };
 
 export default Friends;

@@ -1,10 +1,18 @@
 import { useEffect, useState } from "react";
 
+import EVENTS from "../constants/socketEvents";
+
 function useSocketFriends({
   socket,
   entrancePosition,
 }) {
   const [friends, setfriends] = useState([]);
+  const {
+    USER_MOVEMENT,
+    OLD_USER_INFO,
+    LEAVE_ROOM,
+    JOIN_ROOM,
+  } = EVENTS;
 
   useEffect(() => {
     if (!socket) {
@@ -21,8 +29,8 @@ function useSocketFriends({
       }));
     }
 
-    socket.on("user movement", updateFriendsMove);
-    return () => socket.off("user movement", updateFriendsMove);
+    socket.on(USER_MOVEMENT, updateFriendsMove);
+    return () => socket.off(USER_MOVEMENT, updateFriendsMove);
   }, [socket]);
 
   useEffect(() => {
@@ -38,14 +46,11 @@ function useSocketFriends({
       setfriends((prev) => prev.filter((friend) => friend.user.id !== user.id));
     }
 
-    socket.on("old user info", (data) => {
-      addExistingFriend(data);
-    });
-
-    socket.on("leave room", deleteFriend);
+    socket.on(OLD_USER_INFO, addExistingFriend);
+    socket.on(LEAVE_ROOM, deleteFriend);
     return () => {
-      socket.off("old user info", addExistingFriend);
-      socket.off("leave room", deleteFriend);
+      socket.off(OLD_USER_INFO, addExistingFriend);
+      socket.off(LEAVE_ROOM, deleteFriend);
     };
   }, [socket]);
 
@@ -62,8 +67,8 @@ function useSocketFriends({
       }));
     }
 
-    socket.on("join room", addNewFriend);
-    return () => socket.off("join room", addNewFriend);
+    socket.on(JOIN_ROOM, addNewFriend);
+    return () => socket.off(JOIN_ROOM, addNewFriend);
   }, [socket]);
 
   return friends;
