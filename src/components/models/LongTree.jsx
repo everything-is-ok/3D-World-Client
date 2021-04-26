@@ -6,22 +6,24 @@ source: https://sketchfab.com/models/6c18d8f196724f6f8438f53552af7a5f
 title: Lowpoly  Tree 3
 */
 
-import React, { useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
+import React, { useRef } from "react";
+import { useGLTF } from "@react-three/drei";
 
 export default function Model(props) {
-  const group = useRef()
-  const { nodes, materials } = useGLTF('/scene.gltf')
+  const group = useRef();
+  const { nodes, materials } = useGLTF("/scene.gltf");
+
   return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
     <group ref={group} {...props} dispose={null}>
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <group rotation={[Math.PI / 2, 0, 0]}>
           <mesh geometry={nodes.Tree_1_1_Tree_1_0.geometry} material={materials.Tree_1} />
-          <mesh geometry={nodes.Tree_1_1_Mat3_0.geometry} material={materials['Mat.3']} />
+          <mesh geometry={nodes.Tree_1_1_Mat3_0.geometry} material={materials["Mat.3"]} />
         </group>
       </group>
     </group>
-  )
+  );
 }
 
-useGLTF.preload('/scene.gltf')
+useGLTF.preload("/scene.gltf");

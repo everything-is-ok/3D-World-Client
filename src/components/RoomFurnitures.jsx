@@ -18,9 +18,8 @@ function RoomFurnitures({ socket, room, isEditMode }) {
       {items && items.map((item) => (
         <Furniture
           key={item._id}
-          name={item._id}
+          name={item.itemName}
           position={item.position}
-          isEditMode={isEditMode}
           onClick={() => handleSelect(item._id, item.position)}
         />
       ))}
