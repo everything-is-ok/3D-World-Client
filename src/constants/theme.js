@@ -1,7 +1,11 @@
 const THEME = {
   bg: {
     title: "background color",
-    color: "gray",
+    color: "#a0a0a0",
+  },
+  bgGrid: {
+    title: "background color",
+    color: "rgba(129, 129, 129, 0.7)",
   },
   layoutBorder1: {
     title: "outer border color",
@@ -38,6 +42,10 @@ const THEME = {
   textColor: {
     title: "sub page menu color",
     color: "#07698c",
+  },
+  titleColor: {
+    title: "title blue color",
+    color: "#5095ab",
   },
 };
 

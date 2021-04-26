@@ -17,12 +17,7 @@ const StyledInput = styled.input`
   color: #212529;
   background-clip: padding-box;
   border: 1px solid #ced4da;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
   border-radius: 0.25rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-
   ${backgroundColor}
 `;
 

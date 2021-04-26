@@ -16,6 +16,9 @@ import LongTree from "./models/LongTree";
 const CanvasContainer = styled.div`
   width: 100%;
   height: 100%;
+  & div{
+    border-radius: 8px;
+  };
 `;
 
 function RoomCanvas({

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -18,10 +18,11 @@ const Container = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 85vh;
+  height: 100%;
+  width: 100%;
+  margin: auto;
   padding: 1rem;
-  // NOTE: 사이즈 확인용 border
-  border: 2px solid black;
+  border-radius: 8px;
 `;
 
 const SideContainer = styled.div`
@@ -30,7 +31,11 @@ const SideContainer = styled.div`
   justify-content: center;
   width: 20%;
   height: 100%;
-  padding: 0 0.5rem;
+  padding: 0.5rem;
+  margin-right: 1rem;
+  border-radius: 8px;
+  border: 1px solid ${(props) => props.theme.cardBorder.color};
+  background-color: ${(props) => props.theme.cardBg.color};
 `;
 
 // NOTE: 내 방을 가던 남의 방을 가던 /room/:id 로 온다.

@@ -5,6 +5,14 @@ import PropTypes from "prop-types";
 import useSocketChat from "../hooks/useSocketChat";
 import StyledInput from "./shared/StyledInput";
 
+const ChatHeader = styled.header`
+ padding: 0.5rem;
+ font-weight: bolder;
+ border-bottom: 1.5px dashed ${(props) => props.theme.titleColor.color};
+ margin-bottom: 1rem;
+ color: ${(props) => props.theme.titleColor.color};
+`;
+
 const ChatButton = styled.button`
   position: absolute;
   bottom: 5px;
@@ -12,29 +20,31 @@ const ChatButton = styled.button`
 `;
 
 const ChatContainer = styled.div`
+  height: 500px;
+  display: flex;
+  flex-direction: column;
 `;
 
-const ChatDiv = styled.div`
-  padding: 0.375rem 0.75rem;
+const ChatMessage = styled.li`
+  padding: 0.4rem 0.8rem;
   font-size: 0.8rem;
-  color: #212529;
-  background-clip: padding-box;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-  background-color: grey;
-  color: white;
+  color: #313131;
 `;
 
 // TODO: 채팅 입력하면 맨 밑이 보이도록
-const ChatList = styled.div`
+const ChatList = styled.ul`
+  margin: 0;
+  padding: 0;
   width: 100%;
+  height: 100%;
   max-height: 300px;
-  color: white;
-  overflow: scroll;
+  border-radius: 2px;
+  background-color: #f0eeee;
+  margin-bottom: 1rem;
+  overflow-y: scroll;
 `;
 
 const FormContainer = styled.form`
-  background-color: grey;
   position: relative;
 `;
 
@@ -43,13 +53,19 @@ function Chat({ socket }) {
   const [message, setMessage] = useState("");
   const [chatList, setChatList] = useState([]);
   const inputRef = useRef();
+  const chatListRef = useRef();
+
   useSocketChat(socket, handleChat);
+
+  useEffect(() => {
+    chatListRef.current.scrollTop = chatListRef.current.scrollHeight;
+  }, [message]);
 
   useEffect(() => {
     setChatList([]);
   }, [socket]);
 
-  function handleChat({ message: data }) {
+  function handleChat(data) {
     setChatList((prev) => prev.concat(data));
   }
 
@@ -69,15 +85,23 @@ function Chat({ socket }) {
     }
     // TODO: socket error handle
     socket.emit("chat message", { message });
-    addChatElement(message);
+    addChatElement({ user: "나", message });
     setMessage("");
   }
 
   return (
     <ChatContainer>
-      <ChatList>
-        {/* TODO: key 부여해야함. 보낸사람, 내용, 시간 등 조합하여 만들 수 있을 듯 */}
-        {chatList.map((chat) => <ChatDiv>{chat}</ChatDiv>)}
+      <ChatHeader>
+        <span>채팅하기</span>
+      </ChatHeader>
+      <ChatList ref={chatListRef}>
+        {chatList.map((chat) => (
+          <>
+            <ChatMessage>
+              {`${chat.user} : ${chat.message}`}
+            </ChatMessage>
+          </>
+        ))}
       </ChatList>
       <FormContainer
         onSubmit={handleSubmit}
@@ -87,7 +111,7 @@ function Chat({ socket }) {
           value={message}
           onChange={handleInputChange}
         />
-        <ChatButton type="submit">SEND 🚀</ChatButton>
+        <ChatButton type="submit">보내기 🚀</ChatButton>
       </FormContainer>
     </ChatContainer>
   );
