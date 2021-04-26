@@ -46,12 +46,10 @@ const worldSocket = {
 
 // NOTE: room and chat and friend ?
 const roomSocket = {
-
-};
-
-// NOTE: friend?
-// NOTE: 콜백을 콜백이라고 해도 되고, 더 명시적으로 addExistingFriend 등을 써도 될 듯 합니다.
-const friendsSocket = {
+  joinRoom: () => {
+    // TODO: add
+    socket.emit(JOIN_ROOM);
+  },
   listenUserJoin: (cb) => {
     socket.on(JOIN_ROOM, cb);
   },
@@ -64,13 +62,27 @@ const friendsSocket = {
   listenUserLeave: (cb) => {
     socket.on(LEAVE_ROOM, cb);
   },
+  listenChatMessage: (cb) => {
+    socket.on(CHAT_MESSAGE, cb);
+  },
   removeFirendsListener: () => {
     // off
   },
 };
 
-const furnitureSocket = {
+// NOTE: friend?
+// NOTE: 콜백을 콜백이라고 해도 되고, 더 명시적으로 addExistingFriend 등을 써도 될 듯 합니다.
 
+const furnitureSocket = {
+  // TODO: 더 구체적으로 옮기기
+  sendUpdatedFurniture: (data) => {
+    socket.emit(FURNITURE_MOVEMENT, data);
+  },
+  listenFurnitureMovement: (cb) => {
+    socket.on(FURNITURE_MOVEMENT, cb);
+  },
+  removeFurnitureListeners: () => {
+  },
 };
 
 export {
