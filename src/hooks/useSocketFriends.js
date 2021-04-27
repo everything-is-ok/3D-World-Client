@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import EVENTS from "../constants/socketEvents";
 
+// NOTE: 최초 mount부터 socket에 값이 있기 때문에, useEffect의 effect들이 모두 실행 됨.
 function useSocketFriends({
   socket,
   entrancePosition,
@@ -46,6 +47,7 @@ function useSocketFriends({
       setfriends((prev) => prev.filter((friend) => friend.user.id !== user.id));
     }
 
+    // NOTE: join room 최초 emit과 같은 context에서 실행됨.
     socket.on(OLD_USER_INFO, addExistingFriend);
     socket.on(LEAVE_ROOM, deleteFriend);
     return () => {

@@ -44,6 +44,7 @@ function Room({
   // }, [socket, userId, userName, room]);
 
   // TODO: 필요 없어지면 삭제
+  // NOTE: id가 undefined인 경우는 없는 듯?
   const isMyRoom = id === undefined || userId === id;
 
   async function handleAddFriendClick() {
