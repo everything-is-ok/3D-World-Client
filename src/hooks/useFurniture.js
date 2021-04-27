@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import fetchData from "../utils/fetchData";
+import checkArea from "../utils/checkArea";
 
 function useFurniture({
   socket,
@@ -42,6 +43,12 @@ function useFurniture({
 
   async function handleFurnitureMove(x, y) {
     if (!currFurnitureId || !isEditMode) return;
+
+    const area = checkArea(x, y);
+
+    if (area.isOccupied) {
+      return;
+    }
 
     const height = furnitures.find((furniture) => furniture._id === currFurnitureId).position[1];
     const furniturePosition = [(x * 40), height - 20, (y * 40)];
