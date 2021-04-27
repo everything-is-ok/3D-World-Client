@@ -2,60 +2,61 @@ import { useEffect, useState } from "react";
 
 import fetchData from "../utils/fetchData";
 
-function useMailList({
+function useFurniture({
   socket,
   room,
   isEditMode,
 }) {
-  const [items, setItems] = useState(room?.items);
-  const [currItemId, setCurrItemId] = useState(null);
+  const [furnitures, setFurnitures] = useState(room?.furniture);
+  const [currFurnitureId, setCurrFurnitureId] = useState(null);
 
   useEffect(() => {
-    setItems(room?.items);
+    setFurnitures(room?.furniture);
   }, [room]);
 
-  function handleSelect(itemId, itemPosition) {
-    if (!isEditMode || currItemId === itemId) return;
-
-    const [x, y, z] = itemPosition;
-
-    setItems((prev) => prev.map((item) => {
-      if (item._id !== itemId) {
-        return item;
+  function updateFurniture({ _id, position }) {
+    setFurnitures((prev) => prev.map((furniture) => {
+      if (furniture._id !== _id) {
+        return furniture;
       }
 
-      return { ...item, position: [x, y + 20, z] };
-    }));
-
-    setCurrItemId(itemId);
-  }
-
-  function updateMoveItem({ _id, position }) {
-    setItems((prev) => prev.map((item) => {
-      if (item._id !== _id) {
-        return item;
-      }
-
-      return { ...item, position };
+      return { ...furniture, position };
     }));
   }
 
-  async function handleMoveItem(x, y) {
-    if (!currItemId || !isEditMode) return;
+  function handleFurnitureSelect(furnitureId) {
+    if (!isEditMode || currFurnitureId === furnitureId) return;
 
-    const itemPosition = [(x * 40), 0, (y * 40)];
+    setFurnitures((prev) => prev.map((furniture) => {
+      if (furniture._id !== furnitureId) {
+        return furniture;
+      }
+
+      const [x, y, z] = furniture.position;
+
+      return { ...furniture, position: [x, y + 20, z] };
+    }));
+
+    setCurrFurnitureId(furnitureId);
+  }
+
+  async function handleFurnitureMove(x, y) {
+    if (!currFurnitureId || !isEditMode) return;
+
+    const height = furnitures.find((furniture) => furniture._id === currFurnitureId).position[1];
+    const furniturePosition = [(x * 40), height - 20, (y * 40)];
 
     try {
       await fetchData(
         "PATCH",
-        "/item",
-        { id: currItemId, position: itemPosition },
+        "/furniture",
+        { id: currFurnitureId, position: furniturePosition },
       );
 
-      updateMoveItem({ _id: currItemId, position: itemPosition });
-      setCurrItemId(null);
+      updateFurniture({ _id: currFurnitureId, position: furniturePosition });
+      setCurrFurnitureId(null);
 
-      socket.emit("update", { _id: currItemId, position: itemPosition });
+      socket.emit("update", { _id: currFurnitureId, position: furniturePosition });
     } catch (err) {
       // TODO error handling
       // console.log(err.message);
@@ -65,16 +66,16 @@ function useMailList({
   useEffect(() => {
     if (!socket) return;
 
-    socket.on("update", updateMoveItem);
-    return () => socket.off("update", updateMoveItem);
+    socket.on("update", updateFurniture);
+    return () => socket.off("update", updateFurniture);
   }, [socket]);
 
   return {
-    items,
-    currItemId,
-    handleSelect,
-    handleMoveItem,
+    furnitures,
+    currFurnitureId,
+    handleFurnitureSelect,
+    handleFurnitureMove,
   };
 }
 
-export default useMailList;
+export default useFurniture;
