@@ -1,13 +1,17 @@
 import { useEffect } from "react";
 
+import EVENTS from "../constants/socketEvents";
+
 function useSocketChat(socket, handleChat) {
+  const { CHAT_MESSAGE } = EVENTS;
+
   useEffect(() => {
     if (!socket) {
       return;
     }
 
-    socket.on("chat message", handleChat);
-    return () => socket.off("chat message", handleChat);
+    socket.on(CHAT_MESSAGE, handleChat);
+    return () => socket.off(CHAT_MESSAGE, handleChat);
   }, [socket]);
 }
 

@@ -11,7 +11,7 @@ title: Kitchen Scene
 import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 
-export default function Model(props) {
+function Table(props) {
   const group = useRef();
   const { nodes } = useGLTF("models/kitchen/scene.gltf");
 
@@ -35,3 +35,5 @@ export default function Model(props) {
 }
 
 useGLTF.preload("models/kitchen/scene.gltf");
+
+export default Table;

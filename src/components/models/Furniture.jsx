@@ -1,47 +1,7 @@
 import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
 
-import Table from "./Table";
-import LongTree from "./LongTree";
-import Closet from "./Closet";
-
-// function withLogin(name) {
-//   return function ChildFurniture({ isLoggedIn, ...props }) {
-//     if (isLoggedIn) {
-//       return <Component {...props} />;
-//     }
-
-//     return (
-//       <div>
-//         <p>Hello, please login to see your profile!</p>
-//       </div>
-//     );
-//   };
-// }
-
-// const ShowProfile = withLogin(Profile);
-
-// function App({ profile, isLoggedIn }) {
-//   return (
-//     <div>
-//       <h1>Hello Conditional Rendering</h1>
-
-//       <ShowProfile isLoggedIn={isLoggedIn} profile={profile} />
-//     </div>
-//   );
-// }
-// function getFurniture(name) {
-//   return function ({ name }) {
-//     switch (name) {
-//       case "Table":
-//         return <Table />;
-//       case "LongTree":
-//         return <LongTree />;
-//       default:
-//         return <Closet />;
-//     }
-//   };
-// }
+import ChildFurniture from "./ChildFurniture";
 
 function Furniture({ name, position, onClick }) {
   const group = useRef();
@@ -64,10 +24,7 @@ function Furniture({ name, position, onClick }) {
         onClick={handleClick}
         color={isSelected ?? "red"}
       >
-        {name === "Table" && <Table />}
-        {name === "LongTree" && <LongTree />}
-        {name === "Closet" && <Closet />}
-        {/* <ChildFurniture name={name} /> */}
+        <ChildFurniture name={name} />
       </mesh>
     </group>
   );
@@ -75,7 +32,7 @@ function Furniture({ name, position, onClick }) {
 
 Furniture.propTypes = {
   name: PropTypes.string.isRequired,
-  position: PropTypes.array.isRequired,
+  position: PropTypes.array,
   onClick: PropTypes.func,
 };
 

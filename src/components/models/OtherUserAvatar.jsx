@@ -14,14 +14,16 @@ import React, { useEffect, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 
 import Chicken from "./Chicken";
+import SOCKET from "../../constants/socketEvents";
 // TODO: prop types needed && get direction
 
 export default function Model({ user, socket }) {
   const [position, setPosition] = useState(user.position);
   const [direction, setDirection] = useState(user.direction);
+  const { UPDATE_MOVEMENT } = SOCKET;
 
   useEffect(() => {
-    socket.on(`update movement:${user.id}`, ({ newPosition, newDirection }) => {
+    socket.on(UPDATE_MOVEMENT(user.id), ({ newPosition, newDirection }) => {
       setPosition([...newPosition]);
       setDirection(newDirection);
     });

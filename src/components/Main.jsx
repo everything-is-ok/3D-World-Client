@@ -12,6 +12,7 @@ import useSocket from "../hooks/useSocket";
 import MailboxModal from "./MailboxModal";
 import Chat from "./Chat";
 import { getRoomById, roomSelector } from "../reducers/roomSlice";
+import EVENTS from "../constants/socketEvents";
 
 // TODO: 배치 수정
 const Container = styled.div`
@@ -53,6 +54,7 @@ function Main() {
 
   // TODO: 필요 없어지면 삭제
   const isLoggedInUser = roomOwnerId === undefined || loggedInUserId === roomOwnerId;
+  const { JOIN_ROOM } = EVENTS;
 
   // NOTE: Room과 프로필 부분을 한번 더 분리해야 리렌더링을 막을 수 있을 것 같습니다.
   const {
@@ -74,7 +76,7 @@ function Main() {
       return;
     }
 
-    socket.emit("join room", { user: { id: userId, name: userName }, roomId: room._id });
+    socket.emit(JOIN_ROOM, { user: { id: userId, name: userName }, roomId: room._id });
   }, [socket, userId, userName, room]);
 
   return (

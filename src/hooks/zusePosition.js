@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 
 const POS = {
   X: 0,
-  Y: 1,
-  Z: 2,
+  // Y: 1,
+  Z: 1,
 };
 
 const key = {
@@ -27,24 +27,25 @@ function getChangedPosition(array, position, step) {
   });
 }
 
-export default function usePosition(InitialPosition, initialDirection = 0) {
-  const [position, setPosition] = useState(InitialPosition);
+function zusePosition(InitialPosition, initialDirection = 0) {
+  const [x, y, z] = InitialPosition;
+  const [height, setHeight] = useState(y);
+  const [ground, setGround] = useState(y);
+  const [velocity, setVelocity] = useState(0);
+
   const [direction, setDirection] = useState(initialDirection);
-  const initialY = InitialPosition[POS.Y];
+  const [position, setPosition] = useState([x, z]);
 
-  // useEffect(() => {
-  //   const ID = setTimeout(() => {
-  //     setPosition((prev) => [...prev].map((each, index) => {
-  //       if (index === POS.Y) {
-  //         return each = initialY;
-  //       }
+  function updateHeight() {
+    if (height <= ground && velocity < 0) {
+      setHeight(ground);
+      setVelocity(0);
+      return;
+    }
 
-  //       return each;
-  //     }));
-  //   }, 20);
-
-  //   return () => clearTimeout(ID);
-  // }, [position[POS.Y]]);
+    setHeight((prev) => prev + velocity);
+    setVelocity((prev) => prev - 5);
+  }
 
   useEffect(() => {
     window.addEventListener("keydown", handlePositionChange);
@@ -53,12 +54,8 @@ export default function usePosition(InitialPosition, initialDirection = 0) {
   }, []);
 
   function handlePositionChange(e) {
-    if (e.target.tagName === "INPUT") {
-      return;
-    }
-
     if (e.keyCode === 32) {
-      setPosition((prev) => getChangedPosition(prev, POS.Y, oneStep));
+      setVelocity(30);
     }
     if (e.keyCode === 40) {
       setDirection(key.front);
@@ -78,15 +75,13 @@ export default function usePosition(InitialPosition, initialDirection = 0) {
     }
   }
 
-  function initPosition() {
-    setPosition(InitialPosition);
-    setDirection(initialDirection);
-  }
-
   return {
     position,
     direction,
     handlePositionChange,
-    initPosition,
+    height,
+    updateHeight,
   };
 }
+
+export default zusePosition;
