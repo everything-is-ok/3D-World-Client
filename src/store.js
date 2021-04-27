@@ -4,14 +4,14 @@ import logger from "redux-logger";
 import userReducer from "./reducers/userSlice";
 import roomReducer from "./reducers/roomSlice";
 import mailReducer from "./reducers/mailSlice";
-import itemReducer from "./reducers/itemSlice";
+import furnitureReducer from "./reducers/furnitureSlice";
 
 export default configureStore({
   reducer: {
     user: userReducer,
     room: roomReducer,
     mail: mailReducer,
-    item: itemReducer,
+    furniture: furnitureReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
   devTools: true,

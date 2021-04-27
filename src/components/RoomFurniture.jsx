@@ -5,42 +5,42 @@ import Floor from "./models/Floor";
 import Furniture from "./models/Furniture";
 import useFurniture from "../hooks/useFurniture";
 
-function RoomFurnitures({ socket, room, isEditMode }) {
+function RoomFurniture({ socket, room, isEditMode }) {
   const {
-    items,
-    currItemId,
-    handleSelectItem,
-    handleMoveItem,
+    furniture,
+    currFurnitureId,
+    handleFurnitureSelect,
+    handleFurnitureMove,
   } = useFurniture({ socket, room, isEditMode });
 
   return (
     <>
-      {items && items.map((item) => {
-        const { _id, name, position } = item;
+      {furniture && furniture.map((elem) => {
+        const { _id, name, position } = elem;
 
         return (
           <Furniture
             key={_id}
             name={name}
             position={position}
-            onClick={() => handleSelectItem(_id, position)}
+            onClick={() => handleFurnitureSelect(_id, position)}
           />
         );
       })}
       <Floor
         width={12}
         height={12}
-        currItemId={currItemId}
-        onClick={handleMoveItem}
+        currFurnitureId={currFurnitureId}
+        onClick={handleFurnitureMove}
       />
     </>
   );
 }
 
-RoomFurnitures.propTypes = {
+RoomFurniture.propTypes = {
   socket: PropTypes.any,
   room: PropTypes.any,
   isEditMode: PropTypes.bool,
 };
 
-export default RoomFurnitures;
+export default RoomFurniture;

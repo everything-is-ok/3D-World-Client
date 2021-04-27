@@ -2,39 +2,39 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import fetchData from "../utils/fetchData";
 
-export const getItems = createAsyncThunk(
-  "item/getItems",
+export const getFurniture = createAsyncThunk(
+  "furniture/getFurniture",
   async () => {
-    const response = await fetchData("GET", "/item");
+    const response = await fetchData("GET", "/furniture");
 
     return response;
   },
 );
 
-// TODO 현재는 item 스토어 자체가 필요가 없는 상태입니다
+// TODO 현재는 furniture 스토어 자체가 필요가 없는 상태입니다
 const initialState = {
   data: null,
   error: null,
   status: "idle",
 };
 
-const itemSlice = createSlice({
-  name: "item",
+const furnitureSlice = createSlice({
+  name: "furniture",
   initialState,
   reducers: {},
   extraReducers: {
-    [getItems.pending]: (state) => {
+    [getFurniture.pending]: (state) => {
       if (state.status === "idle") {
         state.status = "pending";
       }
     },
-    [getItems.fulfilled]: (state, action) => {
+    [getFurniture.fulfilled]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
         state.data = action.payload;
       }
     },
-    [getItems.rejected]: (state, action) => {
+    [getFurniture.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
         state.error = action.payload || null;
@@ -43,6 +43,4 @@ const itemSlice = createSlice({
   },
 });
 
-export default itemSlice.reducer;
-
-export const itemSelector = (state) => state.item.data.items || [];
+export default furnitureSlice.reducer;
