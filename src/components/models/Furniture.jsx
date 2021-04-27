@@ -14,8 +14,6 @@ function Furniture({ name, position, onClick }) {
     onClick();
   }
 
-  // const ChildFurniture = getFurniture(name);
-
   return (
     <group ref={group} position={position}>
       <mesh
