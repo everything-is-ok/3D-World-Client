@@ -97,12 +97,10 @@ function Chat({ socket }) {
         <span>채팅하기</span>
       </ChatHeader>
       <ChatList ref={chatListRef}>
-        {chatList.map((chat) => (
-          <>
-            <ChatMessage>
-              {`${chat.user} : ${chat.message}`}
-            </ChatMessage>
-          </>
+        {chatList.map((chat, index) => (
+          <ChatMessage key={`${chat.user + index}`}>
+            {`${chat.user} : ${chat.message}`}
+          </ChatMessage>
         ))}
       </ChatList>
       <FormContainer
