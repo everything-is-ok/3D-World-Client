@@ -7,34 +7,34 @@ function useFurniture({
   room,
   isEditMode,
 }) {
-  const [furniture, setFurniture] = useState(room?.furniture);
+  const [furnitures, setFurnitures] = useState(room?.furniture);
   const [currFurnitureId, setCurrFurnitureId] = useState(null);
 
   useEffect(() => {
-    setFurniture(room?.furniture);
+    setFurnitures(room?.furniture);
   }, [room]);
 
   function updateFurniture({ _id, position }) {
-    setFurniture((prev) => prev.map((elem) => {
-      if (elem._id !== _id) {
-        return elem;
+    setFurnitures((prev) => prev.map((furniture) => {
+      if (furniture._id !== _id) {
+        return furniture;
       }
 
-      return { ...elem, position };
+      return { ...furniture, position };
     }));
   }
 
   function handleFurnitureSelect(furnitureId) {
     if (!isEditMode || currFurnitureId === furnitureId) return;
 
-    setFurniture((prev) => prev.map((elem) => {
-      if (elem._id !== furnitureId) {
-        return elem;
+    setFurnitures((prev) => prev.map((furniture) => {
+      if (furniture._id !== furnitureId) {
+        return furniture;
       }
 
-      const [x, y, z] = elem.position;
+      const [x, y, z] = furniture.position;
 
-      return { ...elem, position: [x, y + 20, z] };
+      return { ...furniture, position: [x, y + 20, z] };
     }));
 
     setCurrFurnitureId(furnitureId);
@@ -43,7 +43,7 @@ function useFurniture({
   async function handleFurnitureMove(x, y) {
     if (!currFurnitureId || !isEditMode) return;
 
-    const height = furniture.find((elem) => elem._id === currFurnitureId).position[1];
+    const height = furnitures.find((furniture) => furniture._id === currFurnitureId).position[1];
     const furniturePosition = [(x * 40), height - 20, (y * 40)];
 
     try {
@@ -71,7 +71,7 @@ function useFurniture({
   }, [socket]);
 
   return {
-    furniture,
+    furnitures,
     currFurnitureId,
     handleFurnitureSelect,
     handleFurnitureMove,

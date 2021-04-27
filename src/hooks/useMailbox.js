@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { getFurniture } from "../reducers/furnitureSlice";
+import { getMailList } from "../reducers/mailSlice";
 
 function useMailbox({ isLoggedInUser }) {
   const dispatch = useDispatch();
@@ -11,7 +11,7 @@ function useMailbox({ isLoggedInUser }) {
   useEffect(() => {
     if (!isLoggedInUser) return;
 
-    dispatch(getFurniture());
+    dispatch(getMailList());
   }, [isLoggedInUser]);
 
   function handleClickMailbox(id) {

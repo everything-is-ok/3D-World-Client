@@ -7,7 +7,7 @@ import useFurniture from "../hooks/useFurniture";
 
 function RoomFurniture({ socket, room, isEditMode }) {
   const {
-    furniture,
+    furnitures,
     currFurnitureId,
     handleFurnitureSelect,
     handleFurnitureMove,
@@ -15,8 +15,8 @@ function RoomFurniture({ socket, room, isEditMode }) {
 
   return (
     <>
-      {furniture && furniture.map((elem) => {
-        const { _id, name, position } = elem;
+      {furnitures && furnitures.map((furniture) => {
+        const { _id, name, position } = furniture;
 
         return (
           <Furniture
