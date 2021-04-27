@@ -7,56 +7,56 @@ function useFurniture({
   room,
   isEditMode,
 }) {
-  const [items, setItems] = useState(room?.items);
-  const [currItemId, setCurrItemId] = useState(null);
+  const [furnitures, setFurnitures] = useState(room?.furniture);
+  const [currFurnitureId, setCurrFurnitureId] = useState(null);
 
   useEffect(() => {
-    setItems(room?.items);
+    setFurnitures(room?.furniture);
   }, [room]);
 
-  function updateItems({ _id, position }) {
-    setItems((prev) => prev.map((item) => {
-      if (item._id !== _id) {
-        return item;
+  function updateFurniture({ _id, position }) {
+    setFurnitures((prev) => prev.map((furniture) => {
+      if (furniture._id !== _id) {
+        return furniture;
       }
 
-      return { ...item, position };
+      return { ...furniture, position };
     }));
   }
 
-  function handleSelectItem(itemId, itemPosition) {
-    if (!isEditMode || currItemId === itemId) return;
+  function handleFurnitureSelect(furnitureId) {
+    if (!isEditMode || currFurnitureId === furnitureId) return;
 
-    const [x, y, z] = itemPosition;
-
-    setItems((prev) => prev.map((item) => {
-      if (item._id !== itemId) {
-        return item;
+    setFurnitures((prev) => prev.map((furniture) => {
+      if (furniture._id !== furnitureId) {
+        return furniture;
       }
 
-      return { ...item, position: [x, y + 20, z] };
+      const [x, y, z] = furniture.position;
+
+      return { ...furniture, position: [x, y + 20, z] };
     }));
 
-    setCurrItemId(itemId);
+    setCurrFurnitureId(furnitureId);
   }
 
-  async function handleMoveItem(x, y) {
-    if (!currItemId || !isEditMode) return;
+  async function handleFurnitureMove(x, y) {
+    if (!currFurnitureId || !isEditMode) return;
 
-    const height = items.find((item) => item._id === currItemId).position[1];
-    const itemPosition = [(x * 40), height - 20, (y * 40)];
+    const height = furnitures.find((furniture) => furniture._id === currFurnitureId).position[1];
+    const furniturePosition = [(x * 40), height - 20, (y * 40)];
 
     try {
       await fetchData(
         "PATCH",
-        "/item",
-        { id: currItemId, position: itemPosition },
+        "/furniture",
+        { id: currFurnitureId, position: furniturePosition },
       );
 
-      updateItems({ _id: currItemId, position: itemPosition });
-      setCurrItemId(null);
+      updateFurniture({ _id: currFurnitureId, position: furniturePosition });
+      setCurrFurnitureId(null);
 
-      socket.emit("update", { _id: currItemId, position: itemPosition });
+      socket.emit("update", { _id: currFurnitureId, position: furniturePosition });
     } catch (err) {
       // TODO error handling
       // console.log(err.message);
@@ -66,15 +66,15 @@ function useFurniture({
   useEffect(() => {
     if (!socket) return;
 
-    socket.on("update", updateItems);
-    return () => socket.off("update", updateItems);
+    socket.on("update", updateFurniture);
+    return () => socket.off("update", updateFurniture);
   }, [socket]);
 
   return {
-    items,
-    currItemId,
-    handleSelectItem,
-    handleMoveItem,
+    furnitures,
+    currFurnitureId,
+    handleFurnitureSelect,
+    handleFurnitureMove,
   };
 }
 

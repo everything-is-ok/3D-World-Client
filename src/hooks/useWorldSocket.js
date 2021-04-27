@@ -70,7 +70,6 @@ function useWorldSocket(user, position, direction = 0) {
     });
 
     socket.on("leave world", (leftUserInfo) => {
-      console.log(leftUserInfo);
       setOtherUsers((prev) => ([
         ...prev.filter((prevUser) => prevUser.id !== leftUserInfo._id),
       ]));

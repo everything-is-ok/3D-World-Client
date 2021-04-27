@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
 
-import getFurniture from "../../utils/getFurniture";
+import ChildFurniture from "./ChildFurniture";
 
 function Furniture({ name, position, onClick }) {
   const group = useRef();
@@ -14,8 +14,6 @@ function Furniture({ name, position, onClick }) {
     onClick();
   }
 
-  const ChildFurniture = getFurniture(name);
-
   return (
     <group ref={group} position={position}>
       <mesh
@@ -24,7 +22,7 @@ function Furniture({ name, position, onClick }) {
         onClick={handleClick}
         color={isSelected ?? "red"}
       >
-        <ChildFurniture />
+        <ChildFurniture name={name} />
       </mesh>
     </group>
   );

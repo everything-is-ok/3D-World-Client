@@ -9,7 +9,7 @@ import TempModel from "./models/TempModel";
 import Mailbox from "./models/Mailbox";
 import Bedroom from "./models/Bedroom";
 import Friends from "./Friends";
-import RoomFurnitures from "./RoomFurnitures";
+import RoomFurniture from "./RoomFurniture";
 
 const CanvasContainer = styled.div`
   width: 100%;
@@ -43,14 +43,17 @@ function RoomCanvas({
   function handleClickCanvas() {
     canvasRef.current.focus();
   }
-
+  // TODO: delete temp model
   return (
     <CanvasContainer
       onClick={handleClickCanvas}
       ref={canvasRef}
       tabIndex={0}
     >
-      <Canvas orthographic camera={{ position: [300, 300, 300], fov: 80, near: 10 }}>
+      <Canvas
+        orthographic
+        camera={{ position: [300, 300, 300], zoom: 0.9 }}
+      >
         <Universe
           position={[6 * 40, 0, 6 * 40]}
           radius={400}
@@ -69,7 +72,7 @@ function RoomCanvas({
             position={[3 * 40, 13 * 40]}
             onClick={() => handleClickMailbox(room.mailboxId)}
           />
-          <RoomFurnitures
+          <RoomFurniture
             socket={socket}
             isEditMode={isEditMode}
             room={room}

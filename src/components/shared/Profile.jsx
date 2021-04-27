@@ -1,10 +1,16 @@
 import React from "react";
 import ReactPlayer from "react-player";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 
 import Photo from "./Photo";
 import StyledButton from "./StyledButton";
 import useAudio from "../../hooks/useAudio";
+
+const ProfilePhoto = styled(Photo)`
+  width: 100%;
+  height: auto;
+`;
 
 function Profile({
   name,
@@ -18,7 +24,7 @@ function Profile({
     <>
       <h3>{name}</h3>
       <div>{description}</div>
-      <Photo size={200} src={photoURL} alt="profilePhoto" />
+      <ProfilePhoto src={photoURL} alt="profilePhoto" />
       <ReactPlayer
         url={musicURL}
         playing={isPlaying}

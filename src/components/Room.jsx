@@ -11,8 +11,6 @@ const Container = styled.div`
   position: relative;
   width: 80%;
   height: 100%;
-
-  // NOTE: 사이즈 확인용 border
 `;
 
 const AButton = styled.button`

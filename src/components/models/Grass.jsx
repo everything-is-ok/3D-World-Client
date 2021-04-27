@@ -1,12 +1,12 @@
 import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
 
-function Grass({ position, onClick, currItemId }) {
+function Grass({ position, onClick, currFurnitureId }) {
   const mesh = useRef();
   const [hovered, setHovered] = useState(false);
 
   function handleChange() {
-    if (currItemId) {
+    if (currFurnitureId) {
       setHovered(true);
     }
   }
@@ -32,7 +32,7 @@ function Grass({ position, onClick, currItemId }) {
 Grass.propTypes = {
   position: PropTypes.array.isRequired,
   onClick: PropTypes.func,
-  currItemId: PropTypes.string,
+  currFurnitureId: PropTypes.string,
 };
 
 Grass.defaultProps = {
