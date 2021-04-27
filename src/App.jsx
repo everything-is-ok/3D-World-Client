@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import {
-  // BrowserRouter as Router,
   HashRouter as Router,
   Switch,
   Route,
@@ -17,6 +16,7 @@ import World from "./components/World";
 import { getUserByToken, userSelector } from "./reducers/userSlice";
 import Layout from "./components/shared/Layout";
 import THEME from "./constants/theme";
+import { connectSocket, getMySocketId } from "./utils/socket";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,7 +25,12 @@ function App() {
   useEffect(() => {
     if (!user) {
       dispatch(getUserByToken());
+      return;
     }
+
+    connectSocket();
+    console.log(getMySocketId());
+    console.log(user);
   }, [user]);
 
   return (

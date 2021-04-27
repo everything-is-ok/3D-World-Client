@@ -16,9 +16,15 @@ const {
   NEW_USER_SOCKET_ID,
 } = EVENTS;
 
-const socket = io(process.env.REACT_APP_API_URL);
+let socket;
+
+function connectSocket() {
+  socket = io(process.env.REACT_APP_SERVER_URL);
+}
 
 function getMySocketId() {
+  console.log(socket);
+  console.log(socket.connected);
   return socket.id;
 }
 
@@ -26,8 +32,8 @@ const worldSocket = {
   joinWorld: (userInfo) => {
     socket.emit(JOIN_WORLD, userInfo);
   },
-  sendUserMovement: ({ id, newPosition, newDirection }) => {
-    socket.emit(USER_MOVEMENT, { id, newPosition, newDirection });
+  sendUserMovement: (data) => {
+    socket.emit(USER_MOVEMENT, data);
   },
   listenUserJoin: (userInfo) => {
     socket.on(JOIN_WORLD, (userInfo));
@@ -86,6 +92,7 @@ const furnitureSocket = {
 };
 
 export {
+  connectSocket,
   roomSocket,
   worldSocket,
   getMySocketId,

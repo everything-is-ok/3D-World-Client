@@ -58,11 +58,9 @@ function Welcome() {
 
   return (
     <Container>
-      <LoginContainer>
-        <GoogleLoginButton onClick={handleClick}>
-          Login with Google
-        </GoogleLoginButton>
-      </LoginContainer>
+      <GoogleLoginButton onClick={handleClick}>
+        Login with Google
+      </GoogleLoginButton>
       {isLoginOpen && (
         <LoginContainer>
           <div>

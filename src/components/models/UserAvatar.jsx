@@ -19,8 +19,9 @@ import Chicken from "./Chicken";
 import usePosition from "../../hooks/usePosition";
 import useUserSocket from "../../hooks/useUserSocket";
 import SOCKET from "../../constants/socketEvents";
+import PugHead from "./PugHead";
 
-export default function Model({ ...props }) {
+export default function UserAvatar({ ...props }) {
   const { position: initialPosition, socket, user } = props;
   const { position, direction } = usePosition(initialPosition);
   const { fetchNewPositionToWorld } = useUserSocket(socket, position);
@@ -61,6 +62,7 @@ export default function Model({ ...props }) {
 
       return each;
     }));
+
     useFrame(({ camera }) => {
       if (user.name === "guest" && vec.z <= -6000) {
         props.handleCameraStop();
@@ -80,6 +82,10 @@ export default function Model({ ...props }) {
         position={position || initialPosition}
         direction={direction}
         name={user.name}
+      />
+      <PugHead
+        position={position || initialPosition}
+        direction={direction}
       />
       <ThirdPersonCamera camPosition={position} />
     </>

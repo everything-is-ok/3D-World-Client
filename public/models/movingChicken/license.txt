@@ -1,0 +1,11 @@
+Model Information:
+* title:	Crossy Road Chicken [Rigged]
+* source:	https://sketchfab.com/3d-models/crossy-road-chicken-rigged-9bf2c7830fc0417daa9c8729818ccba4
+* author:	muffinhead3D (https://sketchfab.com/muffinhead3D)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Crossy Road Chicken [Rigged]" (https://sketchfab.com/3d-models/crossy-road-chicken-rigged-9bf2c7830fc0417daa9c8729818ccba4) by muffinhead3D (https://sketchfab.com/muffinhead3D) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
