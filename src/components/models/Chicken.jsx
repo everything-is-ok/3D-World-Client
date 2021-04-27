@@ -43,7 +43,7 @@ export default function Model({ ...props }) {
       ref={ref}
     >
       <Suspense fallback={null}>
-        <Texts position={[-45, 60, 0]} letters={name} />
+        <Texts position={[-23, 60, 0]} letters={name} />
       </Suspense>
       <group scale={[10, 10, 10]} rotation={[0, direction, 0]}>
         <group
