@@ -52,6 +52,7 @@ function Room({
   }
 
   const [isEditMode, setIsEditMode] = useState(false);
+
   return (
     <Container>
       <RoomCanvas

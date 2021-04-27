@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { getItems } from "../reducers/itemSlice";
+import { getMailList } from "../reducers/mailSlice";
 
 // NOTE: 사용하는 곳에서 객체를 주지 않고 있어서, 항상 undefined
 function useMailbox({ isLoggedInUser }) {
@@ -12,8 +12,7 @@ function useMailbox({ isLoggedInUser }) {
   useEffect(() => {
     if (!isLoggedInUser) return;
 
-    // TODO: item 받아오는 logic. 확인 필요
-    dispatch(getItems());
+    dispatch(getMailList());
   }, [isLoggedInUser]);
 
   function handleClickMailbox(id) {

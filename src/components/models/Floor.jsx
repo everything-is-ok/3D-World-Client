@@ -6,7 +6,7 @@ function Floor({
   width,
   height,
   onClick,
-  currItemId,
+  currFurnitureId,
 }) {
   return (
     <group rotateX={-Math.PI / 2}>
@@ -17,7 +17,7 @@ function Floor({
             key={`x:${x}, y:${y}`}
             position={[(x * 40), 10, (y * 40)]}
             onClick={() => onClick(x, y)}
-            currItemId={currItemId}
+            currFurnitureId={currFurnitureId}
           />
         ))
       ))}
@@ -29,7 +29,7 @@ Floor.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   onClick: PropTypes.func,
-  currItemId: PropTypes.string,
+  currFurnitureId: PropTypes.string,
 };
 
 export default React.memo(Floor);
