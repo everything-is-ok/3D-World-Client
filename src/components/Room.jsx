@@ -24,7 +24,7 @@ const AButton = styled.button`
 // TODO: mailbox click했을때, re-render 최적화
 // TODO: 아주 힘들 예정, 방 정보로 아이템을 배치해야한다.
 function Room({
-  id,
+  roomOwnerId,
   room,
   socket,
   handleClickMailbox,
@@ -33,20 +33,12 @@ function Room({
   const userName = useSelector(userNameSelector);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   if (!socket || !userId || !userName || !room) {
-  //     return;
-  //   }
-
-  //   socket.emit("join room", { user: { id: userId, name: userName }, roomId: room._id });
-  // }, [socket, userId, userName, room]);
-
   // TODO: 필요 없어지면 삭제
   // NOTE: id가 undefined인 경우는 없는 듯?
-  const isMyRoom = id === undefined || userId === id;
+  const isMyRoom = roomOwnerId === undefined || userId === roomOwnerId;
 
   async function handleAddFriendClick() {
-    dispatch(updateUserData({ friend: id }));
+    dispatch(updateUserData({ friend: roomOwnerId }));
   }
 
   const [isEditMode, setIsEditMode] = useState(false);
@@ -83,7 +75,7 @@ function Room({
 
 // TODO: socket proptypes?
 Room.propTypes = {
-  id: PropTypes.string.isRequired,
+  roomOwnerId: PropTypes.string.isRequired,
   socket: PropTypes.object.isRequired,
   room: PropTypes.object.isRequired,
   handleClickMailbox: PropTypes.func.isRequired,

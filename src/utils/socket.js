@@ -22,9 +22,11 @@ function connectSocket() {
   socket = io(process.env.REACT_APP_SERVER_URL);
 }
 
+function disconnectSocket() {
+  socket.disconnect();
+}
+
 function getMySocketId() {
-  console.log(socket);
-  console.log(socket.connected);
   return socket.id;
 }
 
@@ -52,9 +54,11 @@ const worldSocket = {
 
 // NOTE: room and chat and friend ?
 const roomSocket = {
-  joinRoom: () => {
-    // TODO: add
-    socket.emit(JOIN_ROOM);
+  joinRoom: (data) => {
+    socket.emit(JOIN_ROOM, data);
+  },
+  leaveRoom: () => {
+    socket.emit(LEAVE_ROOM);
   },
   listenUserJoin: (cb) => {
     socket.on(JOIN_ROOM, cb);
@@ -68,11 +72,17 @@ const roomSocket = {
   listenUserLeave: (cb) => {
     socket.on(LEAVE_ROOM, cb);
   },
+  sendChatMessage: (data) => {
+    socket.emit(CHAT_MESSAGE, data);
+  },
   listenChatMessage: (cb) => {
     socket.on(CHAT_MESSAGE, cb);
   },
-  removeFirendsListener: () => {
-    // off
+  offChatMessage: (cb) => {
+    socket.off(CHAT_MESSAGE, cb);
+  },
+  removeAllRoomListeners: () => {
+    socket.removeAllListeners();
   },
 };
 
@@ -93,6 +103,7 @@ const furnitureSocket = {
 
 export {
   connectSocket,
+  disconnectSocket,
   roomSocket,
   worldSocket,
   getMySocketId,

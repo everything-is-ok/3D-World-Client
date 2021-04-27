@@ -2,9 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-import useSocketChat from "../hooks/useSocketChat";
 import StyledInput from "./shared/StyledInput";
-import EVENTS from "../constants/socketEvents";
+import { roomSocket } from "../utils/socket";
 
 const ChatHeader = styled.header`
   padding: 0.5rem;
@@ -49,46 +48,33 @@ const FormContainer = styled.form`
   position: relative;
 `;
 
-// TODO: 내가 보낸 채팅과 받은 채팅을 구분할 수 있도록 수정
-function Chat({ socket }) {
-  const [message, setMessage] = useState("");
+function Chat({ roomOwnerId }) {
   const [chatList, setChatList] = useState([]);
   const inputRef = useRef();
   const chatListRef = useRef();
-  const { CHAT_MESSAGE } = EVENTS;
 
-  useSocketChat(socket, handleChat);
+  useEffect(() => {
+    function handleChat(data) {
+      setChatList((prev) => prev.concat(data));
+    }
+
+    roomSocket.listenChatMessage(handleChat);
+    return () => setChatList([]);
+  }, [roomOwnerId]);
 
   useEffect(() => {
     chatListRef.current.scrollTop = chatListRef.current.scrollHeight;
-  }, [message]);
-
-  useEffect(() => {
-    setChatList([]);
-  }, [socket]);
-
-  function handleChat(data) {
-    setChatList((prev) => prev.concat(data));
-  }
-
-  function addChatElement(data) {
-    setChatList((prev) => prev.concat(data));
-  }
-
-  function handleInputChange(e) {
-    setMessage(e.target.value);
-  }
+  }, [chatList]);
 
   function handleSubmit(e) {
     e.preventDefault();
+    const message = inputRef.current.value;
 
-    if (!message) {
-      return;
-    }
-    // TODO: socket error handle
-    socket.emit(CHAT_MESSAGE, { message });
-    addChatElement({ user: "나", message });
-    setMessage("");
+    if (!message) return;
+
+    setChatList((prev) => prev.concat({ user: "나", message }));
+    roomSocket.sendChatMessage({ message });
+    inputRef.current.value = "";
   }
 
   return (
@@ -97,12 +83,10 @@ function Chat({ socket }) {
         <span>채팅하기</span>
       </ChatHeader>
       <ChatList ref={chatListRef}>
-        {chatList.map((chat) => (
-          <>
-            <ChatMessage>
-              {`${chat.user} : ${chat.message}`}
-            </ChatMessage>
-          </>
+        {chatList.map((chat, index) => (
+          <ChatMessage key={`${chat.user + index}`}>
+            {`${chat.user} : ${chat.message}`}
+          </ChatMessage>
         ))}
       </ChatList>
       <FormContainer
@@ -110,8 +94,6 @@ function Chat({ socket }) {
       >
         <StyledInput
           ref={inputRef}
-          value={message}
-          onChange={handleInputChange}
         />
         <ChatButton type="submit">보내기 🚀</ChatButton>
       </FormContainer>
@@ -120,7 +102,7 @@ function Chat({ socket }) {
 }
 
 Chat.propTypes = {
-  socket: PropTypes.any,
+  roomOwnerId: PropTypes.string,
 };
 
 export default Chat;
