@@ -36,6 +36,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "proxy": "http://three-world-server-production.eba-gpfh6cby.ap-northeast-2.elasticbeanstalk.com",
   "eslintConfig": {
     "extends": [
       "react-app",

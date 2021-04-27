@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 
@@ -6,7 +6,6 @@ import StyledButton from "./shared/StyledButton";
 
 const Container = styled.div`
   position: relative;
-  z-index: 1;
 `;
 
 const display = css`
@@ -34,7 +33,7 @@ const List = styled.div`
   border-radius: 0.3rem;
   overflow: hidden;
   transition: all .3s ease-in-out .3s;
-
+  z-index: 1;
   ${display}
 `;
 

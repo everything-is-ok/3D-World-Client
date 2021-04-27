@@ -32,19 +32,19 @@ export default function usePosition(InitialPosition, initialDirection = 0) {
   const [direction, setDirection] = useState(initialDirection);
   const initialY = InitialPosition[POS.Y];
 
-  // useEffect(() => {
-  //   const ID = setTimeout(() => {
-  //     setPosition((prev) => [...prev].map((each, index) => {
-  //       if (index === POS.Y) {
-  //         return each = initialY;
-  //       }
+  useEffect(() => {
+    const ID = setTimeout(() => {
+      setPosition((prev) => [...prev].map((each, index) => {
+        if (index === POS.Y) {
+          return each = initialY;
+        }
 
-  //       return each;
-  //     }));
-  //   }, 20);
+        return each;
+      }));
+    }, 20);
 
-  //   return () => clearTimeout(ID);
-  // }, [position[POS.Y]]);
+    return () => clearTimeout(ID);
+  }, [position[POS.Y]]);
 
   useEffect(() => {
     window.addEventListener("keydown", handlePositionChange);
@@ -58,7 +58,7 @@ export default function usePosition(InitialPosition, initialDirection = 0) {
     }
 
     if (e.keyCode === 32) {
-      setPosition((prev) => getChangedPosition(prev, POS.Y, oneStep));
+      setPosition((prev) => getChangedPosition(prev, POS.Y, 250));
     }
     if (e.keyCode === 40) {
       setDirection(key.front);

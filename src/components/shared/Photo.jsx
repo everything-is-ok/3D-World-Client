@@ -19,6 +19,7 @@ const borderRadius = css`
 const Photo = styled.img`
   ${size}
   ${borderRadius}
+  max-width: 250px;
 `;
 
 Photo.propTypes = {
