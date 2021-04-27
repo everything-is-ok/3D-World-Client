@@ -20,32 +20,26 @@ import usePosition from "../../hooks/usePosition";
 import useUserSocket from "../../hooks/useUserSocket";
 import SOCKET from "../../constants/socketEvents";
 import PugHead from "./PugHead";
+import { worldSocket } from "../../utils/socket";
 
 export default function UserAvatar({ ...props }) {
-  const { position: initialPosition, socket, user } = props;
+  const { position: initialPosition, user } = props;
   const { position, direction } = usePosition(initialPosition);
-  const { fetchNewPositionToWorld } = useUserSocket(socket, position);
+  // const { fetchNewPositionToWorld } = useUserSocket(socket, position);
   const { NEW_USER_SOCKET_ID, OLD_USER_INFO } = SOCKET;
 
   useEffect(() => {
-    if (!user || !socket) {
+    if (!user) {
       return;
     }
-
-    fetchNewPositionToWorld(props.user._id, position, direction);
-
-    props.socket.on(NEW_USER_SOCKET_ID, ({ socketId }) => {
-      props.socket.emit(OLD_USER_INFO, {
-        userInfo: {
-          ...user,
-          position,
-          direction,
-        },
+    const { _id: id } = user;
+    worldSocket.sendUserMovement({ id, position, direction });
+    worldSocket.listenNewUserSocketId(({ socketId }) => {
+      worldSocket.sendOldUserInfo({
+        userInfo: { id, position, direction },
         listener: socketId,
       });
     });
-
-    return () => props.socket.off(NEW_USER_SOCKET_ID);
   }, [position]);
 
   function ThirdPersonCamera({ camPosition }) {

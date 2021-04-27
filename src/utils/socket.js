@@ -23,8 +23,6 @@ function connectSocket() {
 }
 
 function getMySocketId() {
-  console.log(socket);
-  console.log(socket.connected);
   return socket.id;
 }
 
@@ -35,8 +33,14 @@ const worldSocket = {
   sendUserMovement: (data) => {
     socket.emit(USER_MOVEMENT, data);
   },
-  listenUserJoin: (userInfo) => {
-    socket.on(JOIN_WORLD, (userInfo));
+  sendOldUserInfo: (data) => {
+    socket.emit(OLD_USER_INFO, data);
+  },
+  listenNewUserInfo: (cb) => {
+    socket.on(JOIN_WORLD, cb);
+  },
+  listenNewUserSocketId: (cb) => {
+    socket.on(NEW_USER_SOCKET_ID, cb);
   },
   listenOldUserInfo: (userInfo, cb) => {
     socket.on(OLD_USER_INFO, cb);
@@ -45,8 +49,8 @@ const worldSocket = {
   listenUserLeave: (userInfo, cb) => {
     socket.on(LEAVE_WORLD, cb);
   },
-  removeWorldListener: () => {
-    // Off.
+  removeWorldListeners: () => {
+    socket.removeAllListeners();
   },
 };
 

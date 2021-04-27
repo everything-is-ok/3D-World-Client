@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   HashRouter as Router,
   Switch,
@@ -16,7 +16,7 @@ import World from "./components/World";
 import { getUserByToken, userSelector } from "./reducers/userSlice";
 import Layout from "./components/shared/Layout";
 import THEME from "./constants/theme";
-import { connectSocket, getMySocketId } from "./utils/socket";
+import { connectSocket } from "./utils/socket";
 
 function App() {
   const dispatch = useDispatch();
@@ -29,8 +29,6 @@ function App() {
     }
 
     connectSocket();
-    console.log(getMySocketId());
-    console.log(user);
   }, [user]);
 
   return (
