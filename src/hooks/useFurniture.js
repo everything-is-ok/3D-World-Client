@@ -24,15 +24,15 @@ function useFurniture({
     }));
   }
 
-  function handleSelectItem(itemId, itemPosition) {
+  function handleSelectItem(itemId) {
     if (!isEditMode || currItemId === itemId) return;
-
-    const [x, y, z] = itemPosition;
 
     setItems((prev) => prev.map((item) => {
       if (item._id !== itemId) {
         return item;
       }
+
+      const [x, y, z] = item.position;
 
       return { ...item, position: [x, y + 20, z] };
     }));
