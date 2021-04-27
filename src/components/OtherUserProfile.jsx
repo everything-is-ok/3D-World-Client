@@ -6,11 +6,6 @@ import Profile from "./shared/Profile";
 import useOtherUserProfile from "../hooks/useOtherUserProfile";
 
 const Container = styled.div`
-  width: 20%;
-  height: 100%;
-
-  // NOTE: 사이즈 확인용 border
-  border: 2px solid black;
 `;
 
 // TODO: RENAME options: read-only-profile / editable-profile
