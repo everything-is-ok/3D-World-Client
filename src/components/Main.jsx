@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -12,16 +12,18 @@ import useSocket from "../hooks/useSocket";
 import MailboxModal from "./MailboxModal";
 import Chat from "./Chat";
 import { getRoomById, roomSelector } from "../reducers/roomSlice";
+import EVENTS from "../constants/socketEvents";
 
 // TODO: 배치 수정
 const Container = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 85vh;
+  height: 100%;
+  width: 100%;
+  margin: auto;
   padding: 1rem;
-  // NOTE: 사이즈 확인용 border
-  border: 2px solid black;
+  border-radius: 8px;
 `;
 
 const SideContainer = styled.div`
@@ -30,7 +32,11 @@ const SideContainer = styled.div`
   justify-content: center;
   width: 20%;
   height: 100%;
-  padding: 0 0.5rem;
+  padding: 0.5rem;
+  margin-right: 1rem;
+  border-radius: 8px;
+  border: 1px solid ${(props) => props.theme.cardBorder.color};
+  background-color: ${(props) => props.theme.cardBg.color};
 `;
 
 // NOTE: 내 방을 가던 남의 방을 가던 /room/:id 로 온다.
@@ -48,6 +54,7 @@ function Main() {
 
   // TODO: 필요 없어지면 삭제
   const isLoggedInUser = roomOwnerId === undefined || loggedInUserId === roomOwnerId;
+  const { JOIN_ROOM } = EVENTS;
 
   // NOTE: Room과 프로필 부분을 한번 더 분리해야 리렌더링을 막을 수 있을 것 같습니다.
   const {
@@ -69,7 +76,7 @@ function Main() {
       return;
     }
 
-    socket.emit("join room", { user: { id: userId, name: userName }, roomId: room._id });
+    socket.emit(JOIN_ROOM, { user: { id: userId, name: userName }, roomId: room._id });
   }, [socket, userId, userName, room]);
 
   return (
@@ -83,7 +90,7 @@ function Main() {
         <Chat socket={socket} />
       </SideContainer>
       {/* TODO: World와 Room Comp를 토글방식으로 적용. */}
-      { room ? (
+      {room ? (
         <>
           <Room
             socket={socket}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 
@@ -6,9 +6,7 @@ import StyledButton from "./shared/StyledButton";
 
 const Container = styled.div`
   position: relative;
-  z-index: 99;
-  // NOTE: 전체 사이즈 확인을 위한 border
-  border: 2px solid black;
+  z-index: 1;
 `;
 
 const display = css`
@@ -47,7 +45,7 @@ function DropDown({
   toggle,
 }) {
   return (
-    <Container>
+    <Container onBlur={toggle}>
       <StyledButton onClick={toggle}>
         {name}
       </StyledButton>

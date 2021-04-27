@@ -12,7 +12,7 @@ function Mailbox({ position, onClick }) {
       scale={40}
       dispose={null}
       position={[position[0], 10, position[1]]}
-      rotation={[-Math.PI / 2, 0, -Math.PI / 2]}
+      rotation={[-Math.PI / 2, 0, Math.PI / 2]}
     >
       <mesh
         geometry={nodes.Mailbox_0.geometry}

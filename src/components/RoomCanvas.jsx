@@ -1,6 +1,6 @@
 import React, { Suspense, useRef } from "react";
 import PropTypes from "prop-types";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import styled from "styled-components";
 
@@ -31,9 +31,9 @@ function RoomCanvas({
   isEditMode,
 }) {
   function ControlCam() {
-    // useFrame(({ camera }) => {
-    //   camera.lookAt([6 * 40, 0, 6 * 40]);
-    // });
+    useFrame(({ camera }) => {
+      camera.lookAt(2 * 40, 0, 2 * 40);
+    });
 
     return null;
   }
@@ -50,7 +50,10 @@ function RoomCanvas({
       ref={canvasRef}
       tabIndex={0}
     >
-      <Canvas orthographic camera={{ position: [300, 300, 300], fov: 80, near: 10 }}>
+      <Canvas
+        orthographic
+        camera={{ position: [300, 300, 300], zoom: 0.9 }}
+      >
         <Universe
           position={[6 * 40, 0, 6 * 40]}
           radius={400}

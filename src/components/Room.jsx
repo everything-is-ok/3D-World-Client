@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,7 +13,12 @@ const Container = styled.div`
   height: 100%;
 
   // NOTE: 사이즈 확인용 border
-  border: 2px solid black;
+`;
+
+const AButton = styled.button`
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
 `;
 
 // NOTE: room의 id라는 전제로 작성
@@ -58,12 +63,12 @@ function Room({
         isEditMode={isEditMode}
       />
       {isMyRoom ? (
-        <StyledButton
+        <AButton
           type="button"
           onClick={() => setIsEditMode(((prev) => !prev))}
         >
           리모델링 🪑
-        </StyledButton>
+        </AButton>
       ) : (
         <StyledButton
           type="button"
