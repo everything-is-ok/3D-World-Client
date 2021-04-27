@@ -22,6 +22,7 @@ import DungeonProps from "./models/DungeonProps";
 import SpaceTaxi from "./models/SpaceTaxi";
 import Fox from "./models/Fox";
 import useWorldSocket from "../hooks/useWorldSocket";
+import fetchData from "../utils/fetchData";
 
 const Container = styled.div`
   position: relative;
@@ -52,23 +53,11 @@ function World({ user }) {
       });
 
       try {
-        let response = await fetch(`http://localhost:5000/user/random?${params}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetchData("GET", `/user/random?${params}`);
 
-        response = await response.json();
-        if (response.ok) {
-          setRandomUsers(response.data);
-          return response.data;
-        }
-
-        // NOTE: 에러핸들링, 어찌할지 멘토님께 질문
-        throw new Error(response.error.message);
+        setRandomUsers(response);
       } catch (err) {
-        throw new Error(err);
+        throw new Error(err.message);
       }
     }
 
