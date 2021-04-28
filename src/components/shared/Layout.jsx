@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import Sidebar from "../Sidebar";
 
 const Background = styled.div`
   display: flex;
@@ -31,16 +32,19 @@ const ContentsWrapper = styled.div`
   border-radius: 10px;
 `;
 
-const Layout = ({ children }) => (
+const Layout = ({ main }) => (
   <Background>
     <BorderWrapper>
-      <ContentsWrapper>{children}</ContentsWrapper>
+      <ContentsWrapper>
+        {main}
+      </ContentsWrapper>
     </BorderWrapper>
+    <Sidebar />
   </Background>
 );
 
 Layout.propTypes = {
-  children: PropTypes.element.isRequired,
+  main: PropTypes.string.isRequired,
 };
 
 export default Layout;

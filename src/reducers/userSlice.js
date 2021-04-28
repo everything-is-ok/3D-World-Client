@@ -109,5 +109,6 @@ export const { logout, updateError } = userSlice.actions;
 export default userSlice.reducer;
 
 export const userSelector = (state) => state.user.data;
-export const userIdSelector = (state) => state.user.data._id;
+export const userIdSelector = (state) => state.user.data?._id || null;
 export const userNameSelector = (state) => state.user.data.name;
+export const userFriendsSelector = (state) => state.user.data.friends;

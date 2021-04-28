@@ -19,7 +19,7 @@ function Closet(props) {
 
   return (
     <group ref={group} {...props} dispose={null} scale={[3, 3, 3]}>
-      {isEditMode && <Tag position={[0, 50, 0]} args={[7, 0]} />}
+      {isEditMode && <Tag position={[0, 50, 0]} args={[5, 0]} />}
       <group rotation={[-Math.PI / 2, 0, Math.PI / 2]}>
         <mesh geometry={nodes.armario_00_LP_madera_0.geometry} material={materials.madera} />
         <mesh geometry={nodes.armario_00_LP_vidrio_0.geometry} material={materials.vidrio} />

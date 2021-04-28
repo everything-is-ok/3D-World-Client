@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-return-assign */
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
 const POS = {
   X: 0,
@@ -18,7 +18,7 @@ const key = {
 const oneStep = 40;
 
 function getChangedPosition(array, position, step) {
-  return [...array].map((each, index) => {
+  return array.map((each, index) => {
     if (index === position) {
       return each += step;
     }
@@ -27,24 +27,29 @@ function getChangedPosition(array, position, step) {
   });
 }
 
-function usePosition(InitialPosition, initialDirection = 0) {
-  const [position, setPosition] = useState(InitialPosition);
-  const [direction, setDirection] = useState(initialDirection);
-  const initialY = InitialPosition[POS.Y];
+function usePosition(
+  initialPosition,
+  initialDirection = 0,
+  onChange,
+) {
+  const positionRef = useRef(initialPosition);
+  const directionRef = useRef(initialDirection);
 
-  useEffect(() => {
-    const ID = setTimeout(() => {
-      setPosition((prev) => [...prev].map((each, index) => {
-        if (index === POS.Y) {
-          return each = initialY;
-        }
+  const initialY = initialPosition[POS.Y];
 
-        return each;
-      }));
-    }, 20);
+  // useEffect(() => {
+  //   const ID = setTimeout(() => {
+  //     setPosition((prev) => [...prev].map((each, index) => {
+  //       if (index === POS.Y) {
+  //         return each = initialY;
+  //       }
 
-    return () => clearTimeout(ID);
-  }, [position[POS.Y]]);
+  //       return each;
+  //     }));
+  //   }, 20);
+
+  //   return () => clearTimeout(ID);
+  // }, [position[POS.Y]]);
 
   useEffect(() => {
     window.addEventListener("keydown", handlePositionChange);
@@ -57,35 +62,39 @@ function usePosition(InitialPosition, initialDirection = 0) {
       return;
     }
 
-    if (e.keyCode === 32) {
-      setPosition((prev) => getChangedPosition(prev, POS.Y, 250));
-    }
+    const prevPosition = positionRef.current;
+
+    // if (e.keyCode === 32) {
+    //   setPosition((prev) => getChangedPosition(prev, POS.Y, 250));
+    // }
     if (e.keyCode === 40) {
-      setDirection(key.front);
-      setPosition((prev) => getChangedPosition(prev, POS.Z, oneStep));
+      directionRef.current = key.front;
+      positionRef.current = getChangedPosition(prevPosition, POS.Z, oneStep);
     }
     if (e.keyCode === 38) {
-      setDirection(key.back);
-      setPosition((prev) => getChangedPosition(prev, POS.Z, -oneStep));
+      directionRef.current = key.back;
+      positionRef.current = getChangedPosition(prevPosition, POS.Z, -oneStep);
     }
     if (e.keyCode === 37) {
-      setDirection(key.right);
-      setPosition((prev) => getChangedPosition(prev, POS.X, -oneStep));
+      directionRef.current = key.right;
+      positionRef.current = getChangedPosition(prevPosition, POS.X, -oneStep);
     }
     if (e.keyCode === 39) {
-      setDirection(key.left);
-      setPosition((prev) => getChangedPosition(prev, POS.X, oneStep));
+      directionRef.current = key.left;
+      positionRef.current = getChangedPosition(prevPosition, POS.X, oneStep);
     }
+
+    onChange();
   }
 
   function initPosition() {
-    setPosition(InitialPosition);
-    setDirection(initialDirection);
+    directionRef.current = initialDirection;
+    positionRef.current = initialPosition;
   }
 
   return {
-    position,
-    direction,
+    positionRef,
+    directionRef,
     handlePositionChange,
     initPosition,
   };

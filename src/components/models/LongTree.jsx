@@ -19,7 +19,7 @@ function LongTree(props) {
 
   return (
     <group ref={group} {...props} dispose={null} scale={[5, 5, 5]}>
-      {isEditMode && <Tag position={[0, 20, 0]} args={[4, 0]} />}
+      {isEditMode && <Tag position={[0, 20, 0]} args={[3, 0]} />}
       <mesh geometry={nodes.Tree_1_1_Tree_1_0.geometry} material={materials.Tree_1} />
       <mesh geometry={nodes.Tree_1_1_Mat3_0.geometry} material={materials["Mat.3"]} />
     </group>

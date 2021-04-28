@@ -38,13 +38,14 @@ const List = styled.div`
 `;
 
 function DropDown({
-  name,
   children,
+  name,
   isOpen,
   toggle,
+  onBlur,
 }) {
   return (
-    <Container onBlur={toggle}>
+    <Container onBlur={onBlur}>
       <StyledButton onClick={toggle}>
         {name}
       </StyledButton>
@@ -56,10 +57,11 @@ function DropDown({
 }
 
 DropDown.propTypes = {
+  children: PropTypes.any,
   name: PropTypes.string.isRequired,
   isOpen: PropTypes.bool,
   toggle: PropTypes.func,
-  children: PropTypes.any,
+  onBlur: PropTypes.func,
 };
 
 export default DropDown;
