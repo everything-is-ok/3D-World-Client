@@ -29,12 +29,11 @@ function useMyProfile() {
     e.preventDefault();
 
     try {
-      // const actionResult = await dispatch(updateUserData(userData));
-      // unwrapResult(actionResult);
-      await dispatch(updateUserData(userData));
+      const actionResult = await dispatch(updateUserData(userData));
+      unwrapResult(actionResult);
       setIsEditing(false);
     } catch (err) {
-      throw new Error(err.message);
+      setIsEditing(true);
     }
   }
 

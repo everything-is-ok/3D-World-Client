@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 import fetchData from "../utils/fetchData";
+import { updateError } from "../reducers/roomSlice";
 
 function useOtherUserProfile(id) {
+  const dispatch = useDispatch();
   const [userData, setUserData] = useState({
     name: "",
     description: "",
@@ -22,7 +25,7 @@ function useOtherUserProfile(id) {
           musicURL: user.musicURL,
         });
       } catch (err) {
-        throw new Error(err.message);
+        dispatch(updateError(err.message));
       }
     }
 

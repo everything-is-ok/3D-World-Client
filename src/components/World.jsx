@@ -3,6 +3,7 @@ import React, {
 } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Canvas } from "@react-three/fiber";
 import { Sky } from "@react-three/drei";
@@ -21,6 +22,7 @@ import CowHead from "./models/cowHead";
 import GirlPirate from "./models/girlPirate";
 import PugHead from "./models/PugHead";
 import fetchData from "../utils/fetchData";
+import { updateError } from "../reducers/roomSlice";
 
 const Container = styled.div`
   position: relative;
@@ -32,6 +34,7 @@ function World({ user }) {
   const { socket, otherUsers } = useWorldSocket(user, [10, -5, 150], 0);
   const [randomUsers, setRandomUsers] = useState([]);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function getRandomIds() {
@@ -44,7 +47,7 @@ function World({ user }) {
 
         setRandomUsers(response);
       } catch (err) {
-        throw new Error(err.message);
+        dispatch(updateError(err.message));
       }
     }
 

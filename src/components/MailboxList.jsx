@@ -48,7 +48,7 @@ function MailboxList({ toggle }) {
                 mail={mail}
                 handleClose={handleClose}
                 handleSelectMail={() => handleSelectMail(mail)}
-                handleDelete={handleDeleteMailItem}
+                handleDelete={() => handleDeleteMailItem(mail._id)}
               />
             ))}
           <StyledButton onClick={handleDeleteMailList}>

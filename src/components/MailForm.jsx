@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 
 import StyledInput from "./shared/StyledInput";
 import StyledButton from "./shared/StyledButton";
 import fetchData from "../utils/fetchData";
+import { updateError } from "../reducers/mailSlice";
 
 const Container = styled.div`
 `;
@@ -35,7 +37,7 @@ function MailForm({ mailboxId, toggle }) {
 
       toggle();
     } catch (err) {
-      throw new Error(err.message);
+      console.log(err.message);
     }
   }
 
