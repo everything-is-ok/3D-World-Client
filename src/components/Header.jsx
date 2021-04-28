@@ -39,6 +39,7 @@ function Header() {
         name="친구 목록 👨‍👨‍👧‍👦"
         isOpen={modalOpen}
         toggle={toggle}
+        onBlur={toggle}
       >
         {friends.map((friend) => (
           <Link to={`/room/${friend._id}`} onClick={toggle}>
