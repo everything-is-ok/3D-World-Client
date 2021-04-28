@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useLoader } from "@react-three/fiber";
