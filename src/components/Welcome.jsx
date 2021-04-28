@@ -76,12 +76,12 @@ function Welcome() {
         <ambientLight intensity={0.3} />
         <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
         <Suspense fallback={null}>
-          {/* <UserAvatar
+          <UserAvatar
             position={[0, 0, 0]}
             user={guest}
             socket={null}
             handleCameraStop={() => setIsLoginOpen(true)}
-          /> */}
+          />
         </Suspense>
         <Suspense fallback={null}>
           <Texts letters="WELCOME" position={[-400, 400, -6000]} scale={12} />

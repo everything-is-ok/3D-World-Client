@@ -6,7 +6,7 @@ source: https://sketchfab.com/3d-models/crossy-road-b7e2910d0ffe4da5860dedf39a71
 title: Crossy Road
 */
 
-import React, { Suspense, useRef } from "react";
+import React, { Suspense, useMemo, useRef } from "react";
 import PropTypes from "prop-types";
 import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
@@ -19,30 +19,31 @@ function Chicken({ ...props }) {
   const ref = useRef();
 
   const {
-    position,
-    direction,
+    positionRef,
+    directionRef,
     name,
   } = props;
   const { nodes, materials } = useGLTF("models/chicken/scene.gltf");
 
-  const vec = new THREE.Vector3(...position);
+  const vec = useMemo(() => new THREE.Vector3());
 
   useFrame(() => {
-    if (!ref.current) {
+    if (!ref.current || !positionRef || !directionRef) {
       return;
     }
 
-    ref.current.position.lerp(vec, 0.05);
+    ref.current.position.lerp(vec.set(...positionRef.current), 0.05);
+    ref.current.rotation.set(0, directionRef.current, 0);
   });
 
   return (
-    <group
-      ref={ref}
-    >
+    <group ref={ref}>
       <Suspense fallback={null}>
         <Texts position={[-23, 60, 0]} letters={name} />
       </Suspense>
-      <group scale={[10, 10, 10]} rotation={[0, direction, 0]}>
+      <group
+        scale={[10, 10, 10]}
+      >
         <group
           position={[0, 3.5, 0]}
           scale={[1.96, 3.02, 1.96]}
@@ -68,8 +69,8 @@ function Chicken({ ...props }) {
 }
 
 Chicken.propTypes = {
-  position: PropTypes.array,
-  direction: PropTypes.array,
+  positionRef: PropTypes.object,
+  directionRef: PropTypes.object,
   name: PropTypes.string,
 };
 

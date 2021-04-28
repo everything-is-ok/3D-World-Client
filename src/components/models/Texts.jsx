@@ -20,7 +20,7 @@ function Texts({ ...props }) {
     [font],
   );
   const group = useRef();
-  const texts = props.letters.toUpperCase().replace(/ /g, "");
+  const texts = props.letters?.toUpperCase().replace(/ /g, "") || "NAME";
   return (
     <group {...props} ref={group}>
       <mesh>
