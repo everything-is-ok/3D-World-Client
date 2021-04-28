@@ -48,6 +48,7 @@ function Main() {
   const loggedInUserId = useSelector(userIdSelector);
 
   const isLoggedInUser = loggedInUserId === roomOwnerId;
+  const isSocketReady = roomOwnerId === room?.ownerId;
   const user = { id: loggedInUserId, name: userName };
 
   const {
@@ -78,14 +79,14 @@ function Main() {
         ) : (
           <OtherUserProfile id={roomOwnerId} />
         )}
-        <Chat roomOwnerId={roomOwnerId} />
+        <Chat isSocketReady={isSocketReady} />
       </SideContainer>
       {/* TODO: World와 Room Comp를 토글방식으로 적용. */}
       <>
         <Room
           roomOwnerId={roomOwnerId}
           room={room}
-          isMyRoom={isLoggedInUser}
+          isSocketReady={isSocketReady}
           handleClickMailbox={memoHandleClickMailbox}
         />
         {isToggled && (
@@ -96,10 +97,6 @@ function Main() {
           />
         )}
       </>
-      {/* {room ? (
-      ) : (
-        <h1>Loading...</h1>
-      )} */}
     </Container>
   );
 }

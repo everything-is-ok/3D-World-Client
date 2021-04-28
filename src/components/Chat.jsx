@@ -48,19 +48,21 @@ const FormContainer = styled.form`
   position: relative;
 `;
 
-function Chat({ roomOwnerId }) {
+function Chat({ isSocketReady }) {
   const [chatList, setChatList] = useState([]);
   const inputRef = useRef();
   const chatListRef = useRef();
 
   useEffect(() => {
+    if (!isSocketReady) return;
+
     function handleChat(data) {
       setChatList((prev) => prev.concat(data));
     }
 
     roomSocket.listenChatMessage(handleChat);
     return () => setChatList([]);
-  }, [roomOwnerId]);
+  }, [isSocketReady]);
 
   useEffect(() => {
     chatListRef.current.scrollTop = chatListRef.current.scrollHeight;
@@ -102,7 +104,7 @@ function Chat({ roomOwnerId }) {
 }
 
 Chat.propTypes = {
-  roomOwnerId: PropTypes.string,
+  isSocketReady: PropTypes.bool,
 };
 
 export default Chat;

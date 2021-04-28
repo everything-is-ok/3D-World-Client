@@ -1,6 +1,8 @@
+const URL = process.env.REACT_APP_SERVER_URL;
+
 async function fetchData(method, url, data) {
   try {
-    let response = await fetch(url, {
+    let response = await fetch(URL + url, {
       method,
       headers: {
         "Content-Type": "application/json",

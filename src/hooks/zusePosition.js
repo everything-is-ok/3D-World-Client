@@ -39,14 +39,11 @@ function zusePosition(InitialPosition, initialDirection = 0) {
   const throttleUpdateHeight = _.throttle(updateHeight, 1000);
 
   function updateHeight() {
-    // if (velocity < 0) return;
     if (height <= ground && velocity < 0) {
       setHeight(ground);
       setVelocity(0);
       return;
     }
-
-    // console.log("💥");
 
     setHeight((prev) => prev + velocity);
     setVelocity((prev) => prev - 5);

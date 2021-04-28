@@ -1,4 +1,9 @@
-import React, { Suspense, useEffect, useRef } from "react";
+import React, {
+  Suspense,
+  useEffect,
+  useMemo,
+  useRef,
+} from "react";
 import PropTypes from "prop-types";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
@@ -6,63 +11,54 @@ import { useFrame } from "@react-three/fiber";
 import Texts from "./Texts";
 import Chicken from "./Chicken";
 import usePosition from "../../hooks/usePosition";
-import EVENTS from "../../constants/socketEvents";
+import { roomSocket } from "../../utils/socket";
 // import zusePosition from "../../hooks/zusePosition";
 
 function TempModel({
-  socket,
+  isSocketReady,
   id,
   name,
   position,
 }) {
   const group = useRef();
   const mesh = useRef();
-
+  const vec = useMemo(() => new THREE.Vector3());
   const {
-    position: dynamicPosition,
-    direction,
+    positionRef,
+    directionRef,
     initPosition,
-  } = usePosition(position);
-  const { USER_MOVEMENT, OLD_USER_INFO, NEW_USER_SOCKET_ID } = EVENTS;
+  } = usePosition(position, 0, sendUserMovement);
+
+  function sendUserMovement() {
+    roomSocket.sendUserMovement({
+      position: positionRef.current,
+      direction: directionRef.current,
+    });
+  }
 
   useEffect(() => {
-    initPosition();
-  }, [socket]);
-
-  useEffect(() => {
-    if (!socket) {
-      return;
-    }
-
-    socket.emit(USER_MOVEMENT, { position: dynamicPosition, direction });
-  }, [dynamicPosition, direction, socket]);
-
-  useEffect(() => {
-    if (!socket) {
-      return;
-    }
+    if (!isSocketReady) return;
 
     function sendPosToNewUser({ socketId }) {
-      socket.emit(OLD_USER_INFO, {
-        listener: socketId,
-        posInfo: { user: { id, name }, position: dynamicPosition, direction },
-      });
+      roomSocket.sendOldUserInfo(
+        socketId,
+        {
+          user: { id, name },
+          position: positionRef.current,
+          direction: directionRef.current,
+        },
+      );
     }
-    // TODO: 맨토님께 질문, 스페이스 쓸지 어절지
-    socket.on(NEW_USER_SOCKET_ID, sendPosToNewUser);
-    return () => socket.off(NEW_USER_SOCKET_ID, sendPosToNewUser);
-  }, [socket, dynamicPosition, direction]);
 
-  const vec = new THREE.Vector3(...dynamicPosition);
+    roomSocket.listenNewUserSocketId(sendPosToNewUser);
+    return () => initPosition();
+  }, [isSocketReady]);
 
   useFrame(() => {
-    if (!group.current) {
-      return;
-    }
+    if (!group.current) return;
 
-    // throttleUpdateHeight();
-    group.current.position.lerp(vec, 0.05);
-    // group.current.position.y = height;
+    group.current.position.lerp(vec.set(...positionRef.current), 0.05);
+    mesh.current.rotation.set(0, directionRef.current, 0);
   });
 
   return (
@@ -75,7 +71,6 @@ function TempModel({
       <mesh
         ref={mesh}
         position={[0, 5, 0]}
-        rotation={[0, direction, 0]}
         receiveShadow
       >
         <group>
@@ -130,7 +125,7 @@ TempModel.propTypes = {
   position: PropTypes.array.isRequired,
   id: PropTypes.string.isRequired,
   name: PropTypes.string,
-  socket: PropTypes.any,
+  isSocketReady: PropTypes.bool,
 };
 
 TempModel.defaultProps = {

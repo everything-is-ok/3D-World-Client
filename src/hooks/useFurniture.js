@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 
 import fetchData from "../utils/fetchData";
 import checkArea from "../utils/checkArea";
+import { furnitureSocket } from "../utils/socket";
 
 function useFurniture({
-  socket,
+  isSocketReady,
   room,
   isEditMode,
 }) {
@@ -52,6 +53,7 @@ function useFurniture({
 
     const height = furnitures.find((furniture) => furniture._id === currFurnitureId).position[1];
     const furniturePosition = [(x * 40), height - 20, (y * 40)];
+    const changedFurniture = { id: currFurnitureId, position: furniturePosition };
 
     try {
       await fetchData(
@@ -63,7 +65,7 @@ function useFurniture({
       updateFurniture({ _id: currFurnitureId, position: furniturePosition });
       setCurrFurnitureId(null);
 
-      socket.emit("update", { _id: currFurnitureId, position: furniturePosition });
+      furnitureSocket.sendUpdatedFurniture({ _id: currFurnitureId, position: furniturePosition });
     } catch (err) {
       // TODO error handling
       // console.log(err.message);
@@ -71,11 +73,10 @@ function useFurniture({
   }
 
   useEffect(() => {
-    if (!socket) return;
+    if (!isSocketReady) return;
 
-    socket.on("update", updateFurniture);
-    return () => socket.off("update", updateFurniture);
-  }, [socket]);
+    furnitureSocket.listenFurnitureMovement(updateFurniture);
+  }, [isSocketReady]);
 
   return {
     furnitures,

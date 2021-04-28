@@ -63,8 +63,18 @@ const roomSocket = {
   listenUserJoin: (cb) => {
     socket.on(JOIN_ROOM, cb);
   },
+  // user movement
+  sendUserMovement: (data) => {
+    socket.emit(USER_MOVEMENT, data);
+  },
   listenUserMovement: (cb) => {
     socket.on(USER_MOVEMENT, cb);
+  },
+  listenNewUserSocketId: (cb) => {
+    socket.on(NEW_USER_SOCKET_ID, cb);
+  },
+  sendOldUserInfo: (receiver, data) => {
+    socket.emit(OLD_USER_INFO, { receiver, posInfo: data });
   },
   listenOldUserInfo: (cb) => {
     socket.on(OLD_USER_INFO, cb);
@@ -72,6 +82,7 @@ const roomSocket = {
   listenUserLeave: (cb) => {
     socket.on(LEAVE_ROOM, cb);
   },
+  // chat
   sendChatMessage: (data) => {
     socket.emit(CHAT_MESSAGE, data);
   },
@@ -81,6 +92,7 @@ const roomSocket = {
   offChatMessage: (cb) => {
     socket.off(CHAT_MESSAGE, cb);
   },
+  // clear
   removeAllRoomListeners: () => {
     socket.removeAllListeners();
   },
