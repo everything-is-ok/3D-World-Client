@@ -1,8 +1,9 @@
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
+import { useMemo } from "react";
 
 function getThridPersonCameraPosition(position) {
-  const formattedPosition = position.map((pos, index) => {
+  return position.map((pos, index) => {
     if (index === 0) {
       return pos - 30;
     }
@@ -15,14 +16,11 @@ function getThridPersonCameraPosition(position) {
 
     return pos;
   });
-
-  const vec = new THREE.Vector3(...formattedPosition);
-
-  return vec;
 }
 
-function ThirdPersonCamera({ position, hasLimit }) {
-  const vec = getThridPersonCameraPosition(position);
+function ThirdPersonCamera({ positionRef, hasLimit }) {
+  const vec = useMemo(() => new THREE.Vector3());
+
   useFrame(({ camera }) => {
     if (hasLimit) {
       if (vec.z <= -6000 || vec.z > 350) {
@@ -30,7 +28,10 @@ function ThirdPersonCamera({ position, hasLimit }) {
       }
     }
 
-    camera.position.lerp(vec, 0.1);
+    camera.position.lerp(
+      vec.set(...getThridPersonCameraPosition(positionRef.current)),
+      0.1,
+    );
   });
 
   return null;

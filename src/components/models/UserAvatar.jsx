@@ -7,21 +7,28 @@ import { worldSocket } from "../../utils/socket";
 import ThirdPersonCamera from "../ThirdPersonCamera";
 
 const GUEST = "guest";
-
+//     positionRef,
+//     directionRef,
+//     handlePositionChange,
+//     initPosition,
 function UserAvatar({ ...props }) {
   const { position: initialPosition, user } = props;
   const { _id: id } = user;
 
-  const { position, direction } = usePosition(initialPosition);
+  const { positionRef, directionRef } = usePosition(initialPosition, 0, handleMovementChange);
   const isGuest = user.name === GUEST;
 
   useEffect(() => {
+    if (!isGuest) {
+      return;
+    }
+
     function sendUserAvatarInfo({ socketId }) {
       worldSocket.sendOldUserInfo({
         userInfo: {
           ...user,
-          position,
-          direction,
+          position: positionRef.current,
+          direction: directionRef.current,
         },
         listener: socketId,
       });
@@ -30,19 +37,23 @@ function UserAvatar({ ...props }) {
     worldSocket.listenNewUserSocketId(sendUserAvatarInfo);
   }, []);
 
-  useEffect(() => {
-    worldSocket.sendUserMovement({ id, position, direction });
-  }, [position]);
+  function handleMovementChange() {
+    worldSocket.sendUserMovement({
+      id,
+      position: positionRef.current,
+      direction: positionRef.current,
+    });
+  }
 
   return (
     <>
       <Chicken
-        position={position || initialPosition}
-        direction={direction}
+        positionRef={positionRef}
+        directionRef={directionRef}
         name={user.name}
       />
       <ThirdPersonCamera
-        position={position}
+        positionRef={positionRef}
         hasLimit={isGuest}
       />
     </>
