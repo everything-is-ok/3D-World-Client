@@ -1,7 +1,7 @@
 import React, { Suspense, useRef } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 
@@ -33,6 +33,7 @@ function RoomCanvas({
   isEditMode,
 }) {
   const userName = useSelector(userNameSelector);
+  const dispatch = useDispatch();
   const canvasRef = useRef();
 
   function ControlCam() {
@@ -61,8 +62,9 @@ function RoomCanvas({
           position={[6 * 40, 0, 6 * 40]}
           radius={400}
         />
-        <ambientLight intensity={2} />
-        <pointLight position={[40, 40, 40]} />
+        <ambientLight intensity={1.5} />
+        <pointLight intensity={0.5} position={[4 * 40, 6 * 40, 4 * 40]} />
+        <pointLight intensity={0.5} position={[8 * 40, 6 * 40, 8 * 40]} />
         <TempModel
           isSocketReady={isSocketReady}
           name={userName}
@@ -79,6 +81,7 @@ function RoomCanvas({
             isSocketReady={isSocketReady}
             isEditMode={isEditMode}
             room={room}
+            dispatch={dispatch}
           />
           <Bedroom receiveShadow scale={4 * 12} position={[0, 20, 0]} />
         </Suspense>

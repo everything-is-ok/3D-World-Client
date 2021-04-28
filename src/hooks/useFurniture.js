@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import fetchData from "../utils/fetchData";
 import checkArea from "../utils/checkArea";
 import { furnitureSocket } from "../utils/socket";
+import { updateError } from "../reducers/roomSlice";
 
 function useFurniture({
   isSocketReady,
   room,
   isEditMode,
+  dispatch,
 }) {
   const [furnitures, setFurnitures] = useState(room?.furniture);
   const [currentFurnitureId, setCurrentFurnitureId] = useState(null);
@@ -15,6 +17,12 @@ function useFurniture({
   useEffect(() => {
     setFurnitures(room?.furniture);
   }, [room]);
+
+  useEffect(() => {
+    if (!isSocketReady) return;
+
+    furnitureSocket.listenFurnitureMovement(updateFurniture);
+  }, [isSocketReady]);
 
   function updateFurniture({ _id, position }) {
     setFurnitures((prev) => prev.map((furniture) => {
@@ -44,39 +52,23 @@ function useFurniture({
 
   async function handleFurnitureMove(x, y) {
     if (!currentFurnitureId || !isEditMode) return;
-
-    const area = checkArea(x, y);
-
-    if (area.isOccupied) {
-      return;
-    }
+    if (checkArea(x, y).isOccupied) return;
 
     const height = furnitures.find((furniture) => furniture._id === currentFurnitureId).position[1];
     const furniturePosition = [(x * 40), height - 20, (y * 40)];
     const changedFurniture = { _id: currentFurnitureId, position: furniturePosition };
 
+    updateFurniture(changedFurniture);
+    setCurrentFurnitureId(null);
+
+    furnitureSocket.sendUpdatedFurniture(changedFurniture);
+
     try {
-      await fetchData(
-        "PATCH",
-        "/furniture",
-        changedFurniture,
-      );
-
-      updateFurniture(changedFurniture);
-      setCurrentFurnitureId(null);
-
-      furnitureSocket.sendUpdatedFurniture(changedFurniture);
+      await fetchData("PATCH", "/furniture", changedFurniture);
     } catch (err) {
-      // TODO error handling
-      // console.log(err.message);
+      dispatch(updateError(err.message));
     }
   }
-
-  useEffect(() => {
-    if (!isSocketReady) return;
-
-    furnitureSocket.listenFurnitureMovement(updateFurniture);
-  }, [isSocketReady]);
 
   return {
     furnitures,

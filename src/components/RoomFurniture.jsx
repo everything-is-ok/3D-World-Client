@@ -5,13 +5,23 @@ import Floor from "./models/Floor";
 import Furniture from "./models/Furniture";
 import useFurniture from "../hooks/useFurniture";
 
-function RoomFurniture({ isSocketReady, room, isEditMode }) {
+function RoomFurniture({
+  isSocketReady,
+  room,
+  isEditMode,
+  dispatch,
+}) {
   const {
     furnitures,
     currentFurnitureId,
     handleFurnitureSelect,
     handleFurnitureMove,
-  } = useFurniture({ isSocketReady, room, isEditMode });
+  } = useFurniture({
+    isSocketReady,
+    room,
+    isEditMode,
+    dispatch,
+  });
 
   return (
     <>
@@ -43,6 +53,7 @@ RoomFurniture.propTypes = {
   isSocketReady: PropTypes.bool,
   room: PropTypes.any,
   isEditMode: PropTypes.bool,
+  dispatch: PropTypes.func,
 };
 
 export default RoomFurniture;

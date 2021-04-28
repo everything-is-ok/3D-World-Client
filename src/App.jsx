@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   HashRouter as Router,
   Switch,
@@ -13,41 +13,41 @@ import Welcome from "./components/Welcome";
 import Main from "./components/Main";
 import World from "./components/World";
 
-import { getUserByToken, userSelector } from "./reducers/userSlice";
+import { getUserByToken, userIdSelector } from "./reducers/userSlice";
 import Layout from "./components/shared/Layout";
 import THEME from "./constants/theme";
 import { connectSocket, disconnectSocket } from "./utils/socket";
 
 function App() {
+  const userId = useSelector(userIdSelector);
   const dispatch = useDispatch();
-  const user = useSelector(userSelector);
 
   useEffect(() => {
-    if (!user) {
+    if (!userId) {
       dispatch(getUserByToken());
       return;
     }
 
     connectSocket();
     return () => disconnectSocket();
-  }, [user]);
+  }, [userId]);
 
   return (
     <ThemeProvider theme={THEME}>
       <Router>
-        {user ? (
+        {userId ? (
           <>
             <Header />
             <Switch>
               <Route exact path="/world">
-                <World user={user} />
+                <World />
               </Route>
               <Route exact path="/room/:userId">
                 <Layout>
                   <Main />
                 </Layout>
               </Route>
-              <Redirect to={`/room/${user._id}`} />
+              <Redirect to={`/room/${userId}`} />
             </Switch>
           </>
         ) : (

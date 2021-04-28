@@ -20,7 +20,11 @@ const initialState = {
 const roomSlice = createSlice({
   name: "room",
   initialState,
-  reducers: {},
+  reducers: {
+    updateError: (state, action) => {
+      state.error = action.payload;
+    },
+  },
   extraReducers: {
     [getRoomById.pending]: (state) => {
       if (state.status === "idle") {
@@ -43,6 +47,8 @@ const roomSlice = createSlice({
     },
   },
 });
+
+export const { updateError } = roomSlice.actions;
 
 export default roomSlice.reducer;
 

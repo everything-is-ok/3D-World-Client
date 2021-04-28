@@ -6,7 +6,7 @@ import { Link, useHistory } from "react-router-dom";
 import DropDown from "./DropDown";
 import MiniProfile from "./MiniProfile";
 import StyledButton from "./shared/StyledButton";
-import { logout } from "../reducers/userSlice";
+import { logout, userSelector } from "../reducers/userSlice";
 import useModal from "../hooks/useModal";
 
 const Container = styled.header`
@@ -17,7 +17,6 @@ const Container = styled.header`
   padding: 1rem;
 `;
 
-// TODO 친구목록에 key 추가하기
 function Header() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -26,8 +25,8 @@ function Header() {
     name,
     photoURL,
     friends,
-  } = useSelector((state) => state.user.data);
-  const { modalOpen, toggle } = useModal();
+  } = useSelector(userSelector);
+  const { modalOpen, toggle, setModalOpen } = useModal();
 
   return (
     <Container>
@@ -39,10 +38,14 @@ function Header() {
         name="친구 목록 👨‍👨‍👧‍👦"
         isOpen={modalOpen}
         toggle={toggle}
-        onBlur={toggle}
+        onBlur={() => setModalOpen(false)}
       >
         {friends.map((friend) => (
-          <Link to={`/room/${friend._id}`} onClick={toggle}>
+          <Link
+            key={friend._id}
+            to={`/room/${friend._id}`}
+            onClick={toggle}
+          >
             <MiniProfile
               key={friend._id}
               photoURL={friend.photoURL}
@@ -52,7 +55,6 @@ function Header() {
         ))}
       </DropDown>
       <div>
-        {/* TODO: 월드, 홈 버튼은 토글방식으로 컴포넌트 분리 */}
         <StyledButton>
           <Link to="/world">
             월드
