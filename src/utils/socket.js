@@ -16,6 +16,7 @@ const {
   NEW_USER_SOCKET_ID,
 } = EVENTS;
 
+// const socket = io(process.env.REACT_APP_SERVER_URL);
 let socket;
 
 function connectSocket() {
@@ -34,25 +35,35 @@ const worldSocket = {
   joinWorld: (userInfo) => {
     socket.emit(JOIN_WORLD, userInfo);
   },
-  sendUserMovement: (data) => {
-    socket.emit(USER_MOVEMENT, data);
+  leaveWorld: () => {
+    socket.emit(LEAVE_WORLD);
   },
-  listenUserJoin: (userInfo) => {
-    socket.on(JOIN_WORLD, (userInfo));
+  sendUserMovement: (userInfo) => {
+    socket.emit(USER_MOVEMENT, userInfo);
   },
-  listenOldUserInfo: (userInfo, cb) => {
+  sendOldUserInfo: (userInfo) => {
+    socket.emit(OLD_USER_INFO, userInfo);
+  },
+  listenNewUserInfo: (cb) => {
+    socket.on(JOIN_WORLD, cb);
+  },
+  listenNewUserSocketId: (cb) => {
+    socket.on(NEW_USER_SOCKET_ID, cb);
+  },
+  listenOldUserInfo: (cb) => {
     socket.on(OLD_USER_INFO, cb);
   },
-  // NOTE: 월드 떠날때 setOtherUsers실행되어야함. 콜백으로 오는지? -> useWorldSocket- 72.
-  listenUserLeave: (userInfo, cb) => {
+  listenUserMovement: (id, cb) => {
+    socket.on(UPDATE_MOVEMENT(id), cb);
+  },
+  listenUserLeave: (cb) => {
     socket.on(LEAVE_WORLD, cb);
   },
-  removeWorldListener: () => {
-    // Off.
+  removeWorldListeners: () => {
+    socket.removeAllListeners();
   },
 };
 
-// NOTE: room and chat and friend ?
 const roomSocket = {
   joinRoom: (data) => {
     socket.emit(JOIN_ROOM, data);
