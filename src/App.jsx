@@ -17,6 +17,8 @@ import { getUserByToken, userSelector } from "./reducers/userSlice";
 import Layout from "./components/shared/Layout";
 import THEME from "./constants/theme";
 import { connectSocket } from "./utils/socket";
+// TODO: disconnect 유저 로그아웃 시, 또는 한단계 아래서 실행
+connectSocket();
 
 function App() {
   const dispatch = useDispatch();
@@ -25,10 +27,7 @@ function App() {
   useEffect(() => {
     if (!user) {
       dispatch(getUserByToken());
-      return;
     }
-
-    connectSocket();
   }, [user]);
 
   return (

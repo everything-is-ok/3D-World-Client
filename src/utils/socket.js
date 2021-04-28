@@ -16,6 +16,7 @@ const {
   NEW_USER_SOCKET_ID,
 } = EVENTS;
 
+// const socket = io(process.env.REACT_APP_SERVER_URL);
 let socket;
 
 function connectSocket() {
@@ -42,8 +43,11 @@ const worldSocket = {
   listenNewUserSocketId: (cb) => {
     socket.on(NEW_USER_SOCKET_ID, cb);
   },
-  listenOldUserInfo: (userInfo, cb) => {
+  listenOldUserInfo: (cb) => {
     socket.on(OLD_USER_INFO, cb);
+  },
+  listenUserMovement: (id, cb) => {
+    socket.on(UPDATE_MOVEMENT(id), cb);
   },
   // NOTE: 월드 떠날때 setOtherUsers실행되어야함. 콜백으로 오는지? -> useWorldSocket- 72.
   listenUserLeave: (userInfo, cb) => {

@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { Canvas } from "@react-three/fiber";
 import { Sky } from "@react-three/drei";
-import { Vector3 } from "three";
+import { Camera, Vector3 } from "three";
 
 // eslint-disable-next-line import/order
 
@@ -34,16 +34,12 @@ const defaultPosition = [10, -5, 150];
 const defaultDirection = 0;
 
 function World({ user }) {
-  // const { socket, otherUsers } = useWorldSocket(user, [10, -5, 150], 0);
   const [otherUsers, setOtherUsers] = useState([]);
   const [randomUsers, setRandomUsers] = useState([]);
   const history = useHistory();
 
   function updateOtherUsers(userInfo) {
-    setOtherUsers((prev) => ({
-      ...prev,
-      userInfo,
-    }));
+    setOtherUsers((prev) => prev.concat(userInfo));
   }
 
   function removeOtherUser(userInfo) {
@@ -55,8 +51,8 @@ function World({ user }) {
   useEffect(() => {
     worldSocket.joinWorld({
       ...user,
-      defaultPosition,
-      defaultDirection,
+      position: defaultPosition,
+      direction: defaultDirection,
     });
 
     worldSocket.listenOldUserInfo(updateOtherUsers);

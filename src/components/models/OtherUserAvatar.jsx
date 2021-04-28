@@ -14,20 +14,21 @@ import React, { useEffect, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 
 import Chicken from "./Chicken";
-import SOCKET from "../../constants/socketEvents";
+import { worldSocket } from "../../utils/socket";
 // TODO: prop types needed && get direction
 
-export default function Model({ user, socket }) {
+export default function Model({ user }) {
   const [position, setPosition] = useState(user.position);
   const [direction, setDirection] = useState(user.direction);
-  const { UPDATE_MOVEMENT } = SOCKET;
+
+  function updatePosition(userInfo) {
+    setPosition([...userInfo.position]);
+    setDirection(userInfo.direction);
+  }
 
   useEffect(() => {
-    socket.on(UPDATE_MOVEMENT(user.id), ({ newPosition, newDirection }) => {
-      setPosition([...newPosition]);
-      setDirection(newDirection);
-    });
-  }, [socket]);
+    worldSocket.listenUserMovement(user._id, updatePosition);
+  }, []);
 
   return (
     <Chicken
