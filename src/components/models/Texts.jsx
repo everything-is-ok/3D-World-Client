@@ -1,9 +1,9 @@
 import React, { useMemo, useRef } from "react";
+import PropTypes from "prop-types";
 import * as THREE from "three";
 import { useLoader } from "@react-three/fiber";
 
-/* eslint-disable react/prop-types */
-export default function Texts({ ...props }) {
+function Texts({ ...props }) {
   const font = useLoader(THREE.FontLoader, "fonts/bold.blob");
   const config = useMemo(
     () => ({
@@ -35,3 +35,9 @@ export default function Texts({ ...props }) {
     </group>
   );
 }
+
+Texts.propTypes = {
+  letters: PropTypes.string,
+};
+
+export default Texts;

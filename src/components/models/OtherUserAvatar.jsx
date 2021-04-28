@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable max-len */
 /*
@@ -10,13 +9,14 @@ title: Crossy Road
 */
 
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { useGLTF } from "@react-three/drei";
 
 import Chicken from "./Chicken";
 import SOCKET from "../../constants/socketEvents";
 // TODO: prop types needed && get direction
 
-export default function Model({ user, socket }) {
+function OtherUserAvatar({ user, socket }) {
   const [position, setPosition] = useState(user.position);
   const [direction, setDirection] = useState(user.direction);
   const { UPDATE_MOVEMENT } = SOCKET;
@@ -36,5 +36,12 @@ export default function Model({ user, socket }) {
     />
   );
 }
+
+OtherUserAvatar.propTypes = {
+  user: PropTypes.object,
+  socket: PropTypes.object,
+};
+
+export default OtherUserAvatar;
 
 useGLTF.preload("models/chicken/scene.gltf");
