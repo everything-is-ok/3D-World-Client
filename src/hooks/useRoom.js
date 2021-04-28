@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { getRoomById, roomSelector } from "../reducers/roomSlice";
 
-export default function useRoom(id) {
+function useRoom(id) {
   const dispatch = useDispatch();
   const room = useSelector(roomSelector) || {};
 
@@ -13,3 +13,5 @@ export default function useRoom(id) {
 
   return room;
 }
+
+export default useRoom;

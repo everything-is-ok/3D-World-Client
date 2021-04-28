@@ -29,8 +29,6 @@ const roomSlice = createSlice({
     [getRoomById.pending]: (state) => {
       if (state.status === "idle") {
         state.status = "pending";
-        // TODO: delete this
-        // state.data = null;
       }
     },
     [getRoomById.fulfilled]: (state, action) => {
@@ -42,7 +40,7 @@ const roomSlice = createSlice({
     [getRoomById.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
-        state.error = action.payload || null;
+        state.error = action.error || null;
       }
     },
   },

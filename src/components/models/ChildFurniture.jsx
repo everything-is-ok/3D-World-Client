@@ -5,20 +5,20 @@ import Table from "./Table";
 import LongTree from "./LongTree";
 import Closet from "./Closet";
 
-function ChildFurniture({ name, isSelected }) {
+function ChildFurniture({ name, isEditMode }) {
   switch (name) {
     case "Table":
-      return <Table isSelected={isSelected} />;
+      return <Table isEditMode={isEditMode} />;
     case "LongTree":
-      return <LongTree isSelected={isSelected} />;
+      return <LongTree isEditMode={isEditMode} />;
     default:
-      return <Closet isSelected={isSelected} />;
+      return <Closet isEditMode={isEditMode} />;
   }
 }
 
 ChildFurniture.propTypes = {
   name: PropTypes.string.isRequired,
-  isSelected: PropTypes.bool,
+  isEditMode: PropTypes.bool,
 };
 
 export default ChildFurniture;

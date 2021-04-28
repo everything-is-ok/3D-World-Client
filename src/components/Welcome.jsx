@@ -45,14 +45,13 @@ function Welcome() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   async function handleClick() {
-    const actionResult = await dispatch(userLogin());
-
     try {
+      const actionResult = await dispatch(userLogin());
       const user = await unwrapResult(actionResult);
 
       history.push(`/room/${user._id}`);
     } catch (err) {
-      console.log(err);
+      history.push("/");
     }
   }
 

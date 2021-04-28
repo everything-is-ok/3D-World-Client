@@ -27,7 +27,7 @@ function getChangedPosition(array, position, step) {
   });
 }
 
-export default function usePosition(
+function usePosition(
   initialPosition,
   initialDirection = 0,
   onChange,
@@ -99,3 +99,5 @@ export default function usePosition(
     initPosition,
   };
 }
+
+export default usePosition;

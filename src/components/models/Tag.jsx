@@ -17,6 +17,7 @@ function Tag({ position, args }) {
       ref={mesh}
       scale={1}
       position={position}
+      rotateX={Math.PI / 2}
     >
       <octahedronBufferGeometry args={args} />
       <meshStandardMaterial
