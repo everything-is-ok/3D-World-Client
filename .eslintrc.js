@@ -41,7 +41,7 @@ module.exports = {
     "react/jsx-filename-extension": ["warn", { extensions: [".js", ".jsx"] }],
     "react/prefer-stateless-function": "off",
     "react/forbid-prop-types": "off",
-    // "react/prop-types": "off",
+    "max-len": "off",
     "react/require-default-props": "off",
     "react/destructuring-assignment": "off",
     "react/jsx-props-no-spreading": "off",
