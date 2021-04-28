@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 
 import fetchData from "../utils/fetchData";
+import checkArea from "../utils/checkArea";
+import { furnitureSocket } from "../utils/socket";
 
 function useFurniture({
-  socket,
+  isSocketReady,
   room,
   isEditMode,
 }) {
@@ -43,20 +45,27 @@ function useFurniture({
   async function handleFurnitureMove(x, y) {
     if (!currentFurnitureId || !isEditMode) return;
 
+    const area = checkArea(x, y);
+
+    if (area.isOccupied) {
+      return;
+    }
+
     const height = furnitures.find((furniture) => furniture._id === currentFurnitureId).position[1];
     const furniturePosition = [(x * 40), height - 20, (y * 40)];
+    const changedFurniture = { _id: currentFurnitureId, position: furniturePosition };
 
     try {
       await fetchData(
         "PATCH",
         "/furniture",
-        { id: currentFurnitureId, position: furniturePosition },
+        changedFurniture,
       );
 
-      updateFurniture({ _id: currentFurnitureId, position: furniturePosition });
+      updateFurniture(changedFurniture);
       setCurrentFurnitureId(null);
 
-      socket.emit("update", { _id: currentFurnitureId, position: furniturePosition });
+      furnitureSocket.sendUpdatedFurniture(changedFurniture);
     } catch (err) {
       // TODO error handling
       // console.log(err.message);
@@ -64,11 +73,10 @@ function useFurniture({
   }
 
   useEffect(() => {
-    if (!socket) return;
+    if (!isSocketReady) return;
 
-    socket.on("update", updateFurniture);
-    return () => socket.off("update", updateFurniture);
-  }, [socket]);
+    furnitureSocket.listenFurnitureMovement(updateFurniture);
+  }, [isSocketReady]);
 
   return {
     furnitures,

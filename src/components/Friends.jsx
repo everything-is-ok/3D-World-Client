@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 import TempFriendModel from "./models/TempFriendModel";
 import useSocketFriends from "../hooks/useSocketFriends";
 
-function Friends({ socket }) {
+function Friends({ isSocketReady }) {
   // TODO: constant로 만들기
   const entrancePosition = [2 * 40, 24, 0 * 40];
-  const friends = useSocketFriends({ socket, entrancePosition });
+  const friends = useSocketFriends({ isSocketReady, entrancePosition });
 
   return (
     <>
@@ -19,7 +19,7 @@ function Friends({ socket }) {
 }
 
 Friends.propTypes = {
-  socket: PropTypes.any,
+  isSocketReady: PropTypes.bool,
 };
 
 export default Friends;

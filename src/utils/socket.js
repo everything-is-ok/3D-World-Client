@@ -22,9 +22,11 @@ function connectSocket() {
   socket = io(process.env.REACT_APP_SERVER_URL);
 }
 
+function disconnectSocket() {
+  socket.disconnect();
+}
+
 function getMySocketId() {
-  console.log(socket);
-  console.log(socket.connected);
   return socket.id;
 }
 
@@ -52,15 +54,27 @@ const worldSocket = {
 
 // NOTE: room and chat and friend ?
 const roomSocket = {
-  joinRoom: () => {
-    // TODO: add
-    socket.emit(JOIN_ROOM);
+  joinRoom: (data) => {
+    socket.emit(JOIN_ROOM, data);
+  },
+  leaveRoom: () => {
+    socket.emit(LEAVE_ROOM);
   },
   listenUserJoin: (cb) => {
     socket.on(JOIN_ROOM, cb);
   },
+  // user movement
+  sendUserMovement: (data) => {
+    socket.emit(USER_MOVEMENT, data);
+  },
   listenUserMovement: (cb) => {
     socket.on(USER_MOVEMENT, cb);
+  },
+  listenNewUserSocketId: (cb) => {
+    socket.on(NEW_USER_SOCKET_ID, cb);
+  },
+  sendOldUserInfo: (receiver, data) => {
+    socket.emit(OLD_USER_INFO, { receiver, posInfo: data });
   },
   listenOldUserInfo: (cb) => {
     socket.on(OLD_USER_INFO, cb);
@@ -68,11 +82,19 @@ const roomSocket = {
   listenUserLeave: (cb) => {
     socket.on(LEAVE_ROOM, cb);
   },
+  // chat
+  sendChatMessage: (data) => {
+    socket.emit(CHAT_MESSAGE, data);
+  },
   listenChatMessage: (cb) => {
     socket.on(CHAT_MESSAGE, cb);
   },
-  removeFirendsListener: () => {
-    // off
+  offChatMessage: (cb) => {
+    socket.off(CHAT_MESSAGE, cb);
+  },
+  // clear
+  removeAllRoomListeners: () => {
+    socket.removeAllListeners();
   },
 };
 
@@ -93,6 +115,7 @@ const furnitureSocket = {
 
 export {
   connectSocket,
+  disconnectSocket,
   roomSocket,
   worldSocket,
   getMySocketId,

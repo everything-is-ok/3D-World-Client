@@ -16,7 +16,7 @@ import World from "./components/World";
 import { getUserByToken, userSelector } from "./reducers/userSlice";
 import Layout from "./components/shared/Layout";
 import THEME from "./constants/theme";
-import { connectSocket, getMySocketId } from "./utils/socket";
+import { connectSocket, disconnectSocket } from "./utils/socket";
 
 function App() {
   const dispatch = useDispatch();
@@ -29,8 +29,7 @@ function App() {
     }
 
     connectSocket();
-    console.log(getMySocketId());
-    console.log(user);
+    return () => disconnectSocket();
   }, [user]);
 
   return (

@@ -1,15 +1,18 @@
 import React, { Suspense, useRef } from "react";
+import styled from "styled-components";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import styled from "styled-components";
 
 import Universe from "./models/Universe";
 import TempModel from "./models/TempModel";
 import Mailbox from "./models/Mailbox";
 import Bedroom from "./models/Bedroom";
+
 import Friends from "./Friends";
 import RoomFurniture from "./RoomFurniture";
+import { userNameSelector } from "../reducers/userSlice";
 
 const CanvasContainer = styled.div`
   width: 100%;
@@ -23,13 +26,15 @@ const CanvasContainer = styled.div`
 `;
 
 function RoomCanvas({
-  socket,
+  isSocketReady,
   userId,
-  userName,
   room,
   handleClickMailbox,
   isEditMode,
 }) {
+  const userName = useSelector(userNameSelector);
+  const canvasRef = useRef();
+
   function ControlCam() {
     useFrame(({ camera }) => {
       camera.lookAt(2 * 40, 0, 2 * 40);
@@ -37,8 +42,6 @@ function RoomCanvas({
 
     return null;
   }
-
-  const canvasRef = useRef();
 
   function handleClickCanvas() {
     canvasRef.current.focus();
@@ -52,7 +55,7 @@ function RoomCanvas({
     >
       <Canvas
         orthographic
-        camera={{ position: [300, 300, 300], zoom: 0.9 }}
+        camera={{ position: [400, 350, 400], zoom: 0.9 }}
       >
         <Universe
           position={[6 * 40, 0, 6 * 40]}
@@ -61,19 +64,19 @@ function RoomCanvas({
         <ambientLight intensity={2} />
         <pointLight position={[40, 40, 40]} />
         <TempModel
-          socket={socket}
+          isSocketReady={isSocketReady}
           name={userName}
           id={userId}
           position={[2 * 40, 24, 0 * 40]}
         />
-        <Friends socket={socket} />
+        <Friends isSocketReady={isSocketReady} />
         <Suspense fallback={null}>
           <Mailbox
             position={[3 * 40, 13 * 40]}
             onClick={() => handleClickMailbox(room.mailboxId)}
           />
           <RoomFurniture
-            socket={socket}
+            isSocketReady={isSocketReady}
             isEditMode={isEditMode}
             room={room}
           />
@@ -88,9 +91,8 @@ function RoomCanvas({
 }
 
 RoomCanvas.propTypes = {
-  socket: PropTypes.any,
+  isSocketReady: PropTypes.bool,
   userId: PropTypes.string,
-  userName: PropTypes.string,
   room: PropTypes.any,
   handleClickMailbox: PropTypes.func,
   isEditMode: PropTypes.bool,
