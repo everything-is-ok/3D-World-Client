@@ -58,8 +58,7 @@ function useFurniture({
 
       socket.emit("update", { _id: currentFurnitureId, position: furniturePosition });
     } catch (err) {
-      // TODO error handling
-      // console.log(err.message);
+      throw new Error(err.message);
     }
   }
 

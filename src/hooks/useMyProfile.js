@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { updateUserData, userSelector } from "../reducers/userSlice";
 
-export default function useMyProfile() {
+function useMyProfile() {
   const dispatch = useDispatch();
   const user = useSelector(userSelector);
   const [isEditing, setIsEditing] = useState(false);
@@ -29,11 +29,12 @@ export default function useMyProfile() {
     e.preventDefault();
 
     try {
-      const actionResult = await dispatch(updateUserData(userData));
-      unwrapResult(actionResult);
+      // const actionResult = await dispatch(updateUserData(userData));
+      // unwrapResult(actionResult);
+      await dispatch(updateUserData(userData));
       setIsEditing(false);
     } catch (err) {
-      console.log(err);
+      throw new Error(err.message);
     }
   }
 
@@ -45,3 +46,5 @@ export default function useMyProfile() {
     handleInputChange,
   };
 }
+
+export default useMyProfile;

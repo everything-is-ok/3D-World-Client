@@ -27,7 +27,7 @@ function getChangedPosition(array, position, step) {
   });
 }
 
-export default function usePosition(InitialPosition, initialDirection = 0) {
+function usePosition(InitialPosition, initialDirection = 0) {
   const [position, setPosition] = useState(InitialPosition);
   const [direction, setDirection] = useState(initialDirection);
   const initialY = InitialPosition[POS.Y];
@@ -90,3 +90,5 @@ export default function usePosition(InitialPosition, initialDirection = 0) {
     initPosition,
   };
 }
+
+export default usePosition;

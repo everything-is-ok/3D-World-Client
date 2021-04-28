@@ -52,7 +52,7 @@ function Welcome() {
 
       history.push(`/room/${user._id}`);
     } catch (err) {
-      console.log(err);
+      throw new Error(err.message);
     }
   }
 
