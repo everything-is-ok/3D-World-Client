@@ -1,22 +1,23 @@
 import { useEffect, useState } from "react";
 
-import EVENTS from "../constants/socketEvents";
+import { roomSocket } from "../utils/socket";
 
+// NOTE: 최초 mount부터 socket에 값이 있기 때문에, useEffect의 effect들이 모두 실행 됨.
 function useSocketFriends({
-  socket,
+  isSocketReady,
   entrancePosition,
 }) {
   const [friends, setfriends] = useState([]);
-  const {
-    USER_MOVEMENT,
-    OLD_USER_INFO,
-    LEAVE_ROOM,
-    JOIN_ROOM,
-  } = EVENTS;
 
   useEffect(() => {
-    if (!socket) {
-      return;
+    if (!isSocketReady) return;
+
+    function addNewFriend(user) {
+      setfriends((prev) => prev.concat({
+        user,
+        position: entrancePosition,
+        direction: 0,
+      }));
     }
 
     function updateFriendsMove({ user: u, position: p, direction: d }) {
@@ -29,15 +30,6 @@ function useSocketFriends({
       }));
     }
 
-    socket.on(USER_MOVEMENT, updateFriendsMove);
-    return () => socket.off(USER_MOVEMENT, updateFriendsMove);
-  }, [socket]);
-
-  useEffect(() => {
-    if (!socket) {
-      return;
-    }
-
     function addExistingFriend(posInfo) {
       setfriends((prev) => prev.concat(posInfo));
     }
@@ -46,30 +38,12 @@ function useSocketFriends({
       setfriends((prev) => prev.filter((friend) => friend.user.id !== user.id));
     }
 
-    socket.on(OLD_USER_INFO, addExistingFriend);
-    socket.on(LEAVE_ROOM, deleteFriend);
-    return () => {
-      socket.off(OLD_USER_INFO, addExistingFriend);
-      socket.off(LEAVE_ROOM, deleteFriend);
-    };
-  }, [socket]);
-
-  useEffect(() => {
-    if (!socket) {
-      return;
-    }
-
-    function addNewFriend(user) {
-      setfriends((prev) => prev.concat({
-        user,
-        position: entrancePosition,
-        direction: 0,
-      }));
-    }
-
-    socket.on(JOIN_ROOM, addNewFriend);
-    return () => socket.off(JOIN_ROOM, addNewFriend);
-  }, [socket]);
+    roomSocket.listenUserJoin(addNewFriend);
+    roomSocket.listenUserMovement(updateFriendsMove);
+    roomSocket.listenOldUserInfo(addExistingFriend);
+    roomSocket.listenUserLeave(deleteFriend);
+    return () => setfriends([]);
+  }, [isSocketReady]);
 
   return friends;
 }

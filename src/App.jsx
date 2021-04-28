@@ -10,15 +10,13 @@ import { ThemeProvider } from "styled-components";
 
 import Header from "./components/Header";
 import Welcome from "./components/Welcome";
-import Main from "./components/Main";
 import World from "./components/World";
+import Main from "./components/Main";
 
 import { getUserByToken, userSelector } from "./reducers/userSlice";
 import Layout from "./components/shared/Layout";
 import THEME from "./constants/theme";
-import { connectSocket } from "./utils/socket";
-// TODO: disconnect 유저 로그아웃 시, 또는 한단계 아래서 실행
-connectSocket();
+import { connectSocket, disconnectSocket } from "./utils/socket";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,6 +26,9 @@ function App() {
     if (!user) {
       dispatch(getUserByToken());
     }
+
+    connectSocket();
+    return () => disconnectSocket();
   }, [user]);
 
   return (

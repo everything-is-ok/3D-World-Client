@@ -5,13 +5,13 @@ import Floor from "./models/Floor";
 import Furniture from "./models/Furniture";
 import useFurniture from "../hooks/useFurniture";
 
-function RoomFurniture({ socket, room, isEditMode }) {
+function RoomFurniture({ isSocketReady, room, isEditMode }) {
   const {
     furnitures,
-    currFurnitureId,
+    currentFurnitureId,
     handleFurnitureSelect,
     handleFurnitureMove,
-  } = useFurniture({ socket, room, isEditMode });
+  } = useFurniture({ isSocketReady, room, isEditMode });
 
   return (
     <>
@@ -21,8 +21,10 @@ function RoomFurniture({ socket, room, isEditMode }) {
         return (
           <Furniture
             key={_id}
+            id={_id}
             name={name}
             position={position}
+            isSelected={_id === currentFurnitureId}
             onClick={() => handleFurnitureSelect(_id, position)}
           />
         );
@@ -30,15 +32,15 @@ function RoomFurniture({ socket, room, isEditMode }) {
       <Floor
         width={12}
         height={12}
-        currFurnitureId={currFurnitureId}
         onClick={handleFurnitureMove}
+        currentFurnitureId={currentFurnitureId}
       />
     </>
   );
 }
 
 RoomFurniture.propTypes = {
-  socket: PropTypes.any,
+  isSocketReady: PropTypes.bool,
   room: PropTypes.any,
   isEditMode: PropTypes.bool,
 };

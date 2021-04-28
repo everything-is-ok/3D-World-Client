@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import StyledButton from "./shared/StyledButton";
 import RoomCanvas from "./RoomCanvas";
-import { updateUserData, userIdSelector, userNameSelector } from "../reducers/userSlice";
+import { updateUserData, userIdSelector } from "../reducers/userSlice";
 
 const Container = styled.div`
   position: relative;
@@ -24,39 +24,30 @@ const AButton = styled.button`
 // TODO: mailbox click했을때, re-render 최적화
 // TODO: 아주 힘들 예정, 방 정보로 아이템을 배치해야한다.
 function Room({
-  id,
+  roomOwnerId,
   room,
-  socket,
   handleClickMailbox,
+  isSocketReady,
 }) {
   const userId = useSelector(userIdSelector);
-  const userName = useSelector(userNameSelector);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   if (!socket || !userId || !userName || !room) {
-  //     return;
-  //   }
-
-  //   socket.emit("join room", { user: { id: userId, name: userName }, roomId: room._id });
-  // }, [socket, userId, userName, room]);
-
-  // TODO: 필요 없어지면 삭제
-  const isMyRoom = id === undefined || userId === id;
-
-  async function handleAddFriendClick() {
-    dispatch(updateUserData({ friend: id }));
-  }
-
   const [isEditMode, setIsEditMode] = useState(false);
+  const isMyRoom = userId === roomOwnerId;
+
+  // TODO: 친구추가와 유저정보 변경 redux reducer분리
+  // NOTE: 친구 추가를 해도, redux store user 객체를 통으로 바꿔줘서, App comp에서 re-render
+  // NOTE: 그로인해, socket connect 재 실행 유발
+  async function handleAddFriendClick() {
+    dispatch(updateUserData({ friend: roomOwnerId }));
+  }
 
   return (
     <Container>
       <RoomCanvas
-        socket={socket}
+        isSocketReady={isSocketReady}
         room={room}
         userId={userId}
-        userName={userName}
         handleClickMailbox={handleClickMailbox}
         isEditMode={isEditMode}
       />
@@ -82,10 +73,10 @@ function Room({
 
 // TODO: socket proptypes?
 Room.propTypes = {
-  id: PropTypes.string.isRequired,
-  socket: PropTypes.object.isRequired,
+  roomOwnerId: PropTypes.string.isRequired,
   room: PropTypes.object.isRequired,
   handleClickMailbox: PropTypes.func.isRequired,
+  isSocketReady: PropTypes.bool,
 };
 
 export default React.memo(Room);

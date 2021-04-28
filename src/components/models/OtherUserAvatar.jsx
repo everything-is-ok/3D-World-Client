@@ -5,7 +5,7 @@ import { useGLTF } from "@react-three/drei";
 import Chicken from "./Chicken";
 import { worldSocket } from "../../utils/socket";
 
-export default function OtherUserAvatar({ user }) {
+function OtherUserAvatar({ user }) {
   const {
     position: initialPosition,
     direction: initialDirection,
@@ -36,5 +36,7 @@ export default function OtherUserAvatar({ user }) {
 OtherUserAvatar.propTypes = {
   user: PropTypes.object.isRequired,
 };
+
+export default OtherUserAvatar;
 
 useGLTF.preload("models/chicken/scene.gltf");

@@ -1,28 +1,25 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
 
 import ChildFurniture from "./ChildFurniture";
 
-function Furniture({ name, position, onClick }) {
+function Furniture({
+  name,
+  position,
+  isSelected,
+  onClick,
+}) {
   const group = useRef();
   const mesh = useRef();
-
-  const [isSelected, setIsSelected] = useState(false);
-
-  function handleClick() {
-    setIsSelected((prev) => !prev);
-    onClick();
-  }
 
   return (
     <group ref={group} position={position}>
       <mesh
         ref={mesh}
         rotation={[0, 0, 0]}
-        onClick={handleClick}
-        color={isSelected ?? "red"}
+        onClick={onClick}
       >
-        <ChildFurniture name={name} />
+        <ChildFurniture name={name} isSelected={isSelected} />
       </mesh>
     </group>
   );
@@ -31,6 +28,7 @@ function Furniture({ name, position, onClick }) {
 Furniture.propTypes = {
   name: PropTypes.string.isRequired,
   position: PropTypes.array,
+  isSelected: PropTypes.bool,
   onClick: PropTypes.func,
 };
 
