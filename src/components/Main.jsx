@@ -43,7 +43,6 @@ const SideContainer = styled.div`
 // NOTE: 내 방을 가던 남의 방을 가던 /room/:id 로 온다.
 function Main() {
   const dispatch = useDispatch();
-  console.log(getMySocketId());
   const { userId: roomOwnerId } = useParams();
   const socket = useSocket(roomOwnerId);
 

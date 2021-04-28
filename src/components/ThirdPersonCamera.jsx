@@ -1,8 +1,7 @@
 import * as THREE from "three";
-import PropTypes from "prop-types";
 import { useFrame } from "@react-three/fiber";
 
-export default function getThridPersonCameraPosition(position) {
+function getThridPersonCameraPosition(position) {
   const formattedPosition = position.map((pos, index) => {
     if (index === 0) {
       return pos - 30;
@@ -21,3 +20,20 @@ export default function getThridPersonCameraPosition(position) {
 
   return vec;
 }
+
+function ThirdPersonCamera({ position, hasLimit }) {
+  const vec = getThridPersonCameraPosition(position);
+  useFrame(({ camera }) => {
+    if (hasLimit) {
+      if (vec.z <= -6000 || vec.z > 350) {
+        return;
+      }
+    }
+
+    camera.position.lerp(vec, 0.1);
+  });
+
+  return null;
+}
+
+export default ThirdPersonCamera;

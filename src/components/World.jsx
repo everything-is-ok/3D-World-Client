@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, {
   Suspense, useEffect, useState,
 } from "react";
@@ -7,9 +6,7 @@ import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { Canvas } from "@react-three/fiber";
 import { Sky } from "@react-three/drei";
-import { Camera, Vector3 } from "three";
-
-// eslint-disable-next-line import/order
+import { Vector3 } from "three";
 
 import Building from "./models/Building";
 import UserAvatar from "./models/UserAvatar";
@@ -17,7 +14,6 @@ import OtherUserAvatar from "./models/OtherUserAvatar";
 import GreenFloor from "./models/GreenFloor";
 import Tree from "./models/Tree";
 import Bonfire from "./models/Bonfire";
-import useWorldSocket from "../hooks/useWorldSocket";
 import CowHead from "./models/cowHead";
 import GirlPirate from "./models/girlPirate";
 import PugHead from "./models/PugHead";
@@ -43,9 +39,7 @@ function World({ user }) {
   }
 
   function removeOtherUser(userInfo) {
-    setOtherUsers((prev) => ([
-      ...prev.filter((oldUser) => oldUser.id !== userInfo._id),
-    ]));
+    setOtherUsers((prev) => prev.filter((oldUser) => oldUser._id !== userInfo._id));
   }
 
   useEffect(() => {
@@ -59,7 +53,10 @@ function World({ user }) {
     worldSocket.listenNewUserInfo(updateOtherUsers);
     worldSocket.listenUserLeave(removeOtherUser);
 
-    return () => worldSocket.removeWorldListeners();
+    return () => {
+      worldSocket.leaveWorld();
+      worldSocket.removeWorldListeners();
+    };
   }, [user]);
 
   useEffect(() => {
@@ -120,7 +117,6 @@ function World({ user }) {
             rotation={[0, -Math.PI, 0]}
             position={[-450, 10, -200]}
           /> */}
-          {/* <BoyBrownHair position={[-300, 10, 300]} scale={40} /> */}
           <CowHead position={[-200, 10, 300]} scale={40} />
           <GirlPirate position={[-400, 10, 300]} scale={40} />
           <PugHead position={[-100, 10, 300]} scale={40} />

@@ -31,11 +31,14 @@ const worldSocket = {
   joinWorld: (userInfo) => {
     socket.emit(JOIN_WORLD, userInfo);
   },
-  sendUserMovement: (data) => {
-    socket.emit(USER_MOVEMENT, data);
+  leaveWorld: () => {
+    socket.emit(LEAVE_WORLD);
   },
-  sendOldUserInfo: (data) => {
-    socket.emit(OLD_USER_INFO, data);
+  sendUserMovement: (userInfo) => {
+    socket.emit(USER_MOVEMENT, userInfo);
+  },
+  sendOldUserInfo: (userInfo) => {
+    socket.emit(OLD_USER_INFO, userInfo);
   },
   listenNewUserInfo: (cb) => {
     socket.on(JOIN_WORLD, cb);
@@ -49,8 +52,7 @@ const worldSocket = {
   listenUserMovement: (id, cb) => {
     socket.on(UPDATE_MOVEMENT(id), cb);
   },
-  // NOTE: 월드 떠날때 setOtherUsers실행되어야함. 콜백으로 오는지? -> useWorldSocket- 72.
-  listenUserLeave: (userInfo, cb) => {
+  listenUserLeave: (cb) => {
     socket.on(LEAVE_WORLD, cb);
   },
   removeWorldListeners: () => {
@@ -58,7 +60,6 @@ const worldSocket = {
   },
 };
 
-// NOTE: room and chat and friend ?
 const roomSocket = {
   joinRoom: () => {
     // TODO: add

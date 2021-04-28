@@ -1,18 +1,19 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useFrame } from "@react-three/fiber";
 
 import Chicken from "./Chicken";
-import PugHead from "./PugHead";
 import usePosition from "../../hooks/usePosition";
 import { worldSocket } from "../../utils/socket";
-import getThridPersonCameraPosition from "../ThridPersonCamera";
+import ThirdPersonCamera from "../ThirdPersonCamera";
+
+const GUEST = "guest";
 
 function UserAvatar({ ...props }) {
   const { position: initialPosition, user } = props;
   const { _id: id } = user;
 
   const { position, direction } = usePosition(initialPosition);
+  const isGuest = user.name === GUEST;
 
   useEffect(() => {
     function sendUserAvatarInfo({ socketId }) {
@@ -33,22 +34,6 @@ function UserAvatar({ ...props }) {
     worldSocket.sendUserMovement({ id, position, direction });
   }, [position]);
 
-  function ThirdPersonCamera({ camPosition }) {
-    const vec = getThridPersonCameraPosition(camPosition);
-
-    useFrame(({ camera }) => {
-      if (user.name === "guest" && vec.z <= -6000) {
-        props.handleCameraStop();
-
-        return;
-      }
-
-      camera.position.lerp(vec, 0.1);
-    });
-
-    return null;
-  }
-
   return (
     <>
       <Chicken
@@ -56,11 +41,10 @@ function UserAvatar({ ...props }) {
         direction={direction}
         name={user.name}
       />
-      <ThirdPersonCamera camPosition={position} />
-      {/* <PugHead
-        position={position || initialPosition}
-        direction={direction}
-      /> */}
+      <ThirdPersonCamera
+        position={position}
+        hasLimit={isGuest}
+      />
     </>
   );
 }
