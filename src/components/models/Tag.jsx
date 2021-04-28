@@ -1,27 +1,27 @@
 import React, { useRef } from "react";
 import PropTypes from "prop-types";
-import * as THREE from "three";
+import { useFrame } from "@react-three/fiber";
 
 function Tag({ position, args }) {
   const mesh = useRef(null);
 
+  useFrame(() => {
+    if (!mesh.current) return;
+
+    mesh.current.rotation.y += 0.01;
+  });
+
   return (
     <mesh
+      receiveShadow
       ref={mesh}
       scale={1}
       position={position}
     >
-      <tetrahedronGeometry
-        attach="geometry"
-        args={args}
-        applyMatrix={new THREE.Matrix4().makeRotationAxis(
-          new THREE.Vector3(2, 0, -1).normalize(),
-          Math.atan(Math.sqrt(2)),
-        )}
-      />
+      <octahedronBufferGeometry args={args} />
       <meshStandardMaterial
         attach="material"
-        color="#06ad22"
+        color="tomato"
       />
     </mesh>
   );

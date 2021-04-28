@@ -1,4 +1,4 @@
-import React, { Suspense, useRef } from "react";
+import React, { Suspense, useMemo, useRef } from "react";
 import PropTypes from "prop-types";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
@@ -8,15 +8,14 @@ import Texts from "./Texts";
 function TempFriendModel({ name, position, direction }) {
   const group = useRef();
   const mesh = useRef();
-
-  const vec = new THREE.Vector3(...position);
+  const vec = useMemo(() => new THREE.Vector3());
 
   useFrame(() => {
     if (!group.current) {
       return;
     }
 
-    group.current.position.lerp(vec, 0.05);
+    group.current.position.lerp(vec.set(...position), 0.05);
   });
 
   return (
@@ -71,7 +70,7 @@ function TempFriendModel({ name, position, direction }) {
 
 TempFriendModel.propTypes = {
   position: PropTypes.array.isRequired,
-  direction: PropTypes.array.isRequired,
+  direction: PropTypes.number.isRequired,
   name: PropTypes.string,
 };
 

@@ -9,7 +9,6 @@ import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 
 import Texts from "./Texts";
-import Chicken from "./Chicken";
 import usePosition from "../../hooks/usePosition";
 import { roomSocket } from "../../utils/socket";
 // import zusePosition from "../../hooks/zusePosition";
@@ -107,15 +106,6 @@ function TempModel({
             <meshStandardMaterial color="#644624" />
           </mesh>
         </group>
-      </mesh>
-      <mesh scale={[0.5, 0.5, 0.5]}>
-        <Suspense fallback={null}>
-          <Chicken
-            position={[0, -30, 0]}
-            direction={0}
-            name=""
-          />
-        </Suspense>
       </mesh>
     </group>
   );

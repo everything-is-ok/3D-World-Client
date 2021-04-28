@@ -2,7 +2,7 @@ import React, {
   Suspense, useEffect, useState,
 } from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Canvas } from "@react-three/fiber";
 import { Sky } from "@react-three/drei";
@@ -18,6 +18,7 @@ import CowHead from "./models/cowHead";
 import GirlPirate from "./models/girlPirate";
 import PugHead from "./models/PugHead";
 import fetchData from "../utils/fetchData";
+import { userSelector } from "../reducers/userSlice";
 import { worldSocket } from "../utils/socket";
 
 const Container = styled.div`
@@ -29,7 +30,8 @@ const Container = styled.div`
 const defaultPosition = [10, -5, 150];
 const defaultDirection = 0;
 
-function World({ user }) {
+function World() {
+  const user = useSelector(userSelector);
   const [otherUsers, setOtherUsers] = useState([]);
   const [randomUsers, setRandomUsers] = useState([]);
   const history = useHistory();
@@ -126,9 +128,5 @@ function World({ user }) {
     </Container>
   );
 }
-
-World.propTypes = {
-  user: PropTypes.object.isRequired,
-};
 
 export default World;

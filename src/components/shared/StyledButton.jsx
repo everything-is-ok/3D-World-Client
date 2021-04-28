@@ -1,7 +1,5 @@
 import styled from "styled-components";
 
-console.log("💌");
-
 // TODO: 버튼 스타일 작업
 const StyledButton = styled.button`
   border: 1px solid black;
