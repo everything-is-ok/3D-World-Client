@@ -2,7 +2,7 @@ import React, {
   Suspense, useEffect, useState,
 } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Canvas } from "@react-three/fiber";
 import { Sky } from "@react-three/drei";
@@ -18,6 +18,7 @@ import CowHead from "./models/cowHead";
 import GirlPirate from "./models/girlPirate";
 import PugHead from "./models/PugHead";
 import fetchData from "../utils/fetchData";
+import { updateError } from "../reducers/roomSlice";
 import { userSelector } from "../reducers/userSlice";
 import { worldSocket } from "../utils/socket";
 
@@ -35,6 +36,7 @@ function World() {
   const [otherUsers, setOtherUsers] = useState([]);
   const [randomUsers, setRandomUsers] = useState([]);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   function updateOtherUsers(userInfo) {
     setOtherUsers((prev) => prev.concat(userInfo));
@@ -72,7 +74,7 @@ function World() {
 
         setRandomUsers(response);
       } catch (err) {
-        throw new Error(err.message);
+        dispatch(updateError(err.message));
       }
     }
 

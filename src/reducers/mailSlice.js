@@ -47,7 +47,12 @@ const initialState = {
 const mailSlice = createSlice({
   name: "mail",
   initialState,
-  reducers: {},
+  reducers: {
+    updateError: (state, action) => {
+      state.status = "pending";
+      state.error = action.payload;
+    },
+  },
   extraReducers: {
     [getMailList.pending]: (state) => {
       if (state.status === "idle") {
@@ -63,7 +68,7 @@ const mailSlice = createSlice({
     [getMailList.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
-        state.error = action.payload || null;
+        state.error = action.error || null;
       }
     },
     [deleteMailList.pending]: (state) => {
@@ -80,7 +85,7 @@ const mailSlice = createSlice({
     [deleteMailList.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
-        state.error = action.payload || null;
+        state.error = action.error || null;
       }
     },
     [deleteMailItem.pending]: (state) => {
@@ -98,7 +103,7 @@ const mailSlice = createSlice({
     [deleteMailItem.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
-        state.error = action.payload || null;
+        state.error = action.error || null;
       }
     },
     [readMailItem.pending]: (state) => {
@@ -115,11 +120,13 @@ const mailSlice = createSlice({
     [readMailItem.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
-        state.error = action.payload || null;
+        state.error = action.error || null;
       }
     },
   },
 });
+
+export const { updateError } = mailSlice.actions;
 
 export default mailSlice.reducer;
 

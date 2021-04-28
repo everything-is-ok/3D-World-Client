@@ -27,7 +27,6 @@ function MailItem({
   handleSelectMail,
 }) {
   const {
-    _id,
     sender,
     content,
     status,
@@ -43,7 +42,7 @@ function MailItem({
       </MailContent>
       <MailContent>{createdAt}</MailContent>
       <Buttons>
-        <StyledButton onClick={() => handleDelete(_id)}>
+        <StyledButton onClick={handleDelete}>
           ❌
         </StyledButton>
       </Buttons>
