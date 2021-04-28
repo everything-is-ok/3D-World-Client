@@ -24,7 +24,8 @@ function RoomFurniture({ socket, room, isEditMode }) {
             id={_id}
             name={name}
             position={position}
-            isSelected={_id === currentFurnitureId}
+            // isSelected={_id === currentFurnitureId}
+            isEditMode={isEditMode}
             onClick={() => handleFurnitureSelect(_id, position)}
           />
         );

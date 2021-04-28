@@ -6,7 +6,8 @@ import ChildFurniture from "./ChildFurniture";
 function Furniture({
   name,
   position,
-  isSelected,
+  // isSelected,
+  isEditMode,
   onClick,
 }) {
   const group = useRef();
@@ -19,7 +20,7 @@ function Furniture({
         rotation={[0, 0, 0]}
         onClick={onClick}
       >
-        <ChildFurniture name={name} isSelected={isSelected} />
+        <ChildFurniture name={name} isEditMode={isEditMode} />
       </mesh>
     </group>
   );
@@ -28,7 +29,7 @@ function Furniture({
 Furniture.propTypes = {
   name: PropTypes.string.isRequired,
   position: PropTypes.array,
-  isSelected: PropTypes.bool,
+  isEditMode: PropTypes.bool,
   onClick: PropTypes.func,
 };
 
