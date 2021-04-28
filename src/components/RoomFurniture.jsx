@@ -8,7 +8,7 @@ import useFurniture from "../hooks/useFurniture";
 function RoomFurniture({ socket, room, isEditMode }) {
   const {
     furnitures,
-    currFurnitureId,
+    currentFurnitureId,
     handleFurnitureSelect,
     handleFurnitureMove,
   } = useFurniture({ socket, room, isEditMode });
@@ -21,8 +21,10 @@ function RoomFurniture({ socket, room, isEditMode }) {
         return (
           <Furniture
             key={_id}
+            id={_id}
             name={name}
             position={position}
+            isSelected={_id === currentFurnitureId}
             onClick={() => handleFurnitureSelect(_id, position)}
           />
         );
@@ -30,8 +32,8 @@ function RoomFurniture({ socket, room, isEditMode }) {
       <Floor
         width={12}
         height={12}
-        currFurnitureId={currFurnitureId}
         onClick={handleFurnitureMove}
+        currentFurnitureId={currentFurnitureId}
       />
     </>
   );

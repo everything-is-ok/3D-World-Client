@@ -8,7 +8,7 @@ function useFurniture({
   isEditMode,
 }) {
   const [furnitures, setFurnitures] = useState(room?.furniture);
-  const [currFurnitureId, setCurrFurnitureId] = useState(null);
+  const [currentFurnitureId, setCurrentFurnitureId] = useState(null);
 
   useEffect(() => {
     setFurnitures(room?.furniture);
@@ -25,7 +25,7 @@ function useFurniture({
   }
 
   function handleFurnitureSelect(furnitureId) {
-    if (!isEditMode || currFurnitureId === furnitureId) return;
+    if (!isEditMode || currentFurnitureId === furnitureId) return;
 
     setFurnitures((prev) => prev.map((furniture) => {
       if (furniture._id !== furnitureId) {
@@ -37,26 +37,26 @@ function useFurniture({
       return { ...furniture, position: [x, y + 20, z] };
     }));
 
-    setCurrFurnitureId(furnitureId);
+    setCurrentFurnitureId(furnitureId);
   }
 
   async function handleFurnitureMove(x, y) {
-    if (!currFurnitureId || !isEditMode) return;
+    if (!currentFurnitureId || !isEditMode) return;
 
-    const height = furnitures.find((furniture) => furniture._id === currFurnitureId).position[1];
+    const height = furnitures.find((furniture) => furniture._id === currentFurnitureId).position[1];
     const furniturePosition = [(x * 40), height - 20, (y * 40)];
 
     try {
       await fetchData(
         "PATCH",
         "/furniture",
-        { id: currFurnitureId, position: furniturePosition },
+        { id: currentFurnitureId, position: furniturePosition },
       );
 
-      updateFurniture({ _id: currFurnitureId, position: furniturePosition });
-      setCurrFurnitureId(null);
+      updateFurniture({ _id: currentFurnitureId, position: furniturePosition });
+      setCurrentFurnitureId(null);
 
-      socket.emit("update", { _id: currFurnitureId, position: furniturePosition });
+      socket.emit("update", { _id: currentFurnitureId, position: furniturePosition });
     } catch (err) {
       // TODO error handling
       // console.log(err.message);
@@ -72,7 +72,7 @@ function useFurniture({
 
   return {
     furnitures,
-    currFurnitureId,
+    currentFurnitureId,
     handleFurnitureSelect,
     handleFurnitureMove,
   };

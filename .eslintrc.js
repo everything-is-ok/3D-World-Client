@@ -42,6 +42,8 @@ module.exports = {
     "react/prefer-stateless-function": "off",
     "react/forbid-prop-types": "off",
     "react/require-default-props": "off",
+    "react/destructuring-assignment": "off",
+    "react/jsx-props-no-spreading": "off",
     "jsx-a11y/label-has-associated-control": "off",
     "jsx-a11y/label-has-for": "off",
   },
