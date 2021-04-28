@@ -10,18 +10,12 @@ function Tag({ position, args }) {
       ref={mesh}
       scale={1}
       position={position}
+      rotateX={Math.PI / 2}
     >
-      <tetrahedronGeometry
-        attach="geometry"
-        args={args}
-        applyMatrix={new THREE.Matrix4().makeRotationAxis(
-          new THREE.Vector3(2, 0, -1).normalize(),
-          Math.atan(Math.sqrt(2)),
-        )}
-      />
+      <coneGeometry args={[7, 10, 10]} />
       <meshStandardMaterial
         attach="material"
-        color="#06ad22"
+        color="#ff0000"
       />
     </mesh>
   );

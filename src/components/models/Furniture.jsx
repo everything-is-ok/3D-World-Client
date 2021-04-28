@@ -6,7 +6,6 @@ import ChildFurniture from "./ChildFurniture";
 function Furniture({
   name,
   position,
-  // isSelected,
   isEditMode,
   onClick,
 }) {
