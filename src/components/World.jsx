@@ -58,6 +58,7 @@ function World() {
     worldSocket.listenUserLeave(removeOtherUser);
 
     return () => {
+      console.log("world unmount");
       worldSocket.leaveWorld();
       worldSocket.removeWorldListeners();
     };
