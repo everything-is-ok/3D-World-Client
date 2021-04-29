@@ -24,7 +24,6 @@ function useMailList() {
   }
 
   async function handleSelectMail(mail) {
-    console.log(mail);
     if (mail.status === "NEW") {
       dispatch(readMailItem(mail._id));
     }
@@ -34,7 +33,6 @@ function useMailList() {
   }
 
   async function handleDeleteMailItem(mailId) {
-    console.log(mailId);
     await dispatch(deleteMailItem(mailId));
     setIsDetail((prev) => !prev);
   }
