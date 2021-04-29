@@ -1,6 +1,6 @@
 async function fetchData(method, url, data) {
   try {
-    let response = await fetch(url, {
+    let response = await fetch(`${process.env.REACT_APP_SERVER_URL}${url}`, {
       method,
       headers: {
         "Content-Type": "application/json",
@@ -15,6 +15,7 @@ async function fetchData(method, url, data) {
       return response.data;
     }
 
+    console.log("ok: false", response);
     throw new Error(response.error.message);
   } catch (err) {
     throw new Error(err.message);

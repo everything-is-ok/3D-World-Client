@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { useMemo } from "react";
 
-function getThridPersonCameraPosition(position) {
+function getThridPersonCameraPosition(position, hasLimit) {
   return position.map((pos, index) => {
     if (index === 0) {
       return pos - 30;
@@ -11,6 +11,12 @@ function getThridPersonCameraPosition(position) {
       return 140;
     }
     if (index === 2) {
+      if (hasLimit) {
+        if (pos <= -6300 || pos > 80) {
+          return;
+        }
+      }
+
       return pos + 350;
     }
 
@@ -22,14 +28,8 @@ function ThirdPersonCamera({ positionRef, hasLimit }) {
   const vec = useMemo(() => new THREE.Vector3());
 
   useFrame(({ camera }) => {
-    if (hasLimit) {
-      if (vec.z <= -6000 || vec.z > 350) {
-        return;
-      }
-    }
-
     camera.position.lerp(
-      vec.set(...getThridPersonCameraPosition(positionRef.current)),
+      vec.set(...getThridPersonCameraPosition(positionRef.current, hasLimit)),
       0.1,
     );
   });

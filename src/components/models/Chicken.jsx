@@ -16,33 +16,36 @@ import Texts from "./Texts";
 
 function Chicken({ ...props }) {
   // TODO: useLerp?
-  const ref = useRef();
+  const groupRef = useRef();
+  const characterRef = useRef();
 
   const {
     positionRef,
     directionRef,
     name,
   } = props;
+
   const { nodes, materials } = useGLTF("models/chicken/scene.gltf");
 
   const vec = useMemo(() => new THREE.Vector3());
 
   useFrame(() => {
-    if (!ref.current || !positionRef || !directionRef) {
+    if (!groupRef || !characterRef) {
       return;
     }
 
-    ref.current.position.lerp(vec.set(...positionRef.current), 0.05);
-    ref.current.rotation.set(0, directionRef.current, 0);
+    groupRef.current.position.lerp(vec.set(...positionRef.current), 0.05);
+    characterRef.current.rotation.set(0, directionRef.current, 0);
   });
 
   return (
-    <group ref={ref}>
+    <group ref={groupRef}>
       <Suspense fallback={null}>
         <Texts position={[-23, 60, 0]} letters={name} />
       </Suspense>
       <group
         scale={[10, 10, 10]}
+        ref={characterRef}
       >
         <group
           position={[0, 3.5, 0]}
