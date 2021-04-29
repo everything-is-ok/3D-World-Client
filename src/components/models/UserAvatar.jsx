@@ -20,12 +20,11 @@ function UserAvatar({ ...props }) {
   const isGuest = user.name === GUEST;
 
   useEffect(() => {
-    if (!isGuest) {
+    if (isGuest) {
       return;
     }
 
     function sendUserAvatarInfo({ socketId }) {
-      console.log("get socket id");
       worldSocket.sendOldUserInfo({
         userInfo: {
           ...user,
@@ -37,7 +36,7 @@ function UserAvatar({ ...props }) {
     }
 
     worldSocket.listenNewUserSocketId(sendUserAvatarInfo);
-  }, []);
+  }, [user]);
 
   function handleMovementChange() {
     worldSocket.sendUserMovement({
