@@ -27,12 +27,7 @@ function App() {
       dispatch(getUserByToken());
     }
 
-<<<<<<< HEAD
-    // TODO: delete this
-    // return () => disconnectSocket();
-=======
     // NOTE: return () => disconnectSocket();
->>>>>>> 600b96a24b014b2f1350c156fc9278ea0f56b7fc
   }, [userId]);
 
   return (
