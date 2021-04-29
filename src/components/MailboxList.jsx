@@ -65,7 +65,7 @@ function MailboxList({ toggle }) {
             <ContentDetail>{selectedMail.content}</ContentDetail>
           </Content>
           <Buttons>
-            <StyledButton onClick={handleDeleteMailItem}>
+            <StyledButton onClick={() => handleDeleteMailItem(selectedMail._id)}>
               삭제
             </StyledButton>
             <StyledButton onClick={handleClose}>
