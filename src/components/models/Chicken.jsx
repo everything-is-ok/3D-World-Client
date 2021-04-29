@@ -15,7 +15,6 @@ import * as THREE from "three";
 import Texts from "./Texts";
 
 function Chicken({ ...props }) {
-  // TODO: useLerp?
   const groupRef = useRef();
   const characterRef = useRef();
 
