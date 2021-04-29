@@ -39,7 +39,6 @@ function World() {
   const dispatch = useDispatch();
 
   function updateOtherUsers(userInfo) {
-    console.log(userInfo);
     setOtherUsers((prev) => prev.concat(userInfo));
   }
 
