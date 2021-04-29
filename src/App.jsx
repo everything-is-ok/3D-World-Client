@@ -27,6 +27,7 @@ function App() {
       dispatch(getUserByToken());
     }
 
+    // TODO: delete this
     // return () => disconnectSocket();
   }, [userId]);
 
@@ -41,17 +42,15 @@ function App() {
                 <World />
               </Route>
               <Route exact path="/room/:userId">
-                <Layout
-                  main={<Main />}
-                />
+                <Layout main={<Main />} />
               </Route>
               <Redirect to={`/room/${userId}`} />
             </Switch>
           </>
         ) : (
           <Switch>
-            <Route path="/" component={Welcome} />
-            {/* <Redirect to="/" /> */}
+            <Route exact path="/" component={Welcome} />
+            <Redirect to="/" />
           </Switch>
         )}
       </Router>

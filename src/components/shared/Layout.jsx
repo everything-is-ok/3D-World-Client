@@ -44,7 +44,7 @@ const Layout = ({ main }) => (
 );
 
 Layout.propTypes = {
-  main: PropTypes.string.isRequired,
+  main: PropTypes.any.isRequired,
 };
 
 export default Layout;
