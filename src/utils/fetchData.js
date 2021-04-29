@@ -1,6 +1,6 @@
 async function fetchData(method, url, data) {
   try {
-    let response = await fetch(`${process.env.REACT_APP_SERVER_URL + url}`, {
+    let response = await fetch(url, {
       method,
       headers: {
         "Content-Type": "application/json",
