@@ -20,7 +20,10 @@ import PugHead from "./models/PugHead";
 import fetchData from "../utils/fetchData";
 import { updateError } from "../reducers/roomSlice";
 import { userSelector } from "../reducers/userSlice";
-import { getMySocketId, worldSocket } from "../utils/socket";
+import { worldSocket } from "../utils/socket";
+import SpongeHouse from "./models/SpongeHouse";
+import GardenHouse from "./models/GardenHouse";
+import AnimalHouse from "./models/AnimalHouse";
 
 const Container = styled.div`
   position: relative;
@@ -117,14 +120,12 @@ function World() {
         <Suspense fallback={null}>
           <Tree position={[-1000, 10, 300]} scale={[0.5, 0.5, 0.5]} />
           <Bonfire position={[-500, 10, 300]} scale={[20, 20, 20]} />
-          {/* <AdventureMap
-            scale={[0.1, 0.1, 0.1]}
-            rotation={[0, -Math.PI, 0]}
-            position={[-450, 10, -200]}
-          /> */}
-          <CowHead position={[-200, 10, 300]} scale={40} />
-          <GirlPirate position={[-400, 10, 300]} scale={40} />
-          <PugHead position={[-100, 10, 300]} scale={40} />
+          <SpongeHouse position={[200, -45, 300]} />
+          <AnimalHouse position={[-1200, 0, 0]} sclae={20} />
+          <GardenHouse position={[-800, 0, -600]} />
+          <CowHead position={[-200, 10, 300]} scale={30} />
+          <GirlPirate position={[-400, 10, 300]} scale={30} />
+          <PugHead position={[-100, 10, 300]} scale={30} />
         </Suspense>
         <GreenFloor />
       </Canvas>

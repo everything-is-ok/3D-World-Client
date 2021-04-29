@@ -11,7 +11,7 @@ export default function GirlPirate(props) {
   const { actions } = useAnimations(animations, group);
 
   useEffect(() => {
-    actions.Run.play();
+    actions.Idle.play();
   }, []);
 
   return (
@@ -19,11 +19,7 @@ export default function GirlPirate(props) {
       <primitive object={nodes.Bone} />
       <skinnedMesh geometry={nodes.Cube004.geometry} material={materials.Skin} skeleton={nodes.Cube004.skeleton} />
       <skinnedMesh geometry={nodes.Cube004_1.geometry} material={materials.Beige} skeleton={nodes.Cube004_1.skeleton} />
-      <skinnedMesh
-        geometry={nodes.Cube004_2.geometry}
-        material={materials.Clothes}
-        skeleton={nodes.Cube004_2.skeleton}
-      />
+      <skinnedMesh geometry={nodes.Cube004_2.geometry} material={materials.Clothes} skeleton={nodes.Cube004_2.skeleton} />
       <skinnedMesh geometry={nodes.Cube004_3.geometry} material={materials.Gold} skeleton={nodes.Cube004_3.skeleton} />
       <skinnedMesh geometry={nodes.Cube004_4.geometry} material={materials.Brown} skeleton={nodes.Cube004_4.skeleton} />
       <skinnedMesh geometry={nodes.Cube004_5.geometry} material={materials.Face} skeleton={nodes.Cube004_5.skeleton} />
