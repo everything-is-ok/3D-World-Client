@@ -15,6 +15,7 @@ async function fetchData(method, url, data) {
       return response.data;
     }
 
+    console.log("ok: false", response);
     throw new Error(response.error.message);
   } catch (err) {
     throw new Error(err.message);
