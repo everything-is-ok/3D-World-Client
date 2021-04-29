@@ -20,7 +20,7 @@ import PugHead from "./models/PugHead";
 import fetchData from "../utils/fetchData";
 import { updateError } from "../reducers/roomSlice";
 import { userSelector } from "../reducers/userSlice";
-import { worldSocket } from "../utils/socket";
+import { getMySocketId, worldSocket } from "../utils/socket";
 
 const Container = styled.div`
   position: relative;
@@ -39,6 +39,7 @@ function World() {
   const dispatch = useDispatch();
 
   function updateOtherUsers(userInfo) {
+    console.log(userInfo);
     setOtherUsers((prev) => prev.concat(userInfo));
   }
 

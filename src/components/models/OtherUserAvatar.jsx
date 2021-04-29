@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { useGLTF } from "@react-three/drei";
 
@@ -12,12 +12,12 @@ function OtherUserAvatar({ user }) {
     name,
   } = user;
 
-  const [position, setPosition] = useState(initialPosition);
-  const [direction, setDirection] = useState(initialDirection);
+  const positionRef = useRef(initialPosition);
+  const directionRef = useRef(initialDirection);
 
   function updatePosition(userInfo) {
-    setPosition([...userInfo.position]);
-    setDirection(userInfo.direction);
+    positionRef.current = userInfo.position;
+    directionRef.current = userInfo.direction;
   }
 
   useEffect(() => {
@@ -26,8 +26,8 @@ function OtherUserAvatar({ user }) {
 
   return (
     <Chicken
-      position={[...position]}
-      direction={direction}
+      positionRef={positionRef}
+      directionRef={directionRef}
       name={name}
     />
   );
