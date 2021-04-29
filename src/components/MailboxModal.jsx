@@ -11,7 +11,7 @@ function MailboxModal({
   isMyMailbox,
 }) {
   return (
-    <CustomModal handleClose={toggle}>
+    <CustomModal handleClose={toggle} title="📮 방명록 📮">
       {isMyMailbox ? (
         <MailboxList toggle={toggle} />
       ) : (

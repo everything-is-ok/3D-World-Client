@@ -7,6 +7,7 @@ import { worldSocket } from "../../utils/socket";
 import ThirdPersonCamera from "../ThirdPersonCamera";
 
 const GUEST = "guest";
+//  TODO: 월드 포지션 확인
 //     positionRef,
 //     directionRef,
 //     handlePositionChange,

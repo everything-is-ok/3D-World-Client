@@ -60,13 +60,14 @@ const ModalClose = styled.button`
   opacity: 0.5;
 `;
 
-function CustomModal({ children, handleClose }) {
+function CustomModal({ children, handleClose, title }) {
   return ReactDOM.createPortal(
     <>
       <ModalBackground onClick={handleClose} />
       <Modal>
         <ModalClose onClick={handleClose} />
         <ModalContent>
+          <Title>{title}</Title>
           {children}
         </ModalContent>
       </Modal>
