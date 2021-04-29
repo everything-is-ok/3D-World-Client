@@ -1,5 +1,5 @@
 [[redirects]]
-  from = "/*"
+  from = "/api/*"
   to = "https://api.three-world.club/:splat"
   status = 200
   force = true

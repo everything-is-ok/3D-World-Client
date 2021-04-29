@@ -1,6 +1,6 @@
 async function fetchData(method, url, data) {
   try {
-    let response = await fetch(url, {
+    let response = await fetch(`/api${url}`, {
       method,
       headers: {
         "Content-Type": "application/json",
