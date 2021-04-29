@@ -64,6 +64,7 @@ function usePosition(
 
     const prevPosition = positionRef.current;
 
+    // TODO: 점프
     // if (e.keyCode === 32) {
     //   setPosition((prev) => getChangedPosition(prev, POS.Y, 250));
     // }
