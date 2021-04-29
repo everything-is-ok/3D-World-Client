@@ -15,6 +15,7 @@ const Background = styled.div`
 
 const BorderWrapper = styled.div`
   width: 85%;
+  min-width: 900px;
   padding: 1.5rem;
   background: ${(props) => props.theme.layoutBg1.color};
   border: 1px solid ${(props) => props.theme.layoutBorder1.color};

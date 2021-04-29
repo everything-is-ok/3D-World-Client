@@ -3,12 +3,11 @@ import { useSelector } from "react-redux";
 import Notification from "./Notification";
 
 export default function Sidebar() {
-  let userError = useSelector((state) => state.user.error);
+  const userError = useSelector((state) => state.user.error);
   const roomError = useSelector((state) => state.room.error);
   const mailError = useSelector((state) => state.mail.error);
-  const hasError = userError || roomError || mailError || true;
+  const hasError = userError || roomError || mailError;
 
-  userError = "userrk dltkdgody.";
   return (
     <>
       {hasError && (
