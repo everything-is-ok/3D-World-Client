@@ -16,51 +16,82 @@ const {
   NEW_USER_SOCKET_ID,
 } = EVENTS;
 
+// const socket = io(process.env.REACT_APP_SERVER_URL);
 let socket;
 
 function connectSocket() {
   socket = io(process.env.REACT_APP_SERVER_URL);
+  console.log("socket");
+}
+
+connectSocket();
+
+function disconnectSocket() {
+  socket.disconnect();
+  console.log("disconnect");
 }
 
 function getMySocketId() {
-  console.log(socket);
-  console.log(socket.connected);
   return socket.id;
 }
 
 const worldSocket = {
   joinWorld: (userInfo) => {
+    console.log(socket);
     socket.emit(JOIN_WORLD, userInfo);
   },
-  sendUserMovement: (data) => {
-    socket.emit(USER_MOVEMENT, data);
+  leaveWorld: () => {
+    console.log("leave world");
+    socket.emit(LEAVE_WORLD);
   },
-  listenUserJoin: (userInfo) => {
-    socket.on(JOIN_WORLD, (userInfo));
+  sendUserMovement: (userInfo) => {
+    socket.emit(USER_MOVEMENT, userInfo);
   },
-  listenOldUserInfo: (userInfo, cb) => {
+  sendOldUserInfo: (userInfo) => {
+    socket.emit(OLD_USER_INFO, userInfo);
+  },
+  listenNewUserInfo: (cb) => {
+    socket.on(JOIN_WORLD, cb);
+  },
+  listenNewUserSocketId: (cb) => {
+    socket.on(NEW_USER_SOCKET_ID, cb);
+  },
+  listenOldUserInfo: (cb) => {
     socket.on(OLD_USER_INFO, cb);
   },
-  // NOTE: 월드 떠날때 setOtherUsers실행되어야함. 콜백으로 오는지? -> useWorldSocket- 72.
-  listenUserLeave: (userInfo, cb) => {
+  listenUserMovement: (id, cb) => {
+    socket.on(UPDATE_MOVEMENT(id), cb);
+  },
+  listenUserLeave: (cb) => {
     socket.on(LEAVE_WORLD, cb);
   },
-  removeWorldListener: () => {
-    // Off.
+  removeWorldListeners: () => {
+    socket.removeAllListeners();
   },
 };
 
-// NOTE: room and chat and friend ?
 const roomSocket = {
-  joinRoom: () => {
-    // TODO: add
-    socket.emit(JOIN_ROOM);
+  joinRoom: (data) => {
+    socket.emit(JOIN_ROOM, data);
+  },
+  leaveRoom: () => {
+    socket.emit(LEAVE_ROOM);
   },
   listenUserJoin: (cb) => {
     socket.on(JOIN_ROOM, cb);
   },
+  // user movement
+  sendUserMovement: (data) => {
+    socket.emit(USER_MOVEMENT, data);
+  },
   listenUserMovement: (cb) => {
     socket.on(USER_MOVEMENT, cb);
+  },
+  listenNewUserSocketId: (cb) => {
+    socket.on(NEW_USER_SOCKET_ID, cb);
+  },
+  sendOldUserInfo: (receiver, data) => {
+    socket.emit(OLD_USER_INFO, { receiver, posInfo: data });
   },
   listenOldUserInfo: (cb) => {
     socket.on(OLD_USER_INFO, cb);
@@ -68,11 +99,19 @@ const roomSocket = {
   listenUserLeave: (cb) => {
     socket.on(LEAVE_ROOM, cb);
   },
+  // chat
+  sendChatMessage: (data) => {
+    socket.emit(CHAT_MESSAGE, data);
+  },
   listenChatMessage: (cb) => {
     socket.on(CHAT_MESSAGE, cb);
   },
-  removeFirendsListener: () => {
-    // off
+  offChatMessage: (cb) => {
+    socket.off(CHAT_MESSAGE, cb);
+  },
+  // clear
+  removeAllRoomListeners: () => {
+    socket.removeAllListeners();
   },
 };
 
@@ -92,7 +131,7 @@ const furnitureSocket = {
 };
 
 export {
-  connectSocket,
+  disconnectSocket,
   roomSocket,
   worldSocket,
   getMySocketId,

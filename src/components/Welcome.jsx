@@ -44,21 +44,20 @@ function Welcome() {
   const history = useHistory();
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
-  async function handleClick() {
-    const actionResult = await dispatch(userLogin());
-
+  async function onClick() {
     try {
+      const actionResult = await dispatch(userLogin());
       const user = await unwrapResult(actionResult);
 
       history.push(`/room/${user._id}`);
     } catch (err) {
-      console.log(err);
+      history.push("/");
     }
   }
 
   return (
     <Container>
-      <GoogleLoginButton onClick={handleClick}>
+      <GoogleLoginButton onClick={onClick}>
         Login with Google
       </GoogleLoginButton>
       {isLoginOpen && (
@@ -66,7 +65,7 @@ function Welcome() {
           <div>
             로그인 하고 월드로 들어오세요!
           </div>
-          <GoogleLoginButton onClick={handleClick}>
+          <GoogleLoginButton onClick={onClick}>
             Login with Google
           </GoogleLoginButton>
         </LoginContainer>
@@ -84,9 +83,12 @@ function Welcome() {
           />
         </Suspense>
         <Suspense fallback={null}>
-          <Texts letters="WELCOME" position={[-400, 400, -6000]} scale={12} />
           <Texts letters="3D" position={[-100, 440, -1800]} scale={8} />
           <Texts letters="CYWORLD" position={[-300, 300, -1800]} scale={8} />
+          <Texts letters="SUNGJIN" position={[-230, 300, -2800]} scale={8} />
+          <Texts letters="SOYOON" position={[-250, 300, -4250]} scale={8} />
+          <Texts letters="MINWOO" position={[-230, 300, -5000]} scale={8} />
+          <Texts letters="WELCOME" position={[-400, 450, -6000]} scale={12} />
         </Suspense>
         <Suspense fallback={null}>
           <AdventureMap

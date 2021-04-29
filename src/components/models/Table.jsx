@@ -15,11 +15,11 @@ import Tag from "./Tag";
 function Table(props) {
   const group = useRef();
   const { nodes } = useGLTF("models/kitchen/scene.gltf");
-  const { isSelected } = props;
+  const { isEditMode } = props;
 
   return (
     <group ref={group} {...props} dispose={null}>
-      {isSelected && <Tag position={[10, 70, 0]} args={[20, 0]} />}
+      {isEditMode && <Tag position={[10, 90, 0]} args={[13, 0]} />}
       <group position={[0, 0, -40]} name="tableGroup">
         <group position={[-3.86, 24.03, 40.59]} rotation={[3.12, 0.01, 3.11]}>
           <mesh geometry={nodes.cushion_02_redMat_0.geometry} material={nodes.cushion_02_redMat_0.material} />
@@ -38,7 +38,7 @@ function Table(props) {
 }
 
 Table.propTypes = {
-  isSelected: PropTypes.bool.isRequired,
+  isEditMode: PropTypes.bool.isRequired,
 };
 
 export default Table;

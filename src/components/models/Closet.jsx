@@ -15,11 +15,11 @@ import Tag from "./Tag";
 function Closet(props) {
   const group = useRef();
   const { nodes, materials } = useGLTF("models/closet/scene.gltf");
-  const { isSelected } = props;
+  const { isEditMode } = props;
 
   return (
     <group ref={group} {...props} dispose={null} scale={[3, 3, 3]}>
-      {isSelected && <Tag position={[0, 50, 0]} args={[7, 0]} />}
+      {isEditMode && <Tag position={[0, 50, 0]} args={[5, 0]} />}
       <group rotation={[-Math.PI / 2, 0, Math.PI / 2]}>
         <mesh geometry={nodes.armario_00_LP_madera_0.geometry} material={materials.madera} />
         <mesh geometry={nodes.armario_00_LP_vidrio_0.geometry} material={materials.vidrio} />
@@ -31,7 +31,7 @@ function Closet(props) {
 }
 
 Closet.propTypes = {
-  isSelected: PropTypes.bool.isRequired,
+  isEditMode: PropTypes.bool.isRequired,
 };
 
 export default Closet;

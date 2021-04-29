@@ -16,7 +16,8 @@ API.onSocialLogin = async () => {
 
     return response;
   } catch (err) {
-    throw new Error(err);
+    console.log("💥err POST", err);
+    throw new Error(err.message);
   }
 };
 

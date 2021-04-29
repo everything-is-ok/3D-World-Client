@@ -44,6 +44,10 @@ const userSlice = createSlice({
       document.cookie = `authorization=; expires=${new Date(0)}; path=/`;
       return initialState;
     },
+    updateError: (state, action) => {
+      state.status = "idle";
+      state.error = action.error;
+    },
   },
   extraReducers: {
     [userLogin.pending]: (state) => {
@@ -60,7 +64,7 @@ const userSlice = createSlice({
     [userLogin.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
-        state.error = action.payload || null;
+        state.error = action.error || null;
       }
     },
     [updateUserData.pending]: (state) => {
@@ -77,7 +81,7 @@ const userSlice = createSlice({
     [updateUserData.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
-        state.error = action.payload;
+        state.error = action.error;
       }
     },
     [getUserByToken.pending]: (state) => {
@@ -94,16 +98,17 @@ const userSlice = createSlice({
     [getUserByToken.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
-        state.error = action.payload;
+        state.error = action.error;
       }
     },
   },
 });
 
-export const { logout } = userSlice.actions;
+export const { logout, updateError } = userSlice.actions;
 
 export default userSlice.reducer;
 
 export const userSelector = (state) => state.user.data;
-export const userIdSelector = (state) => state.user.data._id;
+export const userIdSelector = (state) => state.user.data?._id || null;
 export const userNameSelector = (state) => state.user.data.name;
+export const userFriendsSelector = (state) => state.user.data.friends;

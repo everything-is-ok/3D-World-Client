@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 import fetchData from "../utils/fetchData";
+import { updateError } from "../reducers/roomSlice";
 
-export default function useOtherUserProfile(id) {
+function useOtherUserProfile(id) {
+  const dispatch = useDispatch();
   const [userData, setUserData] = useState({
     name: "",
     description: "",
@@ -10,12 +13,9 @@ export default function useOtherUserProfile(id) {
     musicURL: "",
   });
 
-  // NOTE: fetch/ 다른사람의 방에 갈 때 받는 유저정보
   useEffect(() => {
     async function getUserProfile() {
       try {
-        // NOTE response.data 받도록 해놨는데, 수정 필요한지 확인필요
-        // NOTE 수정완료
         const user = await fetchData("GET", `/user/${id}`);
 
         setUserData({
@@ -25,7 +25,7 @@ export default function useOtherUserProfile(id) {
           musicURL: user.musicURL,
         });
       } catch (err) {
-        console.log(err);
+        dispatch(updateError(err.message));
       }
     }
 
@@ -36,3 +36,5 @@ export default function useOtherUserProfile(id) {
     userData,
   };
 }
+
+export default useOtherUserProfile;

@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-return-assign */
 import { useEffect, useState } from "react";
+import _ from "lodash";
 
 const POS = {
   X: 0,
@@ -35,6 +36,7 @@ function zusePosition(InitialPosition, initialDirection = 0) {
 
   const [direction, setDirection] = useState(initialDirection);
   const [position, setPosition] = useState([x, z]);
+  const throttleUpdateHeight = _.throttle(updateHeight, 1000);
 
   function updateHeight() {
     if (height <= ground && velocity < 0) {
@@ -80,7 +82,7 @@ function zusePosition(InitialPosition, initialDirection = 0) {
     direction,
     handlePositionChange,
     height,
-    updateHeight,
+    throttleUpdateHeight,
   };
 }
 

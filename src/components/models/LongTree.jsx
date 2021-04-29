@@ -15,12 +15,11 @@ import Tag from "./Tag";
 function LongTree(props) {
   const group = useRef();
   const { nodes, materials } = useGLTF("models/longTree/scene.gltf");
-
-  const { isSelected } = props;
+  const { isEditMode } = props;
 
   return (
     <group ref={group} {...props} dispose={null} scale={[5, 5, 5]}>
-      {isSelected && <Tag position={[0, 20, 0]} args={[4, 0]} />}
+      {isEditMode && <Tag position={[0, 20, 0]} args={[3, 0]} />}
       <mesh geometry={nodes.Tree_1_1_Tree_1_0.geometry} material={materials.Tree_1} />
       <mesh geometry={nodes.Tree_1_1_Mat3_0.geometry} material={materials["Mat.3"]} />
     </group>
@@ -28,7 +27,7 @@ function LongTree(props) {
 }
 
 LongTree.propTypes = {
-  isSelected: PropTypes.bool.isRequired,
+  isEditMode: PropTypes.bool.isRequired,
 };
 
 export default LongTree;
