@@ -44,7 +44,6 @@ function MailItem({
   handleSelectMail,
 }) {
   const {
-    sender,
     content,
     status,
     createdAt,

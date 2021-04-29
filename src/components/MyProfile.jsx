@@ -8,6 +8,17 @@ import useMyProfile from "../hooks/useMyProfile";
 const Container = styled.div`
 `;
 
+const EditButton = styled.button`
+  position: absolute;
+  bottom: 35px;
+  right: 10px;
+  cursor: pointer;
+`;
+
+const ProfileContainer = styled.div`
+  position: relative;
+`;
+
 // NOTE: rename options: editable profile & readonly profile?
 function MyProfile() {
   const {
@@ -30,20 +41,20 @@ function MyProfile() {
           handleSubmit={handleFormSubmit}
         />
       ) : (
-        <>
+        <ProfileContainer>
           <Profile
             name={userData.name}
             description={userData.description}
             photoURL={userData.photoURL}
             musicURL={userData.musicURL}
           />
-          <button
+          <EditButton
             type="button"
             onClick={() => setIsEditing(true)}
           >
             EDIT
-          </button>
-        </>
+          </EditButton>
+        </ProfileContainer>
       )}
 
     </Container>

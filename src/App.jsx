@@ -27,7 +27,7 @@ function App() {
       dispatch(getUserByToken());
     }
 
-    // return () => disconnectSocket();
+    // NOTE: return () => disconnectSocket();
   }, [userId]);
 
   return (
