@@ -15,6 +15,8 @@ function useFurniture({
   const [currentFurnitureId, setCurrentFurnitureId] = useState(null);
 
   useEffect(() => {
+    if (!room) return;
+
     setFurnitures(room?.furniture);
   }, [room]);
 

@@ -56,7 +56,7 @@ function Notification({ children }) {
 }
 
 Notification.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.array,
 };
 
 export default Notification;

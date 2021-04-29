@@ -28,6 +28,11 @@ function RoomFurniture({
       {furnitures && furnitures.map((furniture) => {
         const { _id, name, position } = furniture;
 
+        function handleClick(e) {
+          e.stopPropagation();
+          handleFurnitureSelect(_id, position);
+        }
+
         return (
           <Furniture
             key={_id}
@@ -35,7 +40,7 @@ function RoomFurniture({
             name={name}
             position={position}
             isEditMode={isEditMode}
-            onClick={() => handleFurnitureSelect(_id, position)}
+            onClick={handleClick}
           />
         );
       })}

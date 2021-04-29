@@ -44,7 +44,7 @@ function Header() {
           <Link
             key={friend._id}
             to={`/room/${friend._id}`}
-            onClick={toggle}
+            onClick={() => setModalOpen(false)}
           >
             <MiniProfile
               key={friend._id}
