@@ -56,7 +56,7 @@ function MailItem({
       <MailStatus>{status}</MailStatus>
       <MailContent>{content}</MailContent>
       <MailDate>{date.substring(0, 10)}</MailDate>
-      <MailButton onClick={handleDelete}>
+      <MailButton onClick={() => handleDelete(mail._id)}>
         ❌
       </MailButton>
     </Container>

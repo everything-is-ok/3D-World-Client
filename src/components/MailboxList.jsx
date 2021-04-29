@@ -30,12 +30,6 @@ const ContentName = styled.div`
   font-weight: 600;
 `;
 
-const ContentDate = styled.div`
-  font-size: 0.6em;
-  color: #e7e7e7;
-  text-align: end;
-`;
-
 const ContentDetail = styled.div`
 `;
 

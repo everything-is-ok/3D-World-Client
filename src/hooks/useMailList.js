@@ -34,7 +34,10 @@ function useMailList() {
 
   async function handleDeleteMailItem(mailId) {
     await dispatch(deleteMailItem(mailId));
-    setIsDetail((prev) => !prev);
+
+    if (isDetail) {
+      setIsDetail((prev) => !prev);
+    }
   }
 
   function handleDeleteMailList() {
