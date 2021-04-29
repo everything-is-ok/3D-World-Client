@@ -25,7 +25,6 @@ function Chicken({ ...props }) {
     name,
   } = props;
 
-  console.log(positionRef, directionRef);
   const { nodes, materials } = useGLTF("models/chicken/scene.gltf");
 
   const vec = useMemo(() => new THREE.Vector3());
