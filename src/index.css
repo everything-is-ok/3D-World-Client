@@ -29,3 +29,7 @@ a {
   color: black;
   text-decoration: none;
 }
+
+button {
+  cursor: pointer;
+}
