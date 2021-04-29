@@ -14,8 +14,10 @@ API.onSocialLogin = async () => {
       photoURL: googleUserData.user.photoURL,
     });
 
+    console.log("💦 response", response);
     return response;
   } catch (err) {
+    console.log("💥err ", err);
     throw new Error(err.message);
   }
 };
