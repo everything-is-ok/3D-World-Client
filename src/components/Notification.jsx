@@ -7,23 +7,27 @@ const NotificationWrapper = styled.div`
   border-radius: 10px;
   width: 13%;
   height: 300px;
-  transition: transform .4s cubic-bezier(0.95,-0.33, 0, 1.29);
   background: ${(props) => props.theme.cardBg.color};
   border: 1px solid ${(props) => props.theme.layoutBorder1.color};
-  animation: toast-from-right .5s;
+  animation: toast-from-right 7s linear;
+  opacity: 0;
 
   @keyframes toast-from-right {
     0% {
       transform: translateX(150%);
+      opacity: 1;
     }
     25% {
-      transform: translateX(70%)
+      transform: translateX(0);
+      opacity: 1;
     }
     75% {
-      transform: translateX(55%);
-    }
-    100% {
       transform: translateX(0);
+      opacity: 1;
+    }
+    90% {
+      transform: translateX(0);
+      opacity: 0.9;
     }
   }
 `;

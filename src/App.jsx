@@ -16,7 +16,7 @@ import Main from "./components/Main";
 import { getUserByToken, userIdSelector } from "./reducers/userSlice";
 import Layout from "./components/shared/Layout";
 import THEME from "./constants/theme";
-import { connectSocket, disconnectSocket } from "./utils/socket";
+import { disconnectSocket } from "./utils/socket";
 
 function App() {
   const userId = useSelector(userIdSelector);
@@ -27,8 +27,7 @@ function App() {
       dispatch(getUserByToken());
     }
 
-    connectSocket();
-    return () => disconnectSocket();
+    // return () => disconnectSocket();
   }, [userId]);
 
   return (

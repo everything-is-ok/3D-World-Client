@@ -7,6 +7,7 @@ import { worldSocket } from "../../utils/socket";
 import ThirdPersonCamera from "../ThirdPersonCamera";
 
 const GUEST = "guest";
+//  TODO: 월드 포지션 확인
 //     positionRef,
 //     directionRef,
 //     handlePositionChange,
@@ -24,13 +25,14 @@ function UserAvatar({ ...props }) {
     }
 
     function sendUserAvatarInfo({ socketId }) {
+      console.log("get socket id");
       worldSocket.sendOldUserInfo({
         userInfo: {
           ...user,
           position: positionRef.current,
           direction: directionRef.current,
         },
-        listener: socketId,
+        receiver: socketId,
       });
     }
 
@@ -41,7 +43,7 @@ function UserAvatar({ ...props }) {
     worldSocket.sendUserMovement({
       id,
       position: positionRef.current,
-      direction: positionRef.current,
+      direction: directionRef.current,
     });
   }
 

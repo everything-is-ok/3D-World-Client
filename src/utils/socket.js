@@ -21,10 +21,14 @@ let socket;
 
 function connectSocket() {
   socket = io(process.env.REACT_APP_SERVER_URL);
+  console.log("socket");
 }
+
+connectSocket();
 
 function disconnectSocket() {
   socket.disconnect();
+  console.log("disconnect");
 }
 
 function getMySocketId() {
@@ -33,9 +37,11 @@ function getMySocketId() {
 
 const worldSocket = {
   joinWorld: (userInfo) => {
+    console.log(socket);
     socket.emit(JOIN_WORLD, userInfo);
   },
   leaveWorld: () => {
+    console.log("leave world");
     socket.emit(LEAVE_WORLD);
   },
   sendUserMovement: (userInfo) => {
@@ -125,7 +131,6 @@ const furnitureSocket = {
 };
 
 export {
-  connectSocket,
   disconnectSocket,
   roomSocket,
   worldSocket,
