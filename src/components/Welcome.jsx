@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { Canvas } from "@react-three/fiber";
 import { Vector3 } from "three";
 import { Sky } from "@react-three/drei";
+import ReactPlayer from "react-player";
 
 import { userLogin, userSelector } from "../reducers/userSlice";
 import AdventureMap from "./models/AdventureMap";
@@ -69,6 +70,12 @@ function Welcome() {
           </GoogleLoginButton>
         </LoginContainer>
       )}
+      <ReactPlayer
+        url="https://youtu.be/dOh6CXlax30"
+        playing
+        width={0}
+        height={0}
+      />
       <Canvas>
         <Sky distance={550000} sunPosition={new Vector3(1000, 100, 1000)} />
         <ambientLight intensity={0.3} />
