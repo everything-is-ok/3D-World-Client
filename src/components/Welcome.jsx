@@ -73,12 +73,14 @@ function Welcome() {
           </GoogleLoginButton>
         </LoginContainer>
       )}
-      <ReactPlayer
-        url="https://youtu.be/dOh6CXlax30"
-        playing={isPlaying}
-        width={0}
-        height={0}
-      />
+      {isPlaying && (
+        <ReactPlayer
+          url="https://youtu.be/dOh6CXlax30"
+          playing
+          width={0}
+          height={0}
+        />
+      )}
       <Canvas>
         <Sky distance={550000} sunPosition={new Vector3(1000, 100, 1000)} />
         <ambientLight intensity={0.3} />

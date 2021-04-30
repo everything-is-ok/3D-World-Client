@@ -31,6 +31,7 @@ const PlayButton = styled.div`
 const AudioTitle = styled.div`
   text-align: center;
   height: 2rem;
+  font-size: 1em;
 `;
 
 const AudioContainer = styled.div`
