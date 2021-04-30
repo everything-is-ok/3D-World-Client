@@ -92,7 +92,6 @@ function World() {
 
   function handleMouseEnter(e, data) {
     e.stopPropagation();
-    console.log(data);
   }
 
   return (
