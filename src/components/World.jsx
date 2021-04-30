@@ -33,9 +33,6 @@ const BUILDING_POS = {
   3: [0, 0, -2000],
 };
 
-const defaultPosition = [10, -5, 150];
-const defaultDirection = 0;
-
 function World() {
   const user = useSelector(userSelector);
   const [otherUsers, setOtherUsers] = useState([]);
@@ -44,34 +41,34 @@ function World() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    function updateOtherUsers(userInfo) {
-      if (!userInfo._id) {
-        return;
-      }
-
-      setOtherUsers((prev) => prev.concat(userInfo));
+  function updateOtherUsers(userInfo) {
+    if (!userInfo._id) {
+      return;
     }
 
-    function removeOtherUser(userInfo) {
-      setOtherUsers((prev) => prev.filter((oldUser) => oldUser._id !== userInfo._id));
-    }
+    setOtherUsers((prev) => prev.concat(userInfo));
+  }
 
-    worldSocket.joinWorld({
-      ...user,
-      position: defaultPosition,
-      direction: defaultDirection,
-    });
+  function removeOtherUser(userInfo) {
+    setOtherUsers((prev) => prev.filter((oldUser) => oldUser._id !== userInfo._id));
+  }
 
-    worldSocket.listenOldUserInfo(updateOtherUsers);
-    worldSocket.listenNewUserInfo(updateOtherUsers);
-    worldSocket.listenUserLeave(removeOtherUser);
+  // useEffect(() => {
+  //   worldSocket.joinWorld({
+  //     ...user,
+  //     position: defaultPosition,
+  //     direction: defaultDirection,
+  //   });
 
-    return () => {
-      worldSocket.leaveWorld();
-      worldSocket.removeWorldListeners();
-    };
-  }, [user]);
+  //   worldSocket.listenOldUserInfo(updateOtherUsers);
+  //   worldSocket.listenNewUserInfo(updateOtherUsers);
+  //   worldSocket.listenUserLeave(removeOtherUser);
+
+  //   return () => {
+  //     worldSocket.leaveWorld();
+  //     worldSocket.removeWorldListeners();
+  //   };
+  // }, [user]);
 
   useEffect(() => {
     async function getRandomIds() {
@@ -145,7 +142,12 @@ function World() {
           )}
         </Suspense>
         <Suspense fallback={null}>
-          <UserAvatar position={[0, -5, 150]} user={user} />
+          <UserAvatar
+            position={[0, -5, 150]}
+            user={user}
+            updateOtherUsers={updateOtherUsers}
+            removeOtherUser={removeOtherUser}
+          />
         </Suspense>
         <Suspense fallback={null}>
           <FloatingIsland position={[0, -5, -1400]} />
