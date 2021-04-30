@@ -10,6 +10,9 @@ const Container = styled.div`
   align-items: center;
   align-items: center;
   width: fit-content;
+  padding: 0.3em;
+  border-radius: 5px;
+  font-weight: 600;
 
   &:hover {
     cursor: pointer;

@@ -13,7 +13,7 @@ const Container = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 5vh;
+  height: 5.5vh;
   padding: 1rem;
 `;
 
