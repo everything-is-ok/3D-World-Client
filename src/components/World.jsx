@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Canvas } from "@react-three/fiber";
-import { Sky } from "@react-three/drei";
+import { PositionalAudio, Sky } from "@react-three/drei";
 import { Vector3 } from "three";
 
 import Building from "./models/Building";
@@ -17,13 +17,14 @@ import Bonfire from "./models/Bonfire";
 import CowHead from "./models/cowHead";
 import GirlPirate from "./models/girlPirate";
 import PugHead from "./models/PugHead";
+import SpongeHouse from "./models/SpongeHouse";
+import GardenHouse from "./models/GardenHouse";
+import AnimalHouse from "./models/AnimalHouse";
 import fetchData from "../utils/fetchData";
 import { updateError } from "../reducers/roomSlice";
 import { userSelector } from "../reducers/userSlice";
 import { worldSocket } from "../utils/socket";
-import SpongeHouse from "./models/SpongeHouse";
-import GardenHouse from "./models/GardenHouse";
-import AnimalHouse from "./models/AnimalHouse";
+import Fireflies from "./models/fireflies";
 
 const Container = styled.div`
   position: relative;
@@ -61,7 +62,6 @@ function World() {
     worldSocket.listenUserLeave(removeOtherUser);
 
     return () => {
-      console.log("world unmount");
       worldSocket.leaveWorld();
       worldSocket.removeWorldListeners();
     };
@@ -90,19 +90,26 @@ function World() {
     history.push(`/room/${id}`);
   }
 
+  function handleMouseEnter(e, data) {
+    e.stopPropagation();
+    console.log(data);
+  }
+
   return (
     <Container>
       <Canvas>
-        <Sky distance={550000} sunPosition={new Vector3(1000, 100, 1000)} />
+        {/* <Sky distance={55000} sunPosition={new Vector3(1000, 100, 1000)} /> */}
+        <color attach="background" args={["#1e2243"]} />
         <ambientLight intensity={0.3} />
-        <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
+        {/* TODO <pointLight castShadow intensity={0.8} position={[100, 100, 100]} /> */}
         <Suspense fallback={null}>
           {randomUsers.length > 0 && (
             randomUsers.map((randomUser, index) => (
               <Building
                 user={randomUser}
-                position={[(-300 * index + 1), -25, 10]}
+                position={[(-500 * index + 1), -25, 10]}
                 onClick={handleBuildingClick}
+                onMouseEnter={handleMouseEnter}
               />
             ))
           )}
@@ -120,12 +127,12 @@ function World() {
         <Suspense fallback={null}>
           <Tree position={[-1000, 10, 300]} scale={[0.5, 0.5, 0.5]} />
           <Bonfire position={[-500, 10, 300]} scale={[20, 20, 20]} />
-          <SpongeHouse position={[200, -45, 300]} />
           <AnimalHouse position={[-1200, 0, 0]} sclae={20} />
           <GardenHouse position={[-800, 0, -600]} />
-          <CowHead position={[-200, 10, 300]} scale={30} />
+          {/* <SpongeHouse position={[200, -45, 300]} /> */}
+          {/* <CowHead position={[-200, 10, 300]} scale={30} />
           <GirlPirate position={[-400, 10, 300]} scale={30} />
-          <PugHead position={[-100, 10, 300]} scale={30} />
+          <PugHead position={[-100, 10, 300]} scale={30} /> */}
         </Suspense>
         <GreenFloor />
       </Canvas>

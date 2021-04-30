@@ -11,6 +11,7 @@ const ChatHeader = styled.header`
   border-bottom: 1.5px dashed ${(props) => props.theme.titleColor.color};
   margin-bottom: 1rem;
   color: ${(props) => props.theme.titleColor.color};
+  height: 10%;
 `;
 
 const ChatButton = styled.button`
@@ -20,8 +21,9 @@ const ChatButton = styled.button`
 `;
 
 const ChatContainer = styled.div`
-  height: 500px;
+  height: 50%;
   display: flex;
+  justify-content: flex-end;
   flex-direction: column;
 `;
 
@@ -37,7 +39,7 @@ const ChatList = styled.ul`
   padding: 0;
   width: 100%;
   height: 100%;
-  max-height: 300px;
+  height: 80%;
   border-radius: 2px;
   background-color: #f0eeee;
   margin-bottom: 1rem;
@@ -46,6 +48,7 @@ const ChatList = styled.ul`
 
 const FormContainer = styled.form`
   position: relative;
+  height: 10%;
 `;
 
 function Chat({ isSocketReady }) {
@@ -87,7 +90,7 @@ function Chat({ isSocketReady }) {
       <ChatList ref={chatListRef}>
         {chatList.map((chat, index) => (
           <ChatMessage key={`${chat.user + index}`}>
-            {`${chat.user} : ${chat.message}`}
+            {`${chat.user}: ${chat.message}`}
           </ChatMessage>
         ))}
       </ChatList>

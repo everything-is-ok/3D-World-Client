@@ -13,7 +13,7 @@ const Container = styled.div`
   height: 100%;
 `;
 
-const AButton = styled.button`
+const Button = styled.button`
   position: absolute;
   bottom: 10px;
   right: 10px;
@@ -47,12 +47,12 @@ function Room({
         isEditMode={isEditMode}
       />
       {isMyRoom ? (
-        <AButton
+        <Button
           type="button"
           onClick={() => setIsEditMode(((prev) => !prev))}
         >
-          리모델링 🪑
-        </AButton>
+          {isEditMode ? "리모델링 끝내기 🪑" : "리모델링 🪑"}
+        </Button>
       ) : (
         <>
           {!isFriend && (
@@ -69,7 +69,6 @@ function Room({
   );
 }
 
-// TODO: socket proptypes?
 Room.propTypes = {
   roomOwnerId: PropTypes.string.isRequired,
   room: PropTypes.object,
