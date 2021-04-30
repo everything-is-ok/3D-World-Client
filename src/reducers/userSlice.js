@@ -41,6 +41,8 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     logout: () => {
+      console.dir("document", document);
+      console.log("cookie----", document.cookie);
       document.cookie = `authorization=; expires=${new Date(0)}; path=/`;
       return initialState;
     },

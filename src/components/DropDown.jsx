@@ -12,28 +12,47 @@ const display = css`
   ${({ isOpen }) => {
     if (isOpen) {
       return css`
-        width: 200px;
+        padding: 1rem;
         height: 200px;
       `;
     }
 
     return css`
-      width: 0;
       height: 0;
+      border: none;
     `;
   }}
 `;
 
 const List = styled.div`
+  display:flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  height: 100%;
+  background: ${(props) => props.theme.layoutBg2.color};
+  border-radius: 0.3rem;
+  border: 2px dashed ${(props) => props.theme.layoutBorder2.color};
+  overflow-y: scroll;
+
+  & > a {
+    margin: 0.3rem;
+  }
+`;
+
+const ListContainer = styled.div`
   position: absolute;
   left: 50%;
   top: calc(100% + 1rem);
-  transform: translateX(-50%);
-  background-color: skyblue;
+  background: ${(props) => props.theme.layoutBg1.color};
   border-radius: 0.3rem;
+  border: 1px solid ${(props) => props.theme.layoutBorder1.color};
   overflow: hidden;
-  transition: all .3s ease-in-out .3s;
+  transform: translateX(-50%);
+  transition-property: height, padding;
+  transition-duration: .3s;
+  transition-timing-function: ease-in-out;
   z-index: 1;
+
   ${display}
 `;
 
@@ -49,9 +68,11 @@ function DropDown({
       <StyledButton onClick={toggle}>
         {name}
       </StyledButton>
-      <List isOpen={isOpen}>
-        {children}
-      </List>
+      <ListContainer isOpen={isOpen}>
+        <List>
+          {children}
+        </List>
+      </ListContainer>
     </Container>
   );
 }

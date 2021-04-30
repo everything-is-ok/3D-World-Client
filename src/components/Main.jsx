@@ -81,7 +81,6 @@ function Main() {
         )}
         <Chat isSocketReady={isSocketReady} />
       </SideContainer>
-      {/* TODO: World와 Room Comp를 토글방식으로 적용. */}
       <>
         <Room
           roomOwnerId={roomOwnerId}

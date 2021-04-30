@@ -97,7 +97,7 @@ function Chat({ isSocketReady }) {
         <StyledInput
           ref={inputRef}
         />
-        <ChatButton type="submit">보내기 🚀</ChatButton>
+        <ChatButton type="submit">🚀</ChatButton>
       </FormContainer>
     </ChatContainer>
   );

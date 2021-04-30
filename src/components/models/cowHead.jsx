@@ -11,7 +11,7 @@ export default function CowHead(props) {
   const { actions } = useAnimations(animations, group);
 
   useEffect(() => {
-    actions.Run.play();
+    actions.Punch.play();
   }, []);
 
   return (
