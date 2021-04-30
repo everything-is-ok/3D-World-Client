@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 function useAudio() {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   function playAudio(e) {
     e.preventDefault();
 
