@@ -12,6 +12,7 @@ import AdventureMap from "./models/AdventureMap";
 import UserAvatar from "./models/UserAvatar";
 import Texts from "./models/Texts";
 import GoogleLoginButton from "./shared/GoogleLoginButton";
+import useAudio from "../hooks/useAudio";
 
 const Container = styled.div`
   position: relative;
@@ -44,6 +45,7 @@ function Welcome() {
   const history = useHistory();
   const user = useSelector(userSelector);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const { isPlaying, playAudio } = useAudio();
 
   useEffect(() => {
     if (!user) {
@@ -52,6 +54,7 @@ function Welcome() {
     }
 
     history.push(`/room/${user._id}`);
+    return () => playAudio();
   }, [user]);
 
   function onClick() {
@@ -70,12 +73,14 @@ function Welcome() {
           </GoogleLoginButton>
         </LoginContainer>
       )}
-      <ReactPlayer
-        url="https://youtu.be/dOh6CXlax30"
-        playing
-        width={0}
-        height={0}
-      />
+      {isPlaying && (
+        <ReactPlayer
+          url="https://youtu.be/dOh6CXlax30"
+          playing
+          width={0}
+          height={0}
+        />
+      )}
       <Canvas>
         <Sky distance={550000} sunPosition={new Vector3(1000, 100, 1000)} />
         <ambientLight intensity={0.3} />
