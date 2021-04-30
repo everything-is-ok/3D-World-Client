@@ -6,23 +6,6 @@ import * as THREE from "three";
 
 import Texts from "./Texts";
 
-// function getLimitedPosition(position) {
-//   return position.map((pos, index) => {
-//     if (index === 0) {
-//       if (pos < -20) {
-//         return;
-//       }
-//     }
-//     if (index === 2) {
-//       if (pos > 400) {
-//         return;
-//       }
-//     }
-
-//     return pos;
-//   });
-// }
-
 function Chicken({ ...props }) {
   const groupRef = useRef();
   const characterRef = useRef();
