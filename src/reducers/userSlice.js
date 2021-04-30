@@ -30,6 +30,15 @@ export const updateUserData = createAsyncThunk(
   },
 );
 
+export const userLogout = createAsyncThunk(
+  "user/logout",
+  async () => {
+    const response = await fetchData("GET", "/user/logout");
+
+    return response;
+  },
+);
+
 const initialState = {
   data: null,
   error: null,
@@ -40,13 +49,9 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    logout: () => {
-      document.cookie = `authorization=; expires=${new Date(0)}; path=/`;
-      return initialState;
-    },
     updateError: (state, action) => {
       state.status = "idle";
-      state.error = action.error;
+      state.error = action.error.message;
     },
   },
   extraReducers: {
@@ -64,7 +69,23 @@ const userSlice = createSlice({
     [userLogin.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
-        state.error = action.error || null;
+        state.error = action.error.message || null;
+      }
+    },
+    [userLogout.pending]: (state) => {
+      if (state.status === "idle") {
+        state.status = "pending";
+      }
+    },
+    [userLogout.fulfilled]: (state) => {
+      if (state.status === "pending") {
+        return initialState;
+      }
+    },
+    [userLogout.rejected]: (state, action) => {
+      if (state.status === "pending") {
+        state.status = "idle";
+        state.error = action.error.message || null;
       }
     },
     [updateUserData.pending]: (state) => {
@@ -81,7 +102,7 @@ const userSlice = createSlice({
     [updateUserData.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
-        state.error = action.error;
+        state.error = action.error.message;
       }
     },
     [getUserByToken.pending]: (state) => {
@@ -98,13 +119,13 @@ const userSlice = createSlice({
     [getUserByToken.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
-        state.error = action.error;
+        state.error = action.error.message;
       }
     },
   },
 });
 
-export const { logout, updateError } = userSlice.actions;
+export const { updateError } = userSlice.actions;
 
 export default userSlice.reducer;
 

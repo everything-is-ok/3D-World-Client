@@ -6,7 +6,7 @@ import { Link, useHistory } from "react-router-dom";
 import DropDown from "./DropDown";
 import MiniProfile from "./MiniProfile";
 import StyledButton from "./shared/StyledButton";
-import { logout, userSelector } from "../reducers/userSlice";
+import { userLogout, userSelector } from "../reducers/userSlice";
 import useModal from "../hooks/useModal";
 
 const Container = styled.header`
@@ -61,7 +61,7 @@ function Header() {
           </Link>
         </StyledButton>
         <StyledButton onClick={() => history.push(`/room/${_id}`)}>홈</StyledButton>
-        <StyledButton onClick={() => dispatch(logout())}>로그아웃</StyledButton>
+        <StyledButton onClick={() => dispatch(userLogout())}>로그아웃</StyledButton>
       </div>
     </Container>
   );
