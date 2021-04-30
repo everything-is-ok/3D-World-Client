@@ -12,5 +12,5 @@ export default configureStore({
     mail: mailReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
-  devTools: true,
+  devTools: process.env.NODE_ENV !== "production",
 });
