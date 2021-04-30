@@ -1,3 +1,10 @@
+/**
+ * function to fetch data to server and verify response
+ * @param {string} method - POST, GET, PUT, PATCH, DELETE
+ * @param {string} url - parameters of server end-point
+ * @param {any} data - for sending to server
+ * @returns response or throw error
+ */
 async function fetchData(method, url, data) {
   try {
     let response = await fetch(`${process.env.REACT_APP_SERVER_URL}${url}`, {
@@ -15,11 +22,8 @@ async function fetchData(method, url, data) {
       return response.data;
     }
 
-    console.log("💥 try", response);
-
     throw new Error(response.error.message);
   } catch (err) {
-    console.log("💥 catch", err.message);
     throw new Error(err.message);
   }
 }

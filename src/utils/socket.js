@@ -1,8 +1,6 @@
 import io from "socket.io-client";
 import EVENTS from "../constants/socketEvents";
 
-// NOTE: callback 함수 실행시키는 쪽 잘 보기.
-
 const {
   JOIN_WORLD,
   LEAVE_WORLD,
@@ -16,19 +14,10 @@ const {
   NEW_USER_SOCKET_ID,
 } = EVENTS;
 
-// const socket = io(process.env.REACT_APP_SERVER_URL);
-let socket;
-
-function connectSocket() {
-  socket = io(process.env.REACT_APP_SERVER_URL);
-  console.log("socket");
-}
-
-connectSocket();
+const socket = io(process.env.REACT_APP_SERVER_URL);
 
 function disconnectSocket() {
   socket.disconnect();
-  console.log("disconnect");
 }
 
 function getMySocketId() {
@@ -37,11 +26,9 @@ function getMySocketId() {
 
 const worldSocket = {
   joinWorld: (userInfo) => {
-    console.log(socket);
     socket.emit(JOIN_WORLD, userInfo);
   },
   leaveWorld: () => {
-    console.log("leave world");
     socket.emit(LEAVE_WORLD);
   },
   sendUserMovement: (userInfo) => {
@@ -115,11 +102,7 @@ const roomSocket = {
   },
 };
 
-// NOTE: friend?
-// NOTE: 콜백을 콜백이라고 해도 되고, 더 명시적으로 addExistingFriend 등을 써도 될 듯 합니다.
-
 const furnitureSocket = {
-  // TODO: 더 구체적으로 옮기기
   sendUpdatedFurniture: (data) => {
     socket.emit(FURNITURE_MOVEMENT, data);
   },

@@ -31,6 +31,7 @@ function usePosition(
   initialPosition,
   initialDirection = 0,
   onChange,
+  isWorld,
 ) {
   const positionRef = useRef(initialPosition);
   const directionRef = useRef(initialDirection);
@@ -64,12 +65,17 @@ function usePosition(
 
     const prevPosition = positionRef.current;
 
-    // TODO: 점프
-    // if (e.keyCode === 32) {
-    //   setPosition((prev) => getChangedPosition(prev, POS.Y, 250));
-    // }
+    if (isWorld && e.keyCode === 32) {
+      positionRef.current = getChangedPosition(prevPosition, POS.Y, 250);
+    }
+
     if (e.keyCode === 40) {
       directionRef.current = key.front;
+
+      if (isWorld && prevPosition[POS.Z] > 470) {
+        return;
+      }
+
       positionRef.current = getChangedPosition(prevPosition, POS.Z, oneStep);
     }
     if (e.keyCode === 38) {
@@ -78,10 +84,20 @@ function usePosition(
     }
     if (e.keyCode === 37) {
       directionRef.current = key.right;
+
+      if (isWorld && prevPosition[POS.X] < -40 && prevPosition[POS.Z] > -770) {
+        return;
+      }
+
       positionRef.current = getChangedPosition(prevPosition, POS.X, -oneStep);
     }
     if (e.keyCode === 39) {
       directionRef.current = key.left;
+
+      if (isWorld && prevPosition[POS.X] > 40 && prevPosition[POS.Z] > -770) {
+        return;
+      }
+
       positionRef.current = getChangedPosition(prevPosition, POS.X, oneStep);
     }
 
