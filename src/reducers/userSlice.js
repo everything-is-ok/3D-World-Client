@@ -48,7 +48,7 @@ const userSlice = createSlice({
     },
     updateError: (state, action) => {
       state.status = "idle";
-      state.error = action.error;
+      state.error = action.error.message;
     },
   },
   extraReducers: {
@@ -66,7 +66,7 @@ const userSlice = createSlice({
     [userLogin.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
-        state.error = action.error || null;
+        state.error = action.error.message || null;
       }
     },
     [updateUserData.pending]: (state) => {
@@ -83,7 +83,7 @@ const userSlice = createSlice({
     [updateUserData.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
-        state.error = action.error;
+        state.error = action.error.message;
       }
     },
     [getUserByToken.pending]: (state) => {
@@ -100,7 +100,7 @@ const userSlice = createSlice({
     [getUserByToken.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
-        state.error = action.error;
+        state.error = action.error.message;
       }
     },
   },
