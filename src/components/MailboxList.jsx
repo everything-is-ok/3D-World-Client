@@ -100,10 +100,10 @@ function MailboxList({ toggle }) {
             ))}
           <Buttons>
             <StyledButton onClick={handleDeleteMailList}>
-              모두 삭제
+              모두 삭제 ❌
             </StyledButton>
             <StyledButton onClick={toggle}>
-              닫기
+              닫기 🔙
             </StyledButton>
           </Buttons>
         </>
