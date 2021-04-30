@@ -8,7 +8,7 @@ function Tag({ position, args }) {
   useFrame(() => {
     if (!mesh.current) return;
 
-    mesh.current.rotation.y += 0.01;
+    mesh.current.rotation.y += 0.02;
   });
 
   return (
@@ -22,7 +22,7 @@ function Tag({ position, args }) {
       <octahedronBufferGeometry args={args} />
       <meshStandardMaterial
         attach="material"
-        color="tomato"
+        color="#ff0a54"
       />
     </mesh>
   );
