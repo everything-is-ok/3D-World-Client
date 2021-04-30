@@ -7,17 +7,13 @@ import { worldSocket } from "../../utils/socket";
 import ThirdPersonCamera from "../ThirdPersonCamera";
 
 const GUEST = "guest";
-//  TODO: 월드 포지션 확인
-//     positionRef,
-//     directionRef,
-//     handlePositionChange,
-//     initPosition,
+
 function UserAvatar({ ...props }) {
   const { position: initialPosition, user } = props;
   const { _id: id } = user;
 
-  const { positionRef, directionRef } = usePosition(initialPosition, 0, handleMovementChange);
   const isGuest = user.name === GUEST;
+  const { positionRef, directionRef } = usePosition(initialPosition, 0, handleMovementChange, !isGuest);
 
   useEffect(() => {
     if (isGuest) {
