@@ -30,11 +30,13 @@ const worldSocket = {
   },
   leaveWorld: () => {
     socket.emit(LEAVE_WORLD);
+    console.log("leaving world");
   },
   sendUserMovement: (userInfo) => {
     socket.emit(USER_MOVEMENT, userInfo);
   },
   sendOldUserInfo: (userInfo) => {
+    console.log(userInfo);
     socket.emit(OLD_USER_INFO, userInfo);
   },
   listenNewUserInfo: (cb) => {
@@ -53,7 +55,12 @@ const worldSocket = {
     socket.on(LEAVE_WORLD, cb);
   },
   removeWorldListeners: () => {
-    socket.removeAllListeners();
+    socket.off(JOIN_WORLD);
+    socket.off(NEW_USER_SOCKET_ID);
+    socket.off(OLD_USER_INFO);
+    socket.off(LEAVE_WORLD);
+
+    console.log(socket);
   },
 };
 

@@ -44,15 +44,19 @@ function World() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  function updateOtherUsers(userInfo) {
-    setOtherUsers((prev) => prev.concat(userInfo));
-  }
-
-  function removeOtherUser(userInfo) {
-    setOtherUsers((prev) => prev.filter((oldUser) => oldUser._id !== userInfo._id));
-  }
-
   useEffect(() => {
+    function updateOtherUsers(userInfo) {
+      if (!userInfo._id) {
+        return;
+      }
+
+      setOtherUsers((prev) => prev.concat(userInfo));
+    }
+
+    function removeOtherUser(userInfo) {
+      setOtherUsers((prev) => prev.filter((oldUser) => oldUser._id !== userInfo._id));
+    }
+
     worldSocket.joinWorld({
       ...user,
       position: defaultPosition,
@@ -134,14 +138,14 @@ function World() {
           )}
         </Suspense>
         <Suspense fallback={null}>
-          <UserAvatar position={[0, -5, 150]} user={user} />
-        </Suspense>
-        <Suspense fallback={null}>
           {otherUsers.length > 0 && (
             otherUsers.map((otherUser) => (
-              <OtherUserAvatar user={otherUser} />
+              <OtherUserAvatar user={otherUser} key={otherUser.email} />
             ))
           )}
+        </Suspense>
+        <Suspense fallback={null}>
+          <UserAvatar position={[0, -5, 150]} user={user} />
         </Suspense>
         <Suspense fallback={null}>
           <FloatingIsland position={[0, -5, -1400]} />

@@ -32,6 +32,8 @@ function UserAvatar({ ...props }) {
     }
 
     worldSocket.listenNewUserSocketId(sendUserAvatarInfo);
+
+    return () => worldSocket.removeWorldListeners();
   }, [user]);
 
   function handleMovementChange() {
