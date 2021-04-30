@@ -68,7 +68,7 @@ const mailSlice = createSlice({
     [getMailList.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
-        state.error = action.error || null;
+        state.error = action.error.message || null;
       }
     },
     [deleteMailList.pending]: (state) => {
@@ -85,7 +85,7 @@ const mailSlice = createSlice({
     [deleteMailList.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
-        state.error = action.error || null;
+        state.error = action.error.message || null;
       }
     },
     [deleteMailItem.pending]: (state) => {
@@ -103,7 +103,7 @@ const mailSlice = createSlice({
     [deleteMailItem.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
-        state.error = action.error || null;
+        state.error = action.error.message || null;
       }
     },
     [readMailItem.pending]: (state) => {
@@ -120,7 +120,7 @@ const mailSlice = createSlice({
     [readMailItem.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
-        state.error = action.error || null;
+        state.error = action.error.message || null;
       }
     },
   },
