@@ -30,6 +30,7 @@ const PlayButton = styled.div`
 
 const AudioTitle = styled.div`
   text-align: center;
+  height: 2rem;
 `;
 
 const AudioContainer = styled.div`
@@ -42,6 +43,7 @@ const AudioContainer = styled.div`
 
 const ProfilePhoto = styled(Photo)`
   width: 100%;
+  max-width: 200px;
   height: auto;
 `;
 
@@ -66,7 +68,7 @@ function Profile({
       />
       <AudioContainer>
         <AudioTitle>
-          {`📀  ${name}의 BGM 재생하기`}
+          {`📀  ${name}의 BGM`}
         </AudioTitle>
         <PlayButton type="button" onClick={playAudio} isPlaying={isPlaying} />
       </AudioContainer>

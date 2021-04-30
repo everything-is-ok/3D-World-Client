@@ -11,7 +11,12 @@ import { useGLTF } from "@react-three/drei";
 import PropTypes from "prop-types";
 import Texts from "./Texts";
 
-export default function Model({ position, user, onClick }) {
+export default function Model({
+  user,
+  position,
+  onClick,
+  onMouseEnter,
+}) {
   const group = useRef();
   const { nodes, materials } = useGLTF("models/building/scene.gltf");
 
@@ -22,6 +27,7 @@ export default function Model({ position, user, onClick }) {
       dispose={null}
       scale={[0.1, 0.1, 0.1]}
       onClick={(e) => onClick(e, user._id)}
+      onPointerDown={(e) => onMouseEnter(e, user)}
     >
       <Suspense fallback={null}>
         <Texts
@@ -56,4 +62,5 @@ Model.propTypes = {
   position: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
+  onMouseEnter: PropTypes.func.isRequired,
 };

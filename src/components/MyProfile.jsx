@@ -6,6 +6,7 @@ import ProfileForm from "./shared/ProfileForm";
 import useMyProfile from "../hooks/useMyProfile";
 
 const Container = styled.div`
+  height: 50%;
 `;
 
 const EditButton = styled.button`

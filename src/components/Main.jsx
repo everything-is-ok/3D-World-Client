@@ -27,8 +27,9 @@ const Container = styled.div`
 const SideContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   width: 20%;
+  max-width: 250px;
   height: 100%;
   padding: 0.5rem;
   margin-right: 1rem;
