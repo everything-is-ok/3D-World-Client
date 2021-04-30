@@ -49,7 +49,6 @@ function World() {
   }
 
   function removeOtherUser(userInfo) {
-    console.log(userInfo);
     setOtherUsers((prev) => prev.filter((oldUser) => oldUser._id !== userInfo._id));
   }
 
