@@ -30,6 +30,15 @@ export const updateUserData = createAsyncThunk(
   },
 );
 
+export const userLogout = createAsyncThunk(
+  "user/logout",
+  async () => {
+    const response = await fetchData("GET", "/user/logout");
+
+    return response;
+  },
+);
+
 const initialState = {
   data: null,
   error: null,
@@ -40,12 +49,6 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    logout: () => {
-      console.dir("document", document);
-      console.log("cookie----", document.cookie);
-      document.cookie = `authorization=; expires=${new Date(0)}; path=/`;
-      return initialState;
-    },
     updateError: (state, action) => {
       state.status = "idle";
       state.error = action.error.message;
@@ -64,6 +67,22 @@ const userSlice = createSlice({
       }
     },
     [userLogin.rejected]: (state, action) => {
+      if (state.status === "pending") {
+        state.status = "idle";
+        state.error = action.error.message || null;
+      }
+    },
+    [userLogout.pending]: (state) => {
+      if (state.status === "idle") {
+        state.status = "pending";
+      }
+    },
+    [userLogout.fulfilled]: (state) => {
+      if (state.status === "pending") {
+        return initialState;
+      }
+    },
+    [userLogout.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
         state.error = action.error.message || null;
@@ -106,7 +125,7 @@ const userSlice = createSlice({
   },
 });
 
-export const { logout, updateError } = userSlice.actions;
+export const { updateError } = userSlice.actions;
 
 export default userSlice.reducer;
 
