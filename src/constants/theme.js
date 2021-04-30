@@ -47,6 +47,14 @@ const THEME = {
     title: "title blue color",
     color: "#5095ab",
   },
+  statusColor: {
+    title: "mail status color",
+    color: "#457b9d",
+  },
+  mailDetailColor: {
+    title: "mail content color",
+    color: "#f8f5f5",
+  },
 };
 
 export default THEME;

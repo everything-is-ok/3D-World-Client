@@ -15,28 +15,34 @@ const Container = styled.div`
 `;
 
 const Content = styled.div`
-  width: 100%;
+  /* width: 100%;
   height: 100%;
   min-height: 30vh;
-  background-color: gray;
-  padding: 2vw;
+  padding: 1em;
+  border-radius: 0.2em; */
+  display: block;
+  width: 50vmin;
+  height: 35vmin;
+  margin: 1vw auto;
+  background-color: ${(props) => props.theme.mailDetailColor.color};
+  border-radius: 10px;
+  resize: none;
+  outline: none;
+  padding: 1em;
 `;
 
 const ContentName = styled.div`
   width: 100%;
-  background-color: gray;
   padding: 0.5em;
   margin-bottom: 2vh;
-  font-weight: 600;
-`;
-
-const ContentDate = styled.div`
-  font-size: 0.6em;
-  color: #e7e7e7;
-  text-align: end;
+  color: ${(props) => props.theme.headerColor.color};
+  font-size: 1.5em;
+  font-weight: 400;
+  border-bottom: 1px solid ${(props) => props.theme.cardBorder.color};
 `;
 
 const ContentDetail = styled.div`
+  padding: 1em;
 `;
 
 const Buttons = styled.div`
@@ -66,17 +72,17 @@ function MailboxList({ toggle }) {
           </Content>
           <Buttons>
             <StyledButton onClick={() => handleDeleteMailItem(selectedMail._id)}>
-              삭제
+              삭제 ❎
             </StyledButton>
             <StyledButton onClick={handleClose}>
-              확인
+              확인 ✅
             </StyledButton>
             <StyledButton>
               <Link
                 to={`/room/${selectedMail.sender}`}
                 onClick={toggle}
               >
-                친구집 방문하기
+                친구집 방문하기 🏠
               </Link>
             </StyledButton>
           </Buttons>
@@ -90,7 +96,6 @@ function MailboxList({ toggle }) {
                 mail={mail}
                 handleClose={handleClose}
                 handleSelectMail={() => handleSelectMail(mail)}
-                handleDelete={() => handleDeleteMailItem(mail._id)}
               />
             ))}
           <Buttons>
