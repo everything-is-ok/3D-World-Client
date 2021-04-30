@@ -14,6 +14,24 @@ const Container = styled.div`
 const Form = styled.form`
 `;
 
+const FormInput = styled.textarea`
+  display: block;
+  width: 50vmin;
+  height: 35vmin;
+  margin: 1vw auto;
+  border: 3px solid ${(props) => props.theme.mailDetailColor.color};
+  border-radius: 10px;
+  resize: none;
+  outline: none;
+  padding: 1em;
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5em;
+`;
+
 function MailForm({ mailboxId, toggle }) {
   const dispatch = useDispatch();
   const [content, setContent] = useState("");
@@ -39,18 +57,21 @@ function MailForm({ mailboxId, toggle }) {
       <Form
         onSubmit={handleFormSubmit}
       >
-        <StyledInput
+        <FormInput
           name="content"
           type="text"
+          autoComplete="off"
           value={content}
           onChange={handleInputChange}
         />
-        <StyledButton type="submit">
-          Submit
-        </StyledButton>
-        <StyledButton onClick={toggle}>
-          Close
-        </StyledButton>
+        <Buttons>
+          <StyledButton type="submit">
+            보내기 ✉️
+          </StyledButton>
+          <StyledButton onClick={toggle}>
+            취소 🔙
+          </StyledButton>
+        </Buttons>
       </Form>
     </Container>
   );
