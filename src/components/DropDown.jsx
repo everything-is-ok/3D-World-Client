@@ -12,8 +12,7 @@ const display = css`
   ${({ isOpen }) => {
     if (isOpen) {
       return css`
-        padding: 1rem;
-        height: 200px;
+        padding: 0.2em;
       `;
     }
 
@@ -29,9 +28,7 @@ const List = styled.div`
   flex-direction: column;
   padding: 0.5rem;
   height: 100%;
-  background: ${(props) => props.theme.layoutBg2.color};
   border-radius: 0.3rem;
-  border: 2px dashed ${(props) => props.theme.layoutBorder2.color};
   overflow-y: scroll;
 
   & > a {
@@ -44,8 +41,8 @@ const ListContainer = styled.div`
   position: absolute;
   left: 50%;
   top: calc(100% + 1rem);
-  background: ${(props) => props.theme.layoutBg1.color};
   border-radius: 0.3rem;
+  background: ${(props) => props.theme.layoutBg3.color};
   border: 1px solid ${(props) => props.theme.layoutBorder1.color};
   overflow: hidden;
   transform: translateX(-50%);

@@ -7,7 +7,7 @@ import Photo from "./shared/Photo";
 
 const Container = styled.div`
   display: flex;
-  justify-content: space-between;
+  align-items: center;
   align-items: center;
   width: fit-content;
 
@@ -16,10 +16,14 @@ const Container = styled.div`
   }
 `;
 
+const MiniPhoto = styled(Photo)`
+  margin-right: 1em;
+`;
+
 function MiniProfile({ photoURL, name, onClick }) {
   return (
     <Container onClick={onClick}>
-      <Photo
+      <MiniPhoto
         src={photoURL}
         alt="profile"
         borderRadius="100%"

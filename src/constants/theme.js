@@ -51,8 +51,8 @@ const THEME = {
     title: "mail status color",
     color: "#457b9d",
   },
-  mailDetailColor: {
-    title: "mail content color",
+  layoutBg3: {
+    title: "light gray",
     color: "#f8f5f5",
   },
 };

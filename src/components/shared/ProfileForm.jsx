@@ -2,9 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-// TODO 분해하기
-
 const Form = styled.form`
+  padding-top: 1em;
 `;
 
 const FormGroup = styled.div`
@@ -15,7 +14,7 @@ const Label = styled.label`
   padding-top: calc(0.375rem + 1px);
   padding-bottom: calc(0.375rem + 1px);
   margin-bottom: 0;
-  font-size: inherit;
+  font-size: 0.8em;
   line-height: 1.5;
 `;
 
@@ -24,7 +23,8 @@ const Input = styled.input`
   display: block;
   width: 100%;
   padding: 0.375rem 0.75rem;
-  font-size: 1rem;
+  margin-bottom: 1em;
+  font-size: 0.8em;
   font-weight: 400;
   line-height: 1.5;
   color: #212529;
@@ -36,10 +36,11 @@ const Input = styled.input`
 const Textarea = styled.textarea`
   display: block;
   width: 100%;
-  resize: vertical;
+  resize: none;
   min-height: calc(1.5em + 1rem + 2px);
   padding: 0.375rem 0.75rem;
-  font-size: 1rem;
+  margin-bottom: 1em;
+  font-size: 1em;
   font-weight: 400;
   line-height: 1.5;
   color: #212529;
@@ -48,6 +49,12 @@ const Textarea = styled.textarea`
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5em;
 `;
 
 function ProfileForm({
@@ -63,32 +70,21 @@ function ProfileForm({
       onSubmit={handleSubmit}
     >
       <FormGroup>
-        <Label htmlFor="photoURL">
-          photoURL
-        </Label>
-        <Input
-          id="photoURL"
-          name="photoURL"
-          type="text"
-          value={photoURL}
-          onChange={handleInputChange}
-        />
-      </FormGroup>
-      <FormGroup>
         <Label htmlFor="name">
-          Name
+          이름
         </Label>
         <Input
           id="name"
           name="name"
           type="text"
+          autoComplete
           value={name}
           onChange={handleInputChange}
         />
       </FormGroup>
       <FormGroup>
         <Label htmlFor="description">
-          Description
+          자기소개
         </Label>
         <Textarea
           id="description"
@@ -99,17 +95,33 @@ function ProfileForm({
       </FormGroup>
       <FormGroup>
         <Label htmlFor="musicURL">
-          BGM URL
+          배경음악
         </Label>
         <Input
           id="musicURL"
           name="musicURL"
           type="text"
+          autoComplete
           value={musicURL}
           onChange={handleInputChange}
         />
       </FormGroup>
-      <button type="submit">변경</button>
+      <FormGroup>
+        <Label htmlFor="photoURL">
+          이미지
+        </Label>
+        <Input
+          id="photoURL"
+          name="photoURL"
+          type="text"
+          autoComplete
+          value={photoURL}
+          onChange={handleInputChange}
+        />
+      </FormGroup>
+      <Buttons>
+        <button type="submit">변경</button>
+      </Buttons>
     </Form>
   );
 }
