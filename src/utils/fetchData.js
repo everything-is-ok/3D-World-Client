@@ -15,11 +15,8 @@ async function fetchData(method, url, data) {
       return response.data;
     }
 
-    console.log("💥 try", response);
-
     throw new Error(response.error.message);
   } catch (err) {
-    console.log("💥 catch", err.message);
     throw new Error(err.message);
   }
 }
