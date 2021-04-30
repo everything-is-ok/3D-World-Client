@@ -2,8 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-import StyledButton from "./StyledButton";
-
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -16,9 +14,12 @@ const Container = styled.div`
 
 const MailStatus = styled.div`
   flex-basis: 10%;
+  border-radius: 0.5vw;
+  padding: 1em;
+  color: ${(props) => props.theme.statusColor.color};
+  text-align: center;
   font-size: 0.5em;
   background-color: white;
-  padding: 1em;
 `;
 
 const MailContent = styled.div`
@@ -34,13 +35,8 @@ const MailDate = styled.div`
   color: gray;
 `;
 
-const MailButton = styled(StyledButton)`
-`;
-
-// TODO 보낸사람 주소 타고 이동하도록 링크만들어야함
 function MailItem({
   mail,
-  handleDelete,
   handleSelectMail,
 }) {
   const {
@@ -56,16 +52,12 @@ function MailItem({
       <MailStatus>{status}</MailStatus>
       <MailContent>{content}</MailContent>
       <MailDate>{date.substring(0, 10)}</MailDate>
-      <MailButton onClick={handleDelete}>
-        ❌
-      </MailButton>
     </Container>
   );
 }
 
 MailItem.propTypes = {
   mail: PropTypes.object.isRequired,
-  handleDelete: PropTypes.func.isRequired,
   handleSelectMail: PropTypes.func.isRequired,
 };
 

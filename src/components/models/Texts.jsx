@@ -21,6 +21,7 @@ function Texts({ ...props }) {
   );
   const group = useRef();
   const texts = props.letters?.toUpperCase().replace(/ /g, "") || "NAME";
+
   return (
     <group {...props} ref={group}>
       <mesh>
@@ -29,7 +30,7 @@ function Texts({ ...props }) {
           attach="material"
           metalness={0.2}
           roughness={0.3}
-          color="#f7b77e"
+          color={props.color}
         />
       </mesh>
     </group>
@@ -38,6 +39,11 @@ function Texts({ ...props }) {
 
 Texts.propTypes = {
   letters: PropTypes.string,
+  color: PropTypes.string,
+};
+
+Texts.defaultProps = {
+  color: "#f7b77e",
 };
 
 export default Texts;

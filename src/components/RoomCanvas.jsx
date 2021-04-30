@@ -56,7 +56,7 @@ function RoomCanvas({
     >
       <Canvas
         orthographic
-        camera={{ position: [400, 350, 400], zoom: 0.9 }}
+        camera={{ position: [400, 350, 400], zoom: 1.2 }}
       >
         <Universe
           position={[6 * 40, 0, 6 * 40]}

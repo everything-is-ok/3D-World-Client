@@ -22,7 +22,7 @@ const roomSlice = createSlice({
   initialState,
   reducers: {
     updateError: (state, action) => {
-      state.error = action.payload;
+      state.error = action.payload.message;
     },
   },
   extraReducers: {
@@ -40,7 +40,7 @@ const roomSlice = createSlice({
     [getRoomById.rejected]: (state, action) => {
       if (state.status === "pending") {
         state.status = "idle";
-        state.error = action.error || null;
+        state.error = action.error.message || null;
       }
     },
   },

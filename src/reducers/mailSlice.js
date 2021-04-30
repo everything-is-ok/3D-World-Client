@@ -50,7 +50,7 @@ const mailSlice = createSlice({
   reducers: {
     updateError: (state, action) => {
       state.status = "pending";
-      state.error = action.payload;
+      state.error = action.payload.message;
     },
   },
   extraReducers: {
