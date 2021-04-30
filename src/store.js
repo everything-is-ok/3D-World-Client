@@ -11,6 +11,12 @@ export default configureStore({
     room: roomReducer,
     mail: mailReducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+  middleware: (getDefaultMiddleware) => {
+    if (process.env.NODE_ENV !== "production") {
+      return getDefaultMiddleware().concat(logger);
+    }
+
+    return getDefaultMiddleware();
+  },
   devTools: process.env.NODE_ENV !== "production",
 });
