@@ -13,12 +13,12 @@ import UserAvatar from "./models/UserAvatar";
 import OtherUserAvatar from "./models/OtherUserAvatar";
 import GreenFloor from "./models/GreenFloor";
 import GardenHouse from "./models/GardenHouse";
-import AnimalHouse from "./models/AnimalHouse";
 import fetchData from "../utils/fetchData";
 import { updateError } from "../reducers/roomSlice";
 import { userSelector } from "../reducers/userSlice";
 import { worldSocket } from "../utils/socket";
 import FloatingIsland from "./models/FloatingIsland";
+import CarHouse from "./models/CarHouse";
 
 const Container = styled.div`
   position: relative;
@@ -44,15 +44,19 @@ function World() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  function updateOtherUsers(userInfo) {
-    setOtherUsers((prev) => prev.concat(userInfo));
-  }
-
-  function removeOtherUser(userInfo) {
-    setOtherUsers((prev) => prev.filter((oldUser) => oldUser._id !== userInfo._id));
-  }
-
   useEffect(() => {
+    function updateOtherUsers(userInfo) {
+      if (!userInfo._id) {
+        return;
+      }
+
+      setOtherUsers((prev) => prev.concat(userInfo));
+    }
+
+    function removeOtherUser(userInfo) {
+      setOtherUsers((prev) => prev.filter((oldUser) => oldUser._id !== userInfo._id));
+    }
+
     worldSocket.joinWorld({
       ...user,
       position: defaultPosition,
@@ -103,10 +107,10 @@ function World() {
             randomUsers.map((randomUser, index) => {
               if (index === 2) {
                 return (
-                  <AnimalHouse
+                  <CarHouse
                     position={BUILDING_POS[index]}
                     user={randomUser}
-                    scale={0.5}
+                    scale={20}
                     onBuildingClick={handleBuildingClick}
                   />
                 );
@@ -134,14 +138,14 @@ function World() {
           )}
         </Suspense>
         <Suspense fallback={null}>
-          <UserAvatar position={[0, -5, 150]} user={user} />
-        </Suspense>
-        <Suspense fallback={null}>
           {otherUsers.length > 0 && (
             otherUsers.map((otherUser) => (
-              <OtherUserAvatar user={otherUser} />
+              <OtherUserAvatar user={otherUser} key={otherUser.email} />
             ))
           )}
+        </Suspense>
+        <Suspense fallback={null}>
+          <UserAvatar position={[0, -5, 150]} user={user} />
         </Suspense>
         <Suspense fallback={null}>
           <FloatingIsland position={[0, -5, -1400]} />

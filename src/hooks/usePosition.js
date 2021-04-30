@@ -65,10 +65,6 @@ function usePosition(
 
     const prevPosition = positionRef.current;
 
-    if (isWorld && e.keyCode === 32) {
-      positionRef.current = getChangedPosition(prevPosition, POS.Y, 250);
-    }
-
     if (e.keyCode === 40) {
       directionRef.current = key.front;
 
