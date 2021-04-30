@@ -3,6 +3,10 @@ import fetchData from "../utils/fetchData";
 
 const API = {};
 
+/**
+ * function to login with firebaseAuth google social id
+ * @returns user data or throw error
+ */
 API.onSocialLogin = async () => {
   try {
     const provider = new firebase.auth.GoogleAuthProvider();
