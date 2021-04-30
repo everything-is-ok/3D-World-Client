@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 
-import StyledButton from "./shared/StyledButton";
 import RoomCanvas from "./RoomCanvas";
 import { updateUserData, userFriendsSelector, userIdSelector } from "../reducers/userSlice";
 
@@ -56,12 +55,12 @@ function Room({
       ) : (
         <>
           {!isFriend && (
-            <StyledButton
+            <Button
               type="button"
               onClick={handleAddFriendClick}
             >
               친구추가
-            </StyledButton>
+            </Button>
           )}
         </>
       )}

@@ -10,8 +10,8 @@ export default function GreenFloor() {
   texture.repeat.set(240, 240);
 
   return (
-    <mesh receiveShadow position={[10, 2, 10]} rotation={[-Math.PI / 2, 0, 0]}>
-      <boxBufferGeometry attach="geometry" args={[5000, 5000]} />
+    <mesh receiveShadow position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+      <boxBufferGeometry attach="geometry" args={[210, 1400]} />
       <meshStandardMaterial map={texture} attach="material" color="green" />
     </mesh>
   );
