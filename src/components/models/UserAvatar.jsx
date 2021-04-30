@@ -56,6 +56,7 @@ function UserAvatar({ ...props }) {
       <ThirdPersonCamera
         positionRef={positionRef}
         hasLimit={isGuest}
+        handleCameraStop={isGuest && props.handleCameraStop}
       />
     </>
   );
