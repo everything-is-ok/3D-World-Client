@@ -8,12 +8,37 @@ import ThirdPersonCamera from "../ThirdPersonCamera";
 
 const GUEST = "guest";
 
+const defaultPosition = [10, -5, 150];
+const defaultDirection = 0;
+
 function UserAvatar({ ...props }) {
-  const { position: initialPosition, user } = props;
+  const {
+    position: initialPosition,
+    user,
+    updateOtherUsers,
+    removeOtherUser,
+  } = props;
   const { _id: id } = user;
 
   const isGuest = user.name === GUEST;
   const { positionRef, directionRef } = usePosition(initialPosition, 0, handleMovementChange, !isGuest);
+
+  useEffect(() => {
+    worldSocket.joinWorld({
+      ...user,
+      position: defaultPosition,
+      direction: defaultDirection,
+    });
+
+    worldSocket.listenOldUserInfo(updateOtherUsers);
+    worldSocket.listenNewUserInfo(updateOtherUsers);
+    worldSocket.listenUserLeave(removeOtherUser);
+
+    return () => {
+      worldSocket.leaveWorld();
+      worldSocket.removeWorldListeners();
+    };
+  }, [user]);
 
   useEffect(() => {
     if (isGuest) {
@@ -64,6 +89,8 @@ UserAvatar.propTypes = {
   position: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired,
   handleCameraStop: PropTypes.func,
+  updateOtherUsers: PropTypes.func,
+  removeOtherUser: PropTypes.func,
 };
 
 export default UserAvatar;
