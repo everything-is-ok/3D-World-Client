@@ -64,7 +64,7 @@ function TempModel({
       ref={group}
     >
       <Suspense fallback={null}>
-        <Texts letters={name} position={[-12, 45, 0]} color="#00296b" />
+        <Texts letters={name} position={[-12, 45, 0]} color="#ff477e" />
       </Suspense>
       <mesh
         ref={mesh}
