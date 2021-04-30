@@ -12,10 +12,8 @@
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
-    "chai": "^4.3.4",
     "firebase": "^8.4.1",
     "lodash": "^4.17.21",
-    "mocha": "^8.3.2",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-audio-player": "^0.16.1",
@@ -56,10 +54,12 @@
     ]
   },
   "devDependencies": {
+    "chai": "^4.3.4",
     "eslint": "^7.24.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-plugin-html": "^6.1.2",
     "eslint-plugin-import": "^2.22.1",
+    "mocha": "^8.3.2",
     "socket.io": "^4.0.1"
   }
 }
