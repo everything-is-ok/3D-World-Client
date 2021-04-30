@@ -1,13 +1,12 @@
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { unwrapResult } from "@reduxjs/toolkit";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Canvas } from "@react-three/fiber";
 import { Vector3 } from "three";
 import { Sky } from "@react-three/drei";
 
-import { userLogin } from "../reducers/userSlice";
+import { userLogin, userSelector } from "../reducers/userSlice";
 import AdventureMap from "./models/AdventureMap";
 import UserAvatar from "./models/UserAvatar";
 import Texts from "./models/Texts";
@@ -42,17 +41,20 @@ const guest = {
 function Welcome() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const user = useSelector(userSelector);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
-  async function onClick() {
-    try {
-      const actionResult = await dispatch(userLogin());
-      const user = await unwrapResult(actionResult);
-
-      history.push(`/room/${user._id}`);
-    } catch (err) {
+  useEffect(() => {
+    if (!user) {
       history.push("/");
+      return;
     }
+
+    history.push(`/room/${user._id}`);
+  }, [user]);
+
+  function onClick() {
+    dispatch(userLogin());
   }
 
   return (
