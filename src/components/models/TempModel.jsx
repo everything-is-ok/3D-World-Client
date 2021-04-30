@@ -11,7 +11,6 @@ import { useFrame } from "@react-three/fiber";
 import Texts from "./Texts";
 import usePosition from "../../hooks/usePosition";
 import { roomSocket } from "../../utils/socket";
-// import zusePosition from "../../hooks/zusePosition";
 
 function TempModel({
   isSocketReady,
@@ -65,7 +64,7 @@ function TempModel({
       ref={group}
     >
       <Suspense fallback={null}>
-        <Texts letters={name} position={[-12, 45, 0]} />
+        <Texts letters={name} position={[-12, 45, 0]} color="#ff477e" />
       </Suspense>
       <mesh
         ref={mesh}

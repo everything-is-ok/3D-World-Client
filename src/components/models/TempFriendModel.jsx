@@ -23,7 +23,7 @@ function TempFriendModel({ name, position, direction }) {
       ref={group}
     >
       <Suspense fallback={null}>
-        <Texts letters={name} position={[-12, 45, 0]} />
+        <Texts letters={name} position={[-12, 45, 0]} color="#00f5d4" />
       </Suspense>
       <mesh
         ref={mesh}
