@@ -60,7 +60,7 @@ function Room({
               type="button"
               onClick={handleAddFriendClick}
             >
-              친구추가
+              일촌추가
             </StyledButton>
           )}
         </>
