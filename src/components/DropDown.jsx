@@ -40,6 +40,7 @@ const List = styled.div`
 `;
 
 const ListContainer = styled.div`
+  width: 20vw;
   position: absolute;
   left: 50%;
   top: calc(100% + 1rem);

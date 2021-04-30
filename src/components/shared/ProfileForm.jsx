@@ -109,7 +109,7 @@ function ProfileForm({
           onChange={handleInputChange}
         />
       </FormGroup>
-      <button type="submit">Submit</button>
+      <button type="submit">변경</button>
     </Form>
   );
 }
