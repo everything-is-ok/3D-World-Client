@@ -79,6 +79,13 @@ function Welcome() {
           playing
           width={0}
           height={0}
+          config={{
+            youtube: {
+              playerVars: {
+                start: 3,
+              },
+            },
+          }}
         />
       )}
       <Canvas>
