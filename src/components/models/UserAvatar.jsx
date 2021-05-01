@@ -24,6 +24,10 @@ function UserAvatar({ ...props }) {
   const { positionRef, directionRef } = usePosition(initialPosition, 0, handleMovementChange, !isGuest);
 
   useEffect(() => {
+    if (isGuest) {
+      return;
+    }
+
     worldSocket.joinWorld({
       ...user,
       position: defaultPosition,
