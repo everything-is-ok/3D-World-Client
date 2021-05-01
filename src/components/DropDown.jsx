@@ -12,6 +12,7 @@ const display = css`
   ${({ isOpen }) => {
     if (isOpen) {
       return css`
+        height: 20vh;
         padding: 0.2em;
       `;
     }
@@ -32,7 +33,7 @@ const List = styled.div`
   overflow-y: scroll;
 
   & > a {
-    margin: 0.3rem;
+    margin-top: 0.3rem;
   }
 `;
 
