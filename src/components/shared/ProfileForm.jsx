@@ -57,6 +57,11 @@ const Buttons = styled.div`
   margin-top: 0.5em;
 `;
 
+const ValidationText = styled.span`
+  color: tomato;
+  font-size: 0.6rem;
+`;
+
 function ProfileForm({
   name,
   photoURL,
@@ -73,6 +78,11 @@ function ProfileForm({
         <Label htmlFor="name">
           이름
         </Label>
+        <ValidationText>
+          {"\u00A0"}
+          {"\u00A0"}
+          * 영어 및 숫자만 입력 가능합니다.
+        </ValidationText>
         <Input
           id="name"
           name="name"

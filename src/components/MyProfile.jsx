@@ -20,7 +20,6 @@ const ProfileContainer = styled.div`
   position: relative;
 `;
 
-// NOTE: rename options: editable profile & readonly profile?
 function MyProfile() {
   const {
     userData,
