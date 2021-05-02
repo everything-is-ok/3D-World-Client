@@ -43,7 +43,7 @@ export default function CarHouse({
             <Texts
               scale={0.1}
               position={[-7, 10, 0]}
-              letters={user.name}
+              letters={user.email.split("@")[0]}
             />
           </Suspense>
           <Suspense fallback={null}>
