@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 
-import StyledInput from "./shared/StyledInput";
 import StyledButton from "./shared/StyledButton";
 import fetchData from "../utils/fetchData";
 import { updateError } from "../reducers/mailSlice";
@@ -19,7 +18,7 @@ const FormInput = styled.textarea`
   width: 50vmin;
   height: 35vmin;
   margin: 1vw auto;
-  border: 3px solid ${(props) => props.theme.mailDetailColor.color};
+  border: 3px solid ${(props) => props.theme.layoutBg3.color};
   border-radius: 10px;
   resize: none;
   outline: none;

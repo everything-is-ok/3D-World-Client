@@ -24,7 +24,7 @@ const Content = styled.div`
   width: 50vmin;
   height: 35vmin;
   margin: 1vw auto;
-  background-color: ${(props) => props.theme.mailDetailColor.color};
+  background-color: ${(props) => props.theme.layoutBg3.color};
   border-radius: 10px;
   resize: none;
   outline: none;

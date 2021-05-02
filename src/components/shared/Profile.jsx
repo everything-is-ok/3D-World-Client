@@ -42,9 +42,17 @@ const AudioContainer = styled.div`
   background-color: #f0eeee;
 `;
 
+const PhotoContainer = styled.div`
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+  max-width: 20vw;
+  max-height: 25vh;
+  border-radius: 5px;
+  overflow-y: hidden;
+`;
+
 const ProfilePhoto = styled(Photo)`
   width: 100%;
-  max-width: 200px;
   height: auto;
 `;
 
@@ -60,7 +68,9 @@ function Profile({
     <>
       <h3>{name}</h3>
       <div>{description}</div>
-      <ProfilePhoto src={photoURL} alt="profilePhoto" />
+      <PhotoContainer>
+        <ProfilePhoto src={photoURL} alt="profilePhoto" />
+      </PhotoContainer>
       <ReactPlayer
         url={musicURL}
         playing={isPlaying}

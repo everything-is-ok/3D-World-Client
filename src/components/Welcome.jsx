@@ -75,10 +75,17 @@ function Welcome() {
       )}
       {isPlaying && (
         <ReactPlayer
-          url="https://youtu.be/dOh6CXlax30"
+          url="https://youtu.be/dOh6CXlax30=3"
           playing
           width={0}
           height={0}
+          config={{
+            youtube: {
+              playerVars: {
+                start: 3,
+              },
+            },
+          }}
         />
       )}
       <Canvas>

@@ -11,7 +11,7 @@ const Container = styled.div`
 
 const EditButton = styled.button`
   position: absolute;
-  bottom: 35px;
+  bottom: 45px;
   right: 10px;
   cursor: pointer;
 `;
@@ -53,7 +53,7 @@ function MyProfile() {
             type="button"
             onClick={() => setIsEditing(true)}
           >
-            EDIT
+            변경
           </EditButton>
         </ProfileContainer>
       )}
