@@ -1,8 +1,15 @@
+/* eslint-disable no-useless-escape */
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { updateUserData, userSelector } from "../reducers/userSlice";
+
+function getValidName(text) {
+  const speacialTextRegex = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\ '\"\\(\=]/gi;
+  const koreanRegex = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/gi;
+  return text.replace(koreanRegex, "").replace(speacialTextRegex, "");
+}
 
 function useMyProfile() {
   const dispatch = useDispatch();
@@ -17,7 +24,12 @@ function useMyProfile() {
   });
 
   function handleInputChange(e) {
-    const { value, name } = e.target;
+    const { name } = e.target;
+    let { value } = e.target;
+
+    if (name === "name") {
+      value = getValidName(value);
+    }
 
     setUserData((prev) => ({
       ...prev,
@@ -27,6 +39,10 @@ function useMyProfile() {
 
   async function handleFormSubmit(e) {
     e.preventDefault();
+
+    if (userData.name === "") {
+      return;
+    }
 
     try {
       const actionResult = await dispatch(updateUserData(userData));

@@ -1,7 +1,10 @@
+/* eslint-disable no-useless-escape */
 import React, { useMemo, useRef } from "react";
 import PropTypes from "prop-types";
 import * as THREE from "three";
 import { useLoader } from "@react-three/fiber";
+
+const speacialTextRegex = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\ '\"\\(\=]/gi;
 
 function Texts({ ...props }) {
   const font = useLoader(THREE.FontLoader, "fonts/bold.blob");
@@ -20,7 +23,7 @@ function Texts({ ...props }) {
     [font],
   );
   const group = useRef();
-  const texts = props.letters?.toUpperCase().replace(/ /g, "") || "NAME";
+  const texts = props.letters?.toUpperCase().replace(speacialTextRegex, "") || "RANDOM";
 
   return (
     <group {...props} ref={group}>

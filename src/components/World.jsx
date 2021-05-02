@@ -24,6 +24,7 @@ const Container = styled.div`
   width: 100%;
   height: 90%;
 `;
+
 // TODO: building HOC으로
 const BUILDING_POS = {
   0: [500, -30, -1600],
@@ -51,23 +52,6 @@ function World() {
   function removeOtherUser(userInfo) {
     setOtherUsers((prev) => prev.filter((oldUser) => oldUser._id !== userInfo._id));
   }
-
-  // useEffect(() => {
-  //   worldSocket.joinWorld({
-  //     ...user,
-  //     position: defaultPosition,
-  //     direction: defaultDirection,
-  //   });
-
-  //   worldSocket.listenOldUserInfo(updateOtherUsers);
-  //   worldSocket.listenNewUserInfo(updateOtherUsers);
-  //   worldSocket.listenUserLeave(removeOtherUser);
-
-  //   return () => {
-  //     worldSocket.leaveWorld();
-  //     worldSocket.removeWorldListeners();
-  //   };
-  // }, [user]);
 
   useEffect(() => {
     async function getRandomIds() {
