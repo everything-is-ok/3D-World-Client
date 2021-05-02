@@ -78,27 +78,41 @@ client
 <br/>
 
 ## 기술스택
-**Base**  
+**Base**
 `react`
 
-**Global state management**  
+**Global state management**
 `redux`, `react-redux`, `@redux-toolkit`
 
-**Style**  
+**Style**
 `styled-component`
 
-**Web-socket**  
+**Web-socket**
 `socket.io-client`
 
-**3D render**  
+**3D render**
 `three`, `@react-three/fiber`, `@react-three/cannon`, `@react-three/drei`, `react-spring`
 
-**Testing**  
+**Testing**
 unit test: `jest`, `enzyme`
 end-to-end test: `cypress.io`
 
-**Convention Management**  
+**Convention Management**
 `eslint`, `eslint-config-airbnb`
+
+**Version Management**
+`github`, `source tree`
+
+## 데모
+> 기본 기능
+
+| 로그인 | 캐릭터 이동 및 가구변경 |
+| --- | --- |
+| ![로그인](./readme_assets/로그인.gif) | ![이동및가구변경](./readme_assets/이동및가구변경.gif)|
+| 채팅 | 방명록 |
+| ![채팅](./readme_assets/채팅.gif) | ![방명록](./readme_assets/방명록.gif)|
+| 월드 | 추가기능 (또는 에러핸들링) |
+| ![월드](./readme_assets/월드.gif) | ![]()|
 
 **Version Management**  
 `github`, `source tree`  
@@ -126,7 +140,6 @@ end-to-end test: `cypress.io`
 
 url에 친구의 방 주소를 직접 입력하거나, 새로고침할때 react-three-fiber의 canvas측에서 Context lost가 발생하며 rendering이 되지않는 오류가 발생했습니다.
 Canvas내부에 gltf파일을 load하는 비동기함수의 `Suspense` 가 아직 `실험단계`이기 때문입니다. 하지만 `react-three-fiber` 라이븝러리에서는 `Suspense`를 쓰기를
-
 
 ## Features
 - 메인페이지에서 three-world를 체험하며, 구글 계정을 통해 로그인을 할 수 있습니다.
