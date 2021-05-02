@@ -16,7 +16,6 @@ import GardenHouse from "./models/GardenHouse";
 import fetchData from "../utils/fetchData";
 import { updateError } from "../reducers/roomSlice";
 import { userSelector } from "../reducers/userSlice";
-import { worldSocket } from "../utils/socket";
 import FloatingIsland from "./models/FloatingIsland";
 import CarHouse from "./models/CarHouse";
 
