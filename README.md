@@ -56,33 +56,41 @@ client
 2. ..이하 생략
 
 ## 기술스택
-**Base**  
+**Base**
 `react`
 
-**Global state management**  
+**Global state management**
 `redux`, `react-redux`, `@redux-toolkit`
 
-**Style**  
+**Style**
 `styled-component`
 
-**Web-socket**  
+**Web-socket**
 `socket.io-client`
 
-**3D render**  
+**3D render**
 `three`, `@react-three/fiber`, `@react-three/cannon`, `@react-three/drei`, `react-spring`
 
-**Testing**  
+**Testing**
 unit test: `jest`, `enzyme`
 end-to-end test: `cypress.io`
 
-**Convention Management**  
+**Convention Management**
 `eslint`, `eslint-config-airbnb`
 
-**Version Management**  
+**Version Management**
 `github`, `source tree`
 
-## 미리보기
-PPT 기반으로 주요 장면 GIF파일
+## 데모
+> 기본 기능
+
+| 로그인 | 캐릭터 이동 및 가구변경 |
+| --- | --- |
+| ![로그인](./readme_assets/로그인.gif) | ![이동및가구변경](./readme_assets/이동및가구변경.gif)|
+| 채팅 | 방명록 |
+| ![채팅](./readme_assets/채팅.gif) | ![방명록](./readme_assets/방명록.gif)|
+| 월드 | 추가기능 (또는 에러핸들링) |
+| ![월드](./readme_assets/월드.gif) | ![]()|
 
 ## Features
 - 메인페이지에서 three-world를 체험하며, 구글 계정을 통해 로그인을 할 수 있습니다.
